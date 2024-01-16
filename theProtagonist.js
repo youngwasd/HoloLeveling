@@ -3,7 +3,7 @@ class TheProtagonist {
         this.game = game;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/test.png");
 
-       // this.animator = new Animator(this.spritesheet, 0, 0, 45, 80, 3, 0.8);
+        this.animator = new Animator(this.spritesheet, 0, 0, 45, 80, 3, 0.8);
 
         this.x = 0;
         this.y = 0;
@@ -47,7 +47,7 @@ class TheProtagonist {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, 0, 0, 45, 80, this.x, this.y, 45, 80);
-        //this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);     
+        
     }
 }
