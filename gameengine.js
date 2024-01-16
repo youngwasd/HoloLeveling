@@ -10,10 +10,10 @@ class GameEngine {
         this.entities = [];
 
         // Information on the input
-        this.click = null;
-        this.mouse = null;
-        this.wheel = null;
-        this.keys = {};
+        this.left = false;
+        this.right = false;
+        this.up = false;
+        this.down = false;
 
         // Options and the Details
         this.options = options || {
@@ -37,44 +37,56 @@ class GameEngine {
     };
 
     startInput() {
-        const getXandY = e => ({
-            x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
-            y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
-        });
-        
-        this.ctx.canvas.addEventListener("mousemove", e => {
-            if (this.options.debugging) {
-                console.log("MOUSE_MOVE", getXandY(e));
-            }
-            this.mouse = getXandY(e);
-        });
+        this.keyboardActive = false;
 
-        this.ctx.canvas.addEventListener("click", e => {
-            if (this.options.debugging) {
-                console.log("CLICK", getXandY(e));
-            }
-            this.click = getXandY(e);
-        });
+        // Use arrow functions to ensure 'this' refers to the instance of GameEngine
+        this.ctx.canvas.addEventListener("keydown", event => this.keydownListener(event));
+        this.ctx.canvas.addEventListener("keyup", event => this.keyUpListener(event));
+    }
 
-        this.ctx.canvas.addEventListener("wheel", e => {
-            if (this.options.debugging) {
-                console.log("WHEEL", getXandY(e), e.wheelDelta);
-            }
-            e.preventDefault(); // Prevent Scrolling
-            this.wheel = e;
-        });
+    keydownListener = (e) => {
+        this.keyboardActive = true;
+        switch (e.code) {
+            case "ArrowLeft":
+            case "KeyA":
+                this.left = true;
+                break;
+            case "ArrowRight":
+            case "KeyD":
+                this.right = true;
+                break;
+            case "ArrowUp":
+            case "KeyW":
+                this.up = true;
+                break;
+            case "ArrowDown":
+            case "KeyS":
+                this.down = true;
+                break;
+        }
+    }
 
-        this.ctx.canvas.addEventListener("contextmenu", e => {
-            if (this.options.debugging) {
-                console.log("RIGHT_CLICK", getXandY(e));
-            }
-            e.preventDefault(); // Prevent Context Menu
-            this.rightclick = getXandY(e);
-        });
-
-        this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
-        this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
-    };
+    keyUpListener = (e) => {
+        this.keyboardActive = false;
+        switch (e.code) {
+            case "ArrowLeft":
+            case "KeyA":
+                this.left = false;
+                break;
+            case "ArrowRight":
+            case "KeyD":
+                this.right = false;
+                break;
+            case "ArrowUp":
+            case "KeyW":
+                this.up = false;
+                break;
+            case "ArrowDown":
+            case "KeyS":
+                this.down = false;
+                break;
+        }
+    }
 
     addEntity(entity) {
         this.entities.push(entity);
@@ -92,6 +104,7 @@ class GameEngine {
 
     update() {
         let entitiesCount = this.entities.length;
+        this.gamepadUpdate()
 
         for (let i = 0; i < entitiesCount; i++) {
             let entity = this.entities[i];
@@ -108,12 +121,20 @@ class GameEngine {
         }
     };
 
+    gamepadUpdate() {
+        this.gamepad = navigator.getGamepads()[0];
+        let gamepad = this.gamepad;
+        if (gamepad != null && !this.keyboardActive) {
+            this.left = gamepad.buttons[14].pressed || gamepad.axes[0] < -0.3;
+            this.right = gamepad.buttons[15].pressed || gamepad.axes[0] > 0.3;
+            this.up = gamepad.buttons[12].pressed || gamepad.axes[1] < -0.3;
+            this.down = gamepad.buttons[13].pressed || gamepad.axes[1] > 0.3;
+        }
+    }
+
     loop() {
         this.clockTick = this.timer.tick();
         this.update();
         this.draw();
     };
-
 };
-
-// KV Le was here :)
