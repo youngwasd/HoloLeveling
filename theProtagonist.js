@@ -10,7 +10,7 @@ class TheProtagonist {
         this.y = 0;
         this.cameraX = this.x;
         this.cameraY = this.y;
-        this.speed = 0.5;
+        this.speed = 500;
 
         this.mapWidth = this.map.getWidth();
         this.mapHeight = this.map.getHeight();
@@ -21,28 +21,30 @@ class TheProtagonist {
         let deltaX = 0;
         let deltaY = 0;
 
+        let elapsed = this.game.clockTick;
+
         // Check individual directions
         if (this.game.left && this.x > 0) {
-            deltaX -= this.speed;
+            deltaX -= this.speed * elapsed;
         }
 
         if (this.game.right && this.x < this.mapWidth - this.animator.width) {
-            deltaX += this.speed;
+            deltaX += this.speed * elapsed;
         }
 
         if (this.game.up && this.y > 0) {
-            deltaY -= this.speed;
+            deltaY -= this.speed * elapsed;
         }
 
         if (this.game.down && this.y < this.mapHeight - this.animator.height) {
-            deltaY += this.speed;
+            deltaY += this.speed * elapsed;
         }
 
         // Normalize the movement vector
         const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
         if (length !== 0) {
-            const normalizedDeltaX = (deltaX / length) * this.speed;
-            const normalizedDeltaY = (deltaY / length) * this.speed;
+            const normalizedDeltaX = (deltaX / length) * this.speed * elapsed;
+            const normalizedDeltaY = (deltaY / length) * this.speed * elapsed;
 
             // Update position
             this.x += normalizedDeltaX;
