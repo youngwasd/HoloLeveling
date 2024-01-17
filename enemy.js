@@ -1,5 +1,5 @@
 class Enemy {
-    constructor(game) {
+    constructor(game, x, y) {
         this.game = game;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/issac.png");
         
@@ -7,8 +7,8 @@ class Enemy {
         this.animator = new Animator(this.spritesheet, 0, 0, 200, 100, 3, 0.8);
 
         // Initial position and speed
-        this.x = 0;
-        this.y = 0;
+        this.x = x;
+        this.y = y;
         this.speed = 50;
     }
 
@@ -18,6 +18,5 @@ class Enemy {
 
     draw(ctx) {
         ctx.drawImage(this.spritesheet, this.x, this.y)
-        //this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     }
 }

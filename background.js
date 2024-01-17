@@ -1,5 +1,6 @@
 class Map{
-    constructor(gameEngine){
+    constructor(gameEngine, x, y, width, height, scale){
+        Object.assign(this, {gameEngine, x, y, width, height, scale});
         this.background = ASSET_MANAGER.getAsset("./sprites/forest2.jpg");
 
     }
@@ -7,7 +8,7 @@ class Map{
 
     }
     draw(ctx){
-        ctx.drawImage(this.background, -500, -500);
+        ctx.drawImage(this.background, this.x, this.y, this.width, this.height);
     }
 }
 
@@ -16,18 +17,19 @@ class Tree{
         this.x = x;
         this.y = y;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/trees.png");
+        console.log(this.spritesheet);
         this.width = 50;
         this.height = 60;
         this.startX = 110;
         this.startY = 0;
-        this.scale = 1;
+        this.scale = 1.5;
     }
     
     update(){
         
     }
     draw(ctx){
-        ctx.drawImage(this.spritesheet, this.startX, this.startY, this.width, this.height, this.x, this.y, this.width*this.scale, this.height* this.scale);
+        ctx.drawImage(this.spritesheet, this.startX, this.startY, this.width, this.height, this.x, this.y, this.width*this.scale, this.height*this.scale);
     }
 }
 
