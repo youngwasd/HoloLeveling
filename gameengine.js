@@ -95,12 +95,22 @@ class GameEngine {
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-
-        // Draw latest things first
-        for (let i = this.entities.length - 1; i >= 0; i--) {
-            this.entities[i].draw(this.ctx, this);
+    
+        this.ctx.save();
+    
+        // Ensure there is at least one entity in the entities array
+        if (this.entities.length > 0) {
+            this.ctx.translate(-this.entities[0].cameraX, -this.entities[0].cameraY);
+    
+            // Draw latest things first
+            for (let i = this.entities.length - 1; i >= 0; i--) {
+                this.entities[i].draw(this.ctx, this);
+            }
         }
+    
+        this.ctx.restore();
     };
+    
 
     update() {
         let entitiesCount = this.entities.length;
