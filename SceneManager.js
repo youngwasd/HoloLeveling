@@ -13,6 +13,9 @@ class SceneManager{
         this.theProtaginist.y = 500;
         this.gameEngine.addEntity(this.theProtaginist);
         
+        //let tree = new Tree(this.gameEngine, 500, 500);
+        //this.gameEngine.addEntity(tree);
+        
         let background = new Map(this.gameEngine);
         this.gameEngine.addEntity(background);
 
