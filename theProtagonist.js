@@ -1,7 +1,6 @@
 class TheProtagonist {
-    constructor(game, map) {
+    constructor(game) {
         this.game = game;
-        this.map = map;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/test.png");
         this.bgd = ASSET_MANAGER.getAsset("./sprites/forest.png");
 
@@ -47,15 +46,6 @@ class TheProtagonist {
             // Update position
             this.x += normalizedDeltaX;
             this.y += normalizedDeltaY;
-
-            const centerX = this.x + this.animator.width / 2;
-            const centerY = this.y + this.animator.height / 2;    
-
-            this.cameraX = centerX - this.game.ctx.canvas.width / 2;
-            this.cameraY = centerY - this.game.ctx.canvas.height / 2;
-
-            this.cameraX = Math.max(0, Math.min(this.cameraX, this.mapWidth - this.game.ctx.canvas.width));
-            this.cameraY = Math.max(0, Math.min(this.cameraY, this.mapHeight - this.game.ctx.canvas.height));
         }
      }
 
