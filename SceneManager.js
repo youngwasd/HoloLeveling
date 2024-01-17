@@ -1,4 +1,3 @@
-
 class SceneManager{
     
     
@@ -9,23 +8,19 @@ class SceneManager{
         this.loadLevelOne();
     }
     loadLevelOne(){
-        this.theProtaginist = new TheProtagonist(this.gameEngine);
-        this.theProtaginist.x = 500;
-        this.theProtaginist.y = 500;
-        this.gameEngine.addEntity(this.theProtaginist);
-        
+        let background = new Map(this.gameEngine, 0, 0, 2500, 2500, 1);
+
+        this.theProtagonist = new TheProtagonist(this.gameEngine, background);
+        this.theProtagonist.x = 500;
+        this.theProtagonist.y = 500;
+
         this.enemy = new Enemy(this.gameEngine, 550, 550);
+        
+        this.tree = new Tree(500, 500);
+
+        this.gameEngine.addEntity(this.theProtagonist, background);
         this.gameEngine.addEntity(this.enemy);
-        
-        this.tree = new Tree( 500,500);
-       this.gameEngine.addEntity(this.tree);
-
-        
-        let background = new Map(this.gameEngine, 0, 0,2500 , 2500, 1);
+        this.gameEngine.addEntity(this.tree);
         this.gameEngine.addEntity(background);
-
-       
-        console.log(this.gameEngine.entities);
-
     }
 }
