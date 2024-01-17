@@ -16,7 +16,7 @@ class TheProtagonist {
         // Reset movement values
         let deltaX = 0;
         let deltaY = 0;
-        
+
         // Check individual directions
         if (this.game.left) {
             deltaX -= this.speed * elapsed;
