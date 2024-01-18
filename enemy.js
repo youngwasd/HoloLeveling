@@ -9,7 +9,7 @@ class Enemy {
         // Initial position and speed
         this.x = x;
         this.y = y;
-        this.speed = 50;
+        this.speed = 250;
 
         this.hitpoints = 100;
         this.maxhitpoints = 100;
@@ -20,6 +20,10 @@ class Enemy {
 
     update() {
         const protagonist = this.game.entities.find(entity => entity instanceof TheProtagonist);
+
+        let elapsed = this.game.clockTick;
+
+
         if (protagonist) {
             // Calculate the direction vector from enemy to protagonist
             const deltaX = protagonist.x - this.x;
@@ -27,8 +31,8 @@ class Enemy {
 
             // Normalize the vector
             const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            const normalizedDeltaX = (deltaX / length) * this.speed;
-            const normalizedDeltaY = (deltaY / length) * this.speed;
+            const normalizedDeltaX = (deltaX / length) * this.speed * elapsed;
+            const normalizedDeltaY = (deltaY / length) * this.speed * elapsed;
 
             // Update enemy position
             this.x += normalizedDeltaX;
