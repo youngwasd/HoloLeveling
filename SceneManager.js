@@ -19,10 +19,13 @@ class SceneManager{
         this.gameEngine.addEntity(this.theProtagonist, background);
 
         for (let i = 0; i < 10; i++) {
-            const random = Math.floor(Math.random() * background.getWidth());
-            const random2 = Math.floor(Math.random() * background.getHeight());
+            const x = Math.floor(Math.random() * background.getWidth());
+            const y = Math.floor(Math.random() * background.getHeight());
+            
+            let speed = Math.floor(Math.random() * (this.theProtagonist.speed * 0.8) + 150);
+            speed = speed >= this.theProtagonist.speed ? speed - 100 : speed;
 
-            this.enemy = new Enemy(this.gameEngine, random, random2);
+            this.enemy = new Enemy(this.gameEngine, x, y, speed);
             this.gameEngine.addEntity(this.enemy);
         }
 
