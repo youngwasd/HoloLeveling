@@ -26,7 +26,6 @@ class Tree {
         this.x = x;
         this.y = y;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/trees.png");
-        console.log(this.spritesheet);
         this.width = 50;
         this.height = 60;
         this.startX = 110;

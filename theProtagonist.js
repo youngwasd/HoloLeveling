@@ -14,7 +14,13 @@ class TheProtagonist {
 
         this.mapWidth = this.map.getWidth();
         this.mapHeight = this.map.getHeight();
-    }
+
+        this.radius = 20;
+        this.hitpoints = 100;
+        this.maxhitpoints = 100;
+
+        this.healthbar = new HealthBar(this, true);
+    };
 
     update() {
         // Reset movement values
@@ -57,7 +63,7 @@ class TheProtagonist {
             this.cameraX = Math.max(0, Math.min(this.cameraX, this.mapWidth - this.game.ctx.canvas.width));
             this.cameraY = Math.max(0, Math.min(this.cameraY, this.mapHeight - this.game.ctx.canvas.height));
         }
-    }
+    };
 
     draw(ctx) {
         this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
@@ -68,5 +74,7 @@ class TheProtagonist {
     
         // Set the transformation to center the camera on the character's center
         ctx.setTransform(1, 0, 0, 1, -centerX + ctx.canvas.width / 2, -centerY + ctx.canvas.height / 2);
-    }
-}
+
+        this.healthbar.draw(ctx);
+    };
+};
