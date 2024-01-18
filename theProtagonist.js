@@ -26,8 +26,7 @@ class TheProtagonist {
         // Reset movement values
         let deltaX = 0;
         let deltaY = 0;
-
-        let elapsed = this.game.clockTick;
+        const elapsed = this.game.clockTick;
 
         // Check individual directions
         if (this.game.left && this.x > 0) {

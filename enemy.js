@@ -21,8 +21,7 @@ class Enemy {
     update() {
         const protagonist = this.game.entities.find(entity => entity instanceof TheProtagonist);
 
-        let elapsed = this.game.clockTick;
-
+        const elapsed = this.game.clockTick;
 
         if (protagonist) {
             // Calculate the direction vector from enemy to protagonist
