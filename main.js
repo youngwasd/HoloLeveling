@@ -2,7 +2,7 @@ const gameEngine = new GameEngine();
 
 const ASSET_MANAGER = new AssetManager();
 
-ASSET_MANAGER.queueDownload("./sprites/test.png");
+ASSET_MANAGER.queueDownload("./sprites/protagonist.png");
 ASSET_MANAGER.queueDownload("./sprites/forest.png");
 ASSET_MANAGER.queueDownload("./sprites/forest2.jpg");
 ASSET_MANAGER.queueDownload("./sprites/issac.png");

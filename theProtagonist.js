@@ -2,15 +2,15 @@ class TheProtagonist {
     constructor(game, map) {
         this.game = game;
         this.map = map;
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/test.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/protagonist.png");
 
-        this.animator = new Animator(this.spritesheet, 0, 0, 45, 80, 3, 0.8, 2);
+        this.animator = new Animator(this.spritesheet, 2, 0, 69, 100, 5, 0.2, 1);
 
         this.x = 0;
         this.y = 0;
         this.cameraX = this.x;
         this.cameraY = this.y;
-        this.speed = 500;
+        this.speed = 300;
 
         this.mapWidth = this.map.getWidth();
         this.mapHeight = this.map.getHeight();
