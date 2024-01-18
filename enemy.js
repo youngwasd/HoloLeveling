@@ -35,9 +35,7 @@ class Enemy {
             this.y += normalizedDeltaY;
         }
     }
-
-    };
-
+    
     draw(ctx) {
         ctx.drawImage(this.spritesheet, this.x, this.y)
         this.healthbar.draw(ctx);
