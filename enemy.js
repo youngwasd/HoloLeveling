@@ -1,5 +1,5 @@
 class Enemy {
-    constructor(game, x, y) {
+    constructor(game, x, y, speed) {
         this.game = game;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/issac.png");
         
@@ -9,7 +9,7 @@ class Enemy {
         // Initial position and speed
         this.x = x;
         this.y = y;
-        this.speed = 250;
+        this.speed = speed;
 
         this.hitpoints = 100;
         this.maxhitpoints = 100;
@@ -21,8 +21,7 @@ class Enemy {
     update() {
         const protagonist = this.game.entities.find(entity => entity instanceof TheProtagonist);
 
-        let elapsed = this.game.clockTick;
-
+        const elapsed = this.game.clockTick;
 
         if (protagonist) {
             // Calculate the direction vector from enemy to protagonist
