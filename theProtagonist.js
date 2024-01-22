@@ -3,6 +3,7 @@ class TheProtagonist {
         this.game = game;
         this.map = map;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/protagonist.png");
+        this.garlic = true
 
         
 
@@ -87,4 +88,5 @@ class TheProtagonist {
         this.healthbar.draw(ctx);
         
     };
-};
+    
+}
