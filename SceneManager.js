@@ -10,18 +10,25 @@ class SceneManager{
     loadLevelOne(){
         let background = new Map(this.gameEngine, 0, 0, 2500, 2500, 1);
 
-        let player = new TheProtagonist(this.gameEngine, background);
-        let garlic = new Garlic(this.gameEngine, player);
+        this.theProtagonist = new TheProtagonist(this.gameEngine, background);
+        this.theProtagonist.x = 1000;
+        this.theProtagonist.y = 1000;
         
-        this.enemy = new Enemy2(1000, 900, player,garlic);
-        
-        this.tree = new Tree(900, 1000, player);
-        
-        
-        
-        this.gameEngine.addEntity(player);
-        this.gameEngine.addEntity(garlic);
-        this.gameEngine.addEntity(this.enemy);
+        this.tree = new Tree(900, 1000, this.theProtagonist);
+
+        this.gameEngine.addEntity(this.theProtagonist, background);
+
+        for (let i = 0; i < 10; i++) {
+            const x = Math.floor(Math.random() * background.getWidth());
+            const y = Math.floor(Math.random() * background.getHeight());
+            
+            let speed = Math.floor(Math.random() * (this.theProtagonist.speed * 0.8) + 150);
+            speed = speed >= this.theProtagonist.speed ? speed - 100 : speed;
+
+            this.enemy = new Enemy2(this.gameEngine, x, y, speed,this.theProtagonist);
+            this.gameEngine.addEntity(this.enemy);
+        }
+
         this.gameEngine.addEntity(this.tree);
         this.gameEngine.addEntity(background);
     }
