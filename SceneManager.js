@@ -1,6 +1,4 @@
 class SceneManager{
-    
-    
     constructor(gameEngine){
         this.gameEngine = gameEngine;
         this.gameEngine.entities = [];
@@ -13,13 +11,22 @@ class SceneManager{
         this.theProtagonist = new TheProtagonist(this.gameEngine, background);
         this.theProtagonist.x = 1000;
         this.theProtagonist.y = 1000;
-
-        this.enemy = new Enemy(this.gameEngine, 1000, 1000);
         
         this.tree = new Tree(900, 1000, this.theProtagonist);
 
         this.gameEngine.addEntity(this.theProtagonist, background);
-        //this.gameEngine.addEntity(this.enemy);
+
+        for (let i = 0; i < 10; i++) {
+            const x = Math.floor(Math.random() * background.getWidth());
+            const y = Math.floor(Math.random() * background.getHeight());
+            
+            let speed = Math.floor(Math.random() * (this.theProtagonist.speed * 0.8) + 150);
+            speed = speed >= this.theProtagonist.speed ? speed - 100 : speed;
+
+            this.enemy = new Enemy(this.gameEngine, x, y, speed);
+            this.gameEngine.addEntity(this.enemy);
+        }
+
         this.gameEngine.addEntity(this.tree);
         this.gameEngine.addEntity(background);
     }
