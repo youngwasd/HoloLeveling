@@ -112,7 +112,7 @@ class TheProtagonist {
         this.updateBB();
 
         if (this.hitpoints <= 0) {
-            //this.dead = true;
+
         }
     };
 
@@ -124,11 +124,11 @@ class TheProtagonist {
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         }
 
-        // Calculate the center position of the character
+
         const centerX = this.x + this.width / 2;
         const centerY = this.y + this.height / 2;
     
-        // Set the transformation to center the camera on the character's center
+
         ctx.setTransform(1, 0, 0, 1, -centerX + ctx.canvas.width / 2, -centerY + ctx.canvas.height / 2);
 
         this.healthbar.draw(ctx);
