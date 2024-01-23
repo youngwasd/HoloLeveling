@@ -1,5 +1,5 @@
 class Animator{
-    constructor(spriteSheet, xStart, yStart, width, height, frames, duration, scale) {
+    constructor(spriteSheet, xStart, yStart, width, height, frames, duration, scale = 1) {
         Object.assign(this, { spriteSheet, xStart, yStart, width, height, frames, duration, scale });
 
         this.elapsedTime = 0;
