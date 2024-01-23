@@ -1,19 +1,14 @@
 class Enemy {
     constructor(game, x, y, speed, player, garlic) {
-        this.game = game;
-        this.player = player;
-        this.garlic = garlic;
+        Object.assign(this, {game, x, y, speed, player, garlic});
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/issac.png");
         
         this.animator = new Animator(this.spritesheet, 0, 0, 57, 67, 1, 0.8);
 
-        // Initial position and speed
-        this.x = x;
-        this.y = y;
+        // Initial position
         this.width = 57; // for issac
         this.height = 67; // for issac
-        this.speed = speed;
 
         this.dead = false;
 
@@ -57,7 +52,7 @@ class Enemy {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof TheProtagonist) {
+                if (entity instanceof Garlic) { // need to add collision for garlic not protagonist here, old: (entity instanceof theProtagonist)
                     if (that.player.garlic) {
                         that.hitpoints--;
                     }

@@ -9,8 +9,12 @@ class Garlic {
 
         this.playerCenterX = this.player.x + this.player.width / 2;
         this.playerCenterY = this.player.y + this.player.height / 2;
-
     }
+
+    updateBC() {
+        // need bounding circle for garlic
+    }
+
     update() {
         this.playerCenterX = this.player.x + this.player.width / 2;
         this.playerCenterY = this.player.y + this.player.height / 2;

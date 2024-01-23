@@ -3,9 +3,7 @@ class HealthBar {
         Object.assign(this, { agent, player });
     };
 
-    update() {
-       
-    };
+    update() {};
 
     draw(ctx) {
         const ratio = Math.min(this.agent.hitpoints / this.agent.maxhitpoints, 1);

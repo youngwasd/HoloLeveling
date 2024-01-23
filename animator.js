@@ -3,7 +3,7 @@ class Animator{
         Object.assign(this, { spriteSheet, xStart, yStart, width, height, frames, duration, scale });
 
         this.elapsedTime = 0;
-       
+    
         this.totalTime = duration * frames;
     }
 
