@@ -12,8 +12,8 @@ class TheProtagonist {
         this.width = 69;
         this.height = 100;
         this.scale = 2;
-        this.cameraX = this.x;
-        this.cameraY = this.y;
+        this.cameraX = this.x - this.game.ctx.canvas.width / 2;
+        this.cameraY = this.y - this.game.ctx.canvas.height / 2;
         this.speed = 500;
         this.animator = new Animator(this.spritesheet, 2, 0, 69, 100, 5, 0.2, 1);
         this.mapWidth = this.map.getWidth();
