@@ -8,7 +8,7 @@ class HealthBar {
     };
 
     draw(ctx) {
-        const ratio = this.agent.hitpoints / this.agent.maxhitpoints;
+        const ratio = Math.min(this.agent.hitpoints / this.agent.maxhitpoints, 1);
         if (this.player) {
             const barX = 10;
             const barY = 10;
@@ -21,36 +21,18 @@ class HealthBar {
 
             ctx.strokeStyle = "Black";
             ctx.fillStyle = "SkyBlue";
-            ctx.fillRect(barX, barY, healthbar_length * ratio, healthbar_width);
+
+            const hp_length = Math.max(healthbar_length * ratio, 0);
+
+            ctx.fillRect(barX, barY, hp_length, healthbar_width);
             ctx.strokeRect(barX, barY, healthbar_length, healthbar_width);
 
             ctx.restore(); // Restore the saved canvas state
         } else if ((this.agent.hitpoints < this.agent.maxhitpoints) && !this.player) {
             ctx.strokeStyle = "Black";
             ctx.fillStyle = "Red";
-            ctx.fillRect(this.agent.x - this.agent.radius, this.agent.y + this.agent.radius + 5, this.agent.radius * 2 * ratio, 4);
-            ctx.strokeRect(this.agent.x - this.agent.radius, this.agent.y + this.agent.radius + 5, this.agent.radius * 2, 4);
+            ctx.fillRect(this.agent.x, this.agent.y + this.agent.height + 4, this.agent.width * ratio, 4);
+            ctx.strokeRect(this.agent.x, this.agent.y + this.agent.height + 4, this.agent.width, 4);
         }
     };
 };
-
-// class Score {
-//     constructor(game, x, y, score) {
-//         Object.assign(this, {game, x, y, score});
-
-//         this.velocity = -32;
-//         this.elapsed = 0;
-//     };
-
-//     update() {
-//         this.elapsed += this.game.clockTick;
-//         if (this.elapsed > 1) this.removeFromWorld = true;
-
-//         this.y += this.game.clockTick * this.velocity;
-//     };
-
-//     draw(ctx) {
-//         ctx.fillStyle = "White";
-//         ctx.fillText(this.score, this.x, this.y);
-//     };
-// };

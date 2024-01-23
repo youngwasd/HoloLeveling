@@ -38,8 +38,26 @@ class GameEngine {
 
     startInput() {
         this.keyboardActive = false;
+        let that = this;
+
+        var getXandY = function (e) {
+            let x = e.clientX - that.ctx.canvas.getBoundingClientRect().left;
+            let y = e.clientY - that.ctx.canvas.getBoundingClientRect().top;
+    
+            return { x: x, y: y, radius: 0 };
+        }
+
+        function mouseListener (e) {
+            that.mouse = getXandY(e);
+        }
+    
+        function mouseClickListener (e) {
+            that.click = getXandY(e);
+        }
 
         // Use arrow functions to ensure 'this' refers to the instance of GameEngine
+        this.ctx.canvas.addEventListener("mousemove", event => mouseListener(event));
+        this.ctx.canvas.addEventListener("click", event => mouseClickListener(event));
         this.ctx.canvas.addEventListener("keydown", event => this.keydownListener(event));
         this.ctx.canvas.addEventListener("keyup", event => this.keyUpListener(event));
     }
@@ -111,21 +129,22 @@ class GameEngine {
         this.ctx.restore();
     };
     
-
     update() {
+        params.DEBUG = document.getElementById("debug").checked;
+
         let entitiesCount = this.entities.length;
         this.gamepadUpdate()
 
         for (let i = 0; i < entitiesCount; i++) {
             let entity = this.entities[i];
 
-            if (!entity.removeFromWorld) {
+            if (!entity.dead) {
                 entity.update();
             }
         }
 
         for (let i = this.entities.length - 1; i >= 0; --i) {
-            if (this.entities[i].removeFromWorld) {
+            if (this.entities[i].dead) {
                 this.entities.splice(i, 1);
             }
         }
@@ -146,5 +165,7 @@ class GameEngine {
         this.clockTick = this.timer.tick();
         this.update();
         this.draw();
+
+        this.click = null;
     };
 };
