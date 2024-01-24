@@ -29,8 +29,8 @@ class HealthBar {
         } else if ((this.agent.hitpoints < this.agent.maxhitpoints) && !this.player) {
             ctx.strokeStyle = "Black";
             ctx.fillStyle = "Red";
-            ctx.fillRect(this.agent.x, this.agent.y + this.agent.height + 4, this.agent.width * ratio, 4);
-            ctx.strokeRect(this.agent.x, this.agent.y + this.agent.height + 4, this.agent.width, 4);
+            ctx.fillRect(this.agent.x, this.agent.y + (this.agent.height * this.agent.scale) + 4, (this.agent.width * this.agent.scale) * ratio, 4);
+            ctx.strokeRect(this.agent.x, this.agent.y + (this.agent.height * this.agent.scale) + 4, (this.agent.width * this.agent.scale), 4);
         }
     };
 };

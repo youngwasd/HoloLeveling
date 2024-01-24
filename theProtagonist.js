@@ -12,7 +12,8 @@ class TheProtagonist {
         this.cameraY = this.y - this.game.ctx.canvas.height / 2;
 
         this.speed = 500;
-        this.animator = new Animator(this.spritesheet, 2, 0, this.width, this.height, 5, 0.2);
+        this.scale = 1;
+        this.animator = new Animator(this.spritesheet, 2, 0, this.width, this.height, 5, 0.2, this.scale);
         this.mapWidth = this.map.getWidth();
         this.mapHeight = this.map.getHeight();
 
@@ -31,7 +32,7 @@ class TheProtagonist {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        this.BB = new BoundingBox(this.x, this.y, this.width * this.scale, this.height * this.scale);
     };
 
     update() {
@@ -96,10 +97,19 @@ class TheProtagonist {
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
                     }
-                } else if (entity instanceof Enemy) {
+                } else if (entity instanceof Issac) {
                     if (that.BB.collide(entity.BB)) {
                         if (that.hitCooldown <= 0) { // logic for player getting hit might need to be changed
-                            that.hitpoints--;
+                            that.hitpoints -= 5;
+                            that.hitCooldown = that.hitCooldownInterval;
+                        } else {
+                            that.hitCooldown -= that.game.clockTick;
+                        }
+                    }
+                } else if (entity instanceof Goblin) {
+                    if (that.BB.collide(entity.BB)) {
+                        if (that.hitCooldown <= 0) { // logic for player getting hit might need to be changed
+                            that.hitpoints -= 10;
                             that.hitCooldown = that.hitCooldownInterval;
                         } else {
                             that.hitCooldown -= that.game.clockTick;
@@ -124,8 +134,8 @@ class TheProtagonist {
         }
 
         // Calculate the center position of the character
-        const centerX = this.x + this.width / 2;
-        const centerY = this.y + this.height / 2;
+        const centerX = this.x + (this.width * this.scale) / 2;
+        const centerY = this.y + (this.width * this.scale) / 2;
     
         // Set the transformation to center the camera on the character's center
         ctx.setTransform(1, 0, 0, 1, -centerX + ctx.canvas.width / 2, -centerY + ctx.canvas.height / 2);

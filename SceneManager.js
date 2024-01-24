@@ -27,8 +27,17 @@ class SceneManager {
             let speed = Math.floor(Math.random() * (this.theProtagonist.speed * 0.6) + 150);
             speed = speed >= this.theProtagonist.speed ? speed - 200 : speed;
 
-            this.enemy = new Enemy(this.game, x, y, speed, this.theProtagonist, garlic);
-            this.game.addEntity(this.enemy);
+            this.issac = new Issac(this.game, x, y, speed, this.theProtagonist, garlic);
+            this.game.addEntity(this.issac);
+
+            const x2 = Math.floor(Math.random() * background.getWidth());
+            const y2 = Math.floor(Math.random() * background.getHeight());
+            
+            let speed2 = Math.floor(Math.random() * (this.theProtagonist.speed * 0.6) + 150);
+            speed2 = speed2 >= this.theProtagonist.speed ? speed2 - 200 : speed2;
+
+            this.goblin = new Goblin(this.game, x2, y2, speed2, this.theProtagonist, garlic);
+            this.game.addEntity(this.goblin);
         }
 
         this.game.addEntity(this.tree);
