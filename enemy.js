@@ -32,16 +32,13 @@ class Issac {
         let deltaY = 0;
 
         if (protagonist) {
-            // Calculate the direction vector from enemy to protagonist
             deltaX = protagonist.x - this.x;
             deltaY = protagonist.y - this.y;
 
-            // Normalize the vector
             const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
             const normalizedDeltaX = (deltaX / length) * this.speed * elapsed;
             const normalizedDeltaY = (deltaY / length) * this.speed * elapsed;
 
-            // Update enemy position
             this.x += normalizedDeltaX;
             this.y += normalizedDeltaY;
         }
@@ -119,8 +116,6 @@ class Goblin {
     }
 
     update() {
-
-        // movement
         const protagonist = this.game.entities.find(entity => entity instanceof TheProtagonist);
         const elapsed = this.game.clockTick;
 
@@ -128,16 +123,13 @@ class Goblin {
         let deltaY = 0;
 
         if (protagonist) {
-            // Calculate the direction vector from enemy to protagonist
             deltaX = protagonist.x - this.x;
             deltaY = protagonist.y - this.y;
 
-            // Normalize the vector
             const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
             const normalizedDeltaX = (deltaX / length) * this.speed * elapsed;
             const normalizedDeltaY = (deltaY / length) * this.speed * elapsed;
 
-            // Update enemy position
             this.x += normalizedDeltaX;
             this.y += normalizedDeltaY;
         }
