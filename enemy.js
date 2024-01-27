@@ -51,7 +51,7 @@ class Issac {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Tree) {
+                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -161,7 +161,7 @@ class Goblin {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Tree) {
+                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
