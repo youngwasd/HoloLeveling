@@ -94,20 +94,31 @@ class Goblin {
     constructor(game, x, y, speed, player) {
         Object.assign(this, {game, x, y, speed, player});
 
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goblin_right.png");
+        this.GoblinRight = ASSET_MANAGER.getAsset("./sprites/goblin_right.png");
+        this.GoblinLeft = ASSET_MANAGER.getAsset("./sprites/goblin_left.png");
         
-        this.width = 146; // need to fix
-        this.height = 168;
+        this.width = 170; // need to fix
+        this.height = 170;
         this.scale = 0.5;
 
-        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 7, 0.1, this.scale);
+        this.animator = [];
 
+        this.animator[0] = new Animator(this.GoblinRight, 0, 0, this.width, this.height, 7, 0.2, this.scale);
+        this.animator[1] = new Animator(this.GoblinLeft, 0, 0, this.width, this.height, 7, 0.2, this.scale);
+        this.animator[1].reverse();
+
+        if (this.player.x > this.x) {
+            this.direction = 0;
+        } else {
+            this.direction = 1;
+        }
+        
         this.dead = false;
         this.hitpoints = 100;
         this.maxhitpoints = 100;
 
-        this.updateBB();
         this.healthbar = new HealthBar(this, false);
+        this.updateBB();
     }
     
     updateBB() {
@@ -132,6 +143,12 @@ class Goblin {
 
             this.x += normalizedDeltaX;
             this.y += normalizedDeltaY;
+
+            if (protagonist.x >= this.x) {
+                this.direction = 0;
+            } else {
+                this.direction = 1;
+            }
         }
 
         this.updateBB();
@@ -170,7 +187,13 @@ class Goblin {
     }
 
     draw(ctx) {
-        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        if (this.direction === 0) {
+            this.animator[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        } else if (this.direction === 1) {
+            this.animator[1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        }
+        
+        this.updateBB();
 
         if (params.DEBUG) {
             ctx.strokeStyle = 'Red';
