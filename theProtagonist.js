@@ -153,8 +153,8 @@ class TheProtagonist {
         }
 
         // Calculate the center position of the character
-        const centerX = this.x + (this.width * this.scale) / 2;
-        const centerY = this.y + (this.width * this.scale) / 2;
+        const centerX = this.x + this.scaledWidth / 2;
+        const centerY = this.y + this.scaledWidth / 2;
     
         ctx.setTransform(1, 0, 0, 1, -centerX + ctx.canvas.width / 2, -centerY + ctx.canvas.height / 2);
 

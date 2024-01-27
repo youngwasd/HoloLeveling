@@ -15,8 +15,8 @@ class Dagger {
 
         this.xOffset = this.player.facing == 0 ? 70 : -27;
 
-        this.playerHeight = this.player.height * this.player.scale;
-        this.playerWidth = this.player.width * this.player.scale;
+        this.playerHeight = this.player.scaledHeight;
+        this.playerWidth = this.player.scaledWidth;
 
         this.x = this.player.facing == 0 ? this.player.x + (this.playerWidth / 2) - (this.scaledWidth / 2) + this.xOffset : 
                     this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;
