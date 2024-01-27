@@ -95,12 +95,23 @@ class Goblin {
         Object.assign(this, {game, x, y, speed, player, garlic});
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goblin_right.png");
+        this.spritesheet2 = ASSET_MANAGER.getAsset("./sprites/goblin_left.png");
         
-        this.width = 146; // need to fix
-        this.height = 168;
+        this.width = 170; // need to fix
+        this.height = 170;
         this.scale = 0.5;
-
-        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 7, 0.1, this.scale);
+        if(this.player.x> this.x){
+            this.direction = "E";
+        }
+        else{
+            this.direction = "W";
+        }
+        if (this.direction === "E") {
+            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 7, 0.2, this.scale, "E");
+        } else {
+            this.animator = new Animator(this.spritesheet2, 1190, 0, this.width, this.height, 7, 0.2, this.scale, "W");
+        }
+        console .log(this.direction);
 
         this.dead = false;
         this.hitpoints = 100;
@@ -132,6 +143,18 @@ class Goblin {
 
             this.x += normalizedDeltaX;
             this.y += normalizedDeltaY;
+
+            if (protagonist.x >= this.x) {
+                this.direction = "E";
+
+                this.animator.direction = "E";
+            }
+            else {
+                this.animator.spriteSheet = this.spritesheet2;
+                this.animator.xStart = 1190;
+                this.direction = "W";
+                this.animator.direction = "W";
+            }
         }
 
         this.updateBB();
@@ -167,16 +190,21 @@ class Goblin {
         if (this.hitpoints <= 0) {
             this.dead = true;
         }
+
+
+        console .log(this.direction);
     }
 
     draw(ctx) {
-        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
-        if (params.DEBUG) {
-            ctx.strokeStyle = 'Red';
-            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
-        }
+            this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
-        this.healthbar.draw(ctx);
+            if (params.DEBUG) {
+                ctx.strokeStyle = 'Red';
+                ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+            }
+
+            this.healthbar.draw(ctx);
+
     }
 }

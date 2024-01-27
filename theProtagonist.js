@@ -14,7 +14,7 @@ class TheProtagonist {
 
         this.speed = 500;
         this.scale = 1;
-        this.animator = new Animator(this.spritesheet, 2, 0, this.width, this.height, 5, 0.2, this.scale);
+        this.animator = new Animator(this.spritesheet, 2, 0, this.width, this.height, 5, 0.2, this.scale, "E");
         this.mapWidth = this.map.getWidth();
         this.mapHeight = this.map.getHeight();
 
