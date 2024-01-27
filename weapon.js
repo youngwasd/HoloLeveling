@@ -9,15 +9,19 @@ class Dagger {
         this.scale = 1;
         this.width = 50;
         this.height = 25;
-        this.xOffset = this.player.facing == 0 ? 65 : -5;
 
-        // 0 = right
-        // 1 = left
+        this.scaledWidth = this.width * this.scale;
+        this.scaledHeight = this.height * this.scale;
 
-        this.x = this.player.facing == 0 ? this.player.x + (this.player.width / 2) - (this.width / 2) + this.xOffset : 
-                    this.player.x - (this.player.width / 2) - (this.width / 2) - this.xOffset;
+        this.xOffset = this.player.facing == 0 ? 70 : -27;
 
-        this.y = this.player.y + (this.player.height / 2) - (this.height / 2);
+        this.playerHeight = this.player.height * this.player.scale;
+        this.playerWidth = this.player.width * this.player.scale;
+
+        this.x = this.player.facing == 0 ? this.player.x + (this.playerWidth / 2) - (this.scaledWidth / 2) + this.xOffset : 
+                    this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;
+
+        this.y = this.player.y + (this.playerHeight / 2) - (this.scaledHeight / 2);
         
         this.animator[0] = new Animator(this.rightDag, 2, 0, this.width, this.height, 5, 0.15, this.scale);
         this.animator[1] = new Animator(this.leftDag, 2, 0, this.width, this.height, 5, 0.15, this.scale);
@@ -28,15 +32,15 @@ class Dagger {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, this.width * this.scale, this.height * this.scale);
+        this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     };
 
     update() {
-        this.xOffset = this.player.facing == 0 ? 55 : -13;
+        this.xOffset = this.player.facing == 0 ? 70 : -27;
         
-        this.x = this.player.facing == 0 ? this.player.x + (this.player.width / 2) - (this.width / 2) + this.xOffset : 
-                    this.player.x - (this.player.width / 2) - (this.width / 2) - this.xOffset;
-        this.y = this.player.y + (this.player.height / 2) - (this.height / 2);
+        this.x = this.player.facing == 0 ? this.player.x + (this.playerWidth / 2) - (this.scaledWidth / 2) + this.xOffset : 
+                    this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;
+        this.y = this.player.y + (this.playerHeight / 2) - (this.scaledHeight / 2);
         
         this.updateBB();
     };

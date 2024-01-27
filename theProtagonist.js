@@ -2,19 +2,29 @@ class TheProtagonist {
     constructor(game, map) {
         this.game = game;
         this.map = map;
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/protagonist.png");
+        this.protag_right = ASSET_MANAGER.getAsset("./sprites/protag_right.png");
+        this.protag_left = ASSET_MANAGER.getAsset("./sprites/protag_left.png");
         this.dagger = true;
 
         this.x = 1000;
         this.y = 1000;
-        this.width = 69;
-        this.height = 100;
-        this.cameraX = this.x - this.game.ctx.canvas.width / 2;;
-        this.cameraY = this.y - this.game.ctx.canvas.height / 2;
+        this.width = 48.4;
+        this.height = 43;
+        this.scale = 2;
+
+        this.scaledWidth = this.width * this.scale;
+        this.scaledHeight = this.height * this.scale;
+        this.yOffset = 40;
+
+        this.cameraX = this.x - this.game.ctx.canvas.width / 2 + (this.scaledWidth / 2);
+        this.cameraY = this.y - this.game.ctx.canvas.height / 2 + (this.scaledHeight / 2) - this.yOffset;
 
         this.speed = 500;
-        this.scale = 1;
-        this.animator = new Animator(this.spritesheet, 2, 0, this.width, this.height, 5, 0.2, this.scale, "E");
+        this.animator = [];
+        this.animator[0] = new Animator(this.protag_right, 0, 0, this.width, this.height, 5, 0.2, this.scale);
+        this.animator[1] = new Animator(this.protag_left, 0, 0, this.width, this.height, 5, 0.2, this.scale);
+        this.animator[1].reverse();
+
         this.mapWidth = this.map.getWidth();
         this.mapHeight = this.map.getHeight();
 
@@ -27,13 +37,13 @@ class TheProtagonist {
 
         this.dead = false;
 
-        this.updateBB();
         this.healthbar = new HealthBar(this, true);
+        this.updateBB();
     };
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, this.width * this.scale, this.height * this.scale);
+        this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     };
 
     update() {
@@ -49,7 +59,7 @@ class TheProtagonist {
             this.facing = 1; // facing left
         }
 
-        if (this.game.right && this.x < this.mapWidth - this.animator.width) {
+        if (this.game.right && this.x < this.mapWidth - this.animator[0].width) {
             deltaX += this.speed * elapsed;
             this.facing = 0; // facing right
         }
@@ -58,11 +68,10 @@ class TheProtagonist {
             deltaY -= this.speed * elapsed;
         }
 
-        if (this.game.down && this.y < this.mapHeight - this.animator.height) {
+        if (this.game.down && this.y < this.mapHeight - this.animator[0].height) {
             deltaY += this.speed * elapsed;
         }
         
-        // Normalize the movement vector
         const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
         if (length !== 0) {
             const normalizedDeltaX = (deltaX / length) * this.speed * elapsed;
@@ -72,16 +81,16 @@ class TheProtagonist {
             this.x += normalizedDeltaX;
             this.y += normalizedDeltaY;
 
-            this.cameraX = this.x - this.game.ctx.canvas.width / 2;
-            this.cameraY = this.y - this.game.ctx.canvas.height / 2;
+            this.cameraX = this.x - this.game.ctx.canvas.width / 2 + (this.scaledWidth / 2);
+            this.cameraY = this.y - this.game.ctx.canvas.height / 2 + (this.scaledHeight / 2) - this.yOffset;
 
             // Ensure camera stays within the bounds
             this.cameraX = Math.max(0, Math.min(this.cameraX, this.mapWidth - this.game.ctx.canvas.width));
             this.cameraY = Math.max(0, Math.min(this.cameraY, this.mapHeight - this.game.ctx.canvas.height));
         }
+
         this.updateBB();
         
-
         // collision
         let that = this;
         this.game.entities.forEach(function (entity) {
@@ -121,6 +130,7 @@ class TheProtagonist {
                 }
             }
         });
+
         this.updateBB();
 
         if (this.hitpoints <= 0) {
@@ -129,7 +139,13 @@ class TheProtagonist {
     };
 
     draw(ctx) {
-        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        if (this.facing == 0) {
+            this.animator[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        } else if (this.facing == 1) {
+            this.animator[1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        }
+        
+        this.updateBB();
 
         if (params.DEBUG) {
             ctx.strokeStyle = 'Red';
@@ -140,10 +156,8 @@ class TheProtagonist {
         const centerX = this.x + (this.width * this.scale) / 2;
         const centerY = this.y + (this.width * this.scale) / 2;
     
-
         ctx.setTransform(1, 0, 0, 1, -centerX + ctx.canvas.width / 2, -centerY + ctx.canvas.height / 2);
 
         this.healthbar.draw(ctx);
     };
-    
 }
