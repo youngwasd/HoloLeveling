@@ -23,7 +23,6 @@ class TheProtagonist {
         this.animator = [];
         this.animator[0] = new Animator(this.protag_right, 0, 0, this.width, this.height, 5, 0.2, this.scale);
         this.animator[1] = new Animator(this.protag_left, 0, 0, this.width, this.height, 5, 0.2, this.scale);
-        this.animator[1].reverse();
 
         this.mapWidth = this.map.getWidth();
         this.mapHeight = this.map.getHeight();
@@ -153,8 +152,8 @@ class TheProtagonist {
         }
 
         // Calculate the center position of the character
-        const centerX = this.x + (this.width * this.scale) / 2;
-        const centerY = this.y + (this.width * this.scale) / 2;
+        const centerX = this.x + this.scaledWidth / 2;
+        const centerY = this.y + this.scaledWidth / 2;
     
         ctx.setTransform(1, 0, 0, 1, -centerX + ctx.canvas.width / 2, -centerY + ctx.canvas.height / 2);
 
