@@ -94,25 +94,25 @@ class Goblin {
     constructor(game, x, y, speed, player) {
         Object.assign(this, {game, x, y, speed, player});
 
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goblin_right.png");
-        this.spritesheet2 = ASSET_MANAGER.getAsset("./sprites/goblin_left.png");
+        this.GoblinRight = ASSET_MANAGER.getAsset("./sprites/goblin_right.png");
+        this.GoblinLeft = ASSET_MANAGER.getAsset("./sprites/goblin_left.png");
         
         this.width = 170; // need to fix
         this.height = 170;
         this.scale = 0.5;
-        if(this.player.x> this.x){
-            this.direction = "E";
-        }
-        else{
-            this.direction = "W";
-        }
-        if (this.direction === "E") {
-            this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 7, 0.2, this.scale, "E");
-        } else {
-            this.animator = new Animator(this.spritesheet2, 1190, 0, this.width, this.height, 7, 0.2, this.scale, "W");
-        }
-        console .log(this.direction);
 
+        this.animator = [];
+
+        this.animator[0] = new Animator(this.GoblinRight, 0, 0, this.width, this.height, 7, 0.2, this.scale);
+        this.animator[1] = new Animator(this.GoblinLeft, 0, 0, this.width, this.height, 7, 0.2, this.scale);
+        this.animator[1].reverse();
+
+        if (this.player.x > this.x) {
+            this.direction = 0;
+        } else {
+            this.direction = 1;
+        }
+        
         this.dead = false;
         this.hitpoints = 100;
         this.maxhitpoints = 100;
@@ -145,15 +145,9 @@ class Goblin {
             this.y += normalizedDeltaY;
 
             if (protagonist.x >= this.x) {
-                this.direction = "E";
-
-                this.animator.direction = "E";
-            }
-            else {
-                this.animator.spriteSheet = this.spritesheet2;
-                this.animator.xStart = 1190;
-                this.direction = "W";
-                this.animator.direction = "W";
+                this.direction = 0;
+            } else {
+                this.direction = 1;
             }
         }
 
@@ -196,8 +190,13 @@ class Goblin {
     }
 
     draw(ctx) {
-
-            this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        if (this.direction === 0) {
+            this.animator[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        } else if (this.direction === 1) {
+            this.animator[1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        }
+        
+        this.updateBB();
 
             if (params.DEBUG) {
                 ctx.strokeStyle = 'Red';
