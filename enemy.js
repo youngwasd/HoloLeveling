@@ -117,8 +117,8 @@ class Goblin {
         this.hitpoints = 100;
         this.maxhitpoints = 100;
 
-        this.updateBB();
         this.healthbar = new HealthBar(this, false);
+        this.updateBB();
     }
     
     updateBB() {
@@ -184,9 +184,6 @@ class Goblin {
         if (this.hitpoints <= 0) {
             this.dead = true;
         }
-
-
-        console .log(this.direction);
     }
 
     draw(ctx) {
@@ -198,12 +195,11 @@ class Goblin {
         
         this.updateBB();
 
-            if (params.DEBUG) {
-                ctx.strokeStyle = 'Red';
-                ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
-            }
+        if (params.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
 
-            this.healthbar.draw(ctx);
-
+        this.healthbar.draw(ctx);
     }
 }

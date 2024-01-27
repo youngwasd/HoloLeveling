@@ -10,6 +10,10 @@ class Dagger {
         this.width = 50;
         this.height = 25;
         this.xOffset = this.player.facing == 0 ? 65 : -5;
+
+        // 0 = right
+        // 1 = left
+
         this.x = this.player.facing == 0 ? this.player.x + (this.player.width / 2) - (this.width / 2) + this.xOffset : 
                     this.player.x - (this.player.width / 2) - (this.width / 2) - this.xOffset;
 
