@@ -9,11 +9,13 @@ class Dagger {
         this.scale = 1;
         this.width = 50;
         this.height = 25;
+        this.xOffset = this.player.facing == 0 ? 65 : -5;
 
-        this.scaledWidth = this.width * this.scale;
-        this.scaledHeight = this.height * this.scale;
+        // 0 = right
+        // 1 = left
 
-        this.xOffset = this.player.facing == 0 ? 70 : -27;
+        this.x = this.player.facing == 0 ? this.player.x + (this.player.width / 2) - (this.width / 2) + this.xOffset : 
+                    this.player.x - (this.player.width / 2) - (this.width / 2) - this.xOffset;
 
         this.playerHeight = this.player.scaledHeight;
         this.playerWidth = this.player.scaledWidth;
@@ -32,15 +34,15 @@ class Dagger {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
+        this.BB = new BoundingBox(this.x, this.y, this.width * this.scale, this.height * this.scale);
     };
 
     update() {
-        this.xOffset = this.player.facing == 0 ? 70 : -27;
+        this.xOffset = this.player.facing == 0 ? 55 : -13;
         
-        this.x = this.player.facing == 0 ? this.player.x + (this.playerWidth / 2) - (this.scaledWidth / 2) + this.xOffset : 
-                    this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;
-        this.y = this.player.y + (this.playerHeight / 2) - (this.scaledHeight / 2);
+        this.x = this.player.facing == 0 ? this.player.x + (this.player.width / 2) - (this.width / 2) + this.xOffset : 
+                    this.player.x - (this.player.width / 2) - (this.width / 2) - this.xOffset;
+        this.y = this.player.y + (this.player.height / 2) - (this.height / 2);
         
         this.updateBB();
     };

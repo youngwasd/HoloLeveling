@@ -1,6 +1,6 @@
 class Animator {
-    constructor(spriteSheet, xStart, yStart, width, height, frames, duration) {
-        Object.assign(this, { spriteSheet, xStart, yStart, width, height, frames, duration });
+    constructor(spriteSheet, xStart, yStart, width, height, frames, duration, scale = 1) {
+        Object.assign(this, { spriteSheet, xStart, yStart, width, height, frames, duration, scale });
 
         this.elapsedTime = 0;
         this.totalTime = duration * frames;
@@ -13,7 +13,7 @@ class Animator {
 
         const frame = this.currentFrame();
         const frameX = this.isReversed ? this.frames - frame - 1 : frame;
-        ctx.drawImage(this.spriteSheet, this.xStart + this.width * frameX, this.yStart, this.width, this.height, x, y, this.width, this.height);
+        ctx.drawImage(this.spriteSheet, this.xStart + this.width * frameX, this.yStart, this.width, this.height, x, y, this.width * this.scale, this.height * this.scale);
     }
 
     currentFrame() {

@@ -2,22 +2,15 @@ class TheProtagonist {
     constructor(game, map) {
         this.game = game;
         this.map = map;
-        this.protag_right = ASSET_MANAGER.getAsset("./sprites/protag_right.png");
-        this.protag_left = ASSET_MANAGER.getAsset("./sprites/protag_left.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/protagonist.png");
         this.dagger = true;
 
         this.x = 1000;
         this.y = 1000;
-        this.width = 48.4;
-        this.height = 43;
-        this.scale = 2;
-
-        this.scaledWidth = this.width * this.scale;
-        this.scaledHeight = this.height * this.scale;
-        this.yOffset = 40;
-
-        this.cameraX = this.x - this.game.ctx.canvas.width / 2 + (this.scaledWidth / 2);
-        this.cameraY = this.y - this.game.ctx.canvas.height / 2 + (this.scaledHeight / 2) - this.yOffset;
+        this.width = 69;
+        this.height = 100;
+        this.cameraX = this.x - this.game.ctx.canvas.width / 2;;
+        this.cameraY = this.y - this.game.ctx.canvas.height / 2;
 
         this.speed = 500;
         this.animator = [];
@@ -37,13 +30,13 @@ class TheProtagonist {
 
         this.dead = false;
 
-        this.healthbar = new HealthBar(this, true);
         this.updateBB();
+        this.healthbar = new HealthBar(this, true);
     };
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
+        this.BB = new BoundingBox(this.x, this.y, this.width * this.scale, this.height * this.scale);
     };
 
     update() {
@@ -59,7 +52,7 @@ class TheProtagonist {
             this.facing = 1; // facing left
         }
 
-        if (this.game.right && this.x < this.mapWidth - this.animator[0].width) {
+        if (this.game.right && this.x < this.mapWidth - this.animator.width) {
             deltaX += this.speed * elapsed;
             this.facing = 0; // facing right
         }
@@ -68,10 +61,11 @@ class TheProtagonist {
             deltaY -= this.speed * elapsed;
         }
 
-        if (this.game.down && this.y < this.mapHeight - this.animator[0].height) {
+        if (this.game.down && this.y < this.mapHeight - this.animator.height) {
             deltaY += this.speed * elapsed;
         }
         
+        // Normalize the movement vector
         const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
         if (length !== 0) {
             const normalizedDeltaX = (deltaX / length) * this.speed * elapsed;
@@ -81,16 +75,16 @@ class TheProtagonist {
             this.x += normalizedDeltaX;
             this.y += normalizedDeltaY;
 
-            this.cameraX = this.x - this.game.ctx.canvas.width / 2 + (this.scaledWidth / 2);
-            this.cameraY = this.y - this.game.ctx.canvas.height / 2 + (this.scaledHeight / 2) - this.yOffset;
+            this.cameraX = this.x - this.game.ctx.canvas.width / 2;
+            this.cameraY = this.y - this.game.ctx.canvas.height / 2;
 
             // Ensure camera stays within the bounds
             this.cameraX = Math.max(0, Math.min(this.cameraX, this.mapWidth - this.game.ctx.canvas.width));
             this.cameraY = Math.max(0, Math.min(this.cameraY, this.mapHeight - this.game.ctx.canvas.height));
         }
-
         this.updateBB();
         
+
         // collision
         let that = this;
         this.game.entities.forEach(function (entity) {
@@ -130,7 +124,6 @@ class TheProtagonist {
                 }
             }
         });
-
         this.updateBB();
 
         if (this.hitpoints <= 0) {
@@ -139,13 +132,7 @@ class TheProtagonist {
     };
 
     draw(ctx) {
-        if (this.facing == 0) {
-            this.animator[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        } else if (this.facing == 1) {
-            this.animator[1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        }
-        
-        this.updateBB();
+        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
         if (params.DEBUG) {
             ctx.strokeStyle = 'Red';
@@ -156,8 +143,10 @@ class TheProtagonist {
         const centerX = this.x + this.scaledWidth / 2;
         const centerY = this.y + this.scaledWidth / 2;
     
+
         ctx.setTransform(1, 0, 0, 1, -centerX + ctx.canvas.width / 2, -centerY + ctx.canvas.height / 2);
 
         this.healthbar.draw(ctx);
     };
+    
 }
