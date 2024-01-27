@@ -21,8 +21,8 @@ class TheProtagonist {
 
         this.speed = 500;
         this.animator = [];
-        this.animator[0] = new Animator(this.protag_right, 0, 0, this.width, this.height, 5, 0.2, this.scale);
-        this.animator[1] = new Animator(this.protag_left, 0, 0, this.width, this.height, 5, 0.2, this.scale);
+        this.animator[0] = new Animator(this.protag_right, 0, 0, this.width, this.height, 5, 0.2);
+        this.animator[1] = new Animator(this.protag_left, 0, 0, this.width, this.height, 5, 0.2);
         this.animator[1].reverse();
 
         this.mapWidth = this.map.getWidth();
