@@ -8,11 +8,10 @@ class Issac {
         this.width = 57; // for issac
         this.height = 67; // for issac
         this.scale = 1;
-        
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
 
-        this.animator = new Animator(this.spritesheet, 0, 0, this.scaledWidth, this.scaledHeight, 1, 0.8);
+        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 0.8, this.scale);
 
         this.dead = false;
         this.hitpoints = 100;
@@ -103,14 +102,13 @@ class Goblin {
         this.width = 170; // need to fix
         this.height = 170;
         this.scale = 0.5;
-
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
 
         this.animator = [];
 
-        this.animator[0] = new Animator(this.GoblinRight, 0, 0, this.scaledWidth, this.scaledHeight, 7, 0.2);
-        this.animator[1] = new Animator(this.GoblinLeft, 0, 0, this.scaledWidth, this.scaledHeight, 7, 0.2);
+        this.animator[0] = new Animator(this.GoblinRight, 0, 0, this.width, this.height, 7, 0.2, this.scale);
+        this.animator[1] = new Animator(this.GoblinLeft, 0, 0, this.width, this.height, 7, 0.2, this.scale);
         this.animator[1].reverse();
 
         if (this.player.x > this.x) {
