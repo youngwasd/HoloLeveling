@@ -16,9 +16,12 @@ class SceneManager {
         this.tree = new Tree(this.game, 900, 1000);
         const garlic = new Garlic(this.game, this.theProtagonist);
 
+        const dagger = new Dagger(this.game, this.theProtagonist);
+
         this.game.addEntity(this.theProtagonist, background);
 
         this.game.addEntity(garlic);
+        this.game.addEntity(dagger);
 
         for (let i = 0; i < 10; i++) {
             const x = Math.floor(Math.random() * background.getWidth());

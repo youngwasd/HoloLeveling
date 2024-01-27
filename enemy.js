@@ -67,6 +67,10 @@ class Issac {
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
                     }
+                } else if (entity instanceof Dagger) {
+                    if (that.player.dagger) {
+                        that.hitpoints -= 5;
+                    }
                 }
             }
         });
@@ -157,6 +161,10 @@ class Goblin {
                     } else if (that.lastBB.top >= entity.BB.bottom) { // hit the bottom of tree
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
+                    }
+                } else if (entity instanceof Dagger) {
+                    if (that.player.dagger) {
+                        that.hitpoints -= 5;
                     }
                 }
             }

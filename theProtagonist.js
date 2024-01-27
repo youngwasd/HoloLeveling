@@ -4,6 +4,7 @@ class TheProtagonist {
         this.map = map;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/protagonist.png");
         this.garlic = true
+        this.dagger = true;
 
         this.x = 1000;
         this.y = 1000;
@@ -22,8 +23,6 @@ class TheProtagonist {
         this.maxhitpoints = 100;
         this.hitCooldown = 0;
         this.hitCooldownInterval = 1;
-
-        this.garlic = true;
 
         this.dead = false;
 
