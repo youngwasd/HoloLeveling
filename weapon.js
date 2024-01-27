@@ -9,7 +9,9 @@ class Dagger {
         this.scale = 1;
         this.width = 50;
         this.height = 25;
-        this.xOffset = this.player.facing == 0 ? 65 : -5;
+
+        this.xOffset = this.player.facing == 0 ? 55 : -13;
+
         this.x = this.player.facing == 0 ? this.player.x + (this.player.width / 2) - (this.width / 2) + this.xOffset : 
                     this.player.x - (this.player.width / 2) - (this.width / 2) - this.xOffset;
 
@@ -28,7 +30,8 @@ class Dagger {
     };
 
     update() {
-        this.xOffset = this.player.facing == 0 ? 65 : -5;
+        this.xOffset = this.player.facing == 0 ? 55 : -13;
+        
         this.x = this.player.facing == 0 ? this.player.x + (this.player.width / 2) - (this.width / 2) + this.xOffset : 
                     this.player.x - (this.player.width / 2) - (this.width / 2) - this.xOffset;
         this.y = this.player.y + (this.player.height / 2) - (this.height / 2);
