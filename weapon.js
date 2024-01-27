@@ -1,30 +1,53 @@
-class Garlic{
-    constructor(game,player){
-        this.game = game;
-        this.player = player;
-        this.x = this.player.x;
-        this.y = this.player.y;
-        this.width = this.player.width + 70
-        this.height = this.player.height + 50;
+class Dagger {
+    constructor(game, player) {
+        Object.assign(this, {game, player});
 
-        this.playerCenterX = this.player.x + this.player.width / 2;
-        this.playerCenterY = this.player.y + this.player.height / 2;
-    }
+        this.rightDag = ASSET_MANAGER.getAsset("./sprites/dagger_right.png");
+        this.leftDag = ASSET_MANAGER.getAsset("./sprites/dagger_left.png");
+        
+        this.animator = [];
+        this.scale = 1;
+        this.width = 50;
+        this.height = 25;
+        this.xOffset = this.player.facing == 0 ? 65 : -5;
+        this.x = this.player.facing == 0 ? this.player.x + (this.player.width / 2) - (this.width / 2) + this.xOffset : 
+                    this.player.x - (this.player.width / 2) - (this.width / 2) - this.xOffset;
 
-    updateBC() {
-        // need bounding circle for garlic
-    }
+        this.y = this.player.y + (this.player.height / 2) - (this.height / 2);
+        
+        this.animator[0] = new Animator(this.rightDag, 2, 0, this.width, this.height, 5, 0.15, this.scale);
+        this.animator[1] = new Animator(this.leftDag, 2, 0, this.width, this.height, 5, 0.15, this.scale);
+        this.animator[1].reverse();
+
+        this.updateBB();
+    };
+
+    updateBB() {
+        this.lastBB = this.BB;
+        this.BB = new BoundingBox(this.x, this.y, this.width * this.scale, this.height * this.scale);
+    };
 
     update() {
-        this.playerCenterX = this.player.x + this.player.width / 2;
-        this.playerCenterY = this.player.y + this.player.height / 2;
-        this.x = this.player.x - 35;
-        this.y = this.player.y - 25;
-    }
+        this.xOffset = this.player.facing == 0 ? 65 : -5;
+        this.x = this.player.facing == 0 ? this.player.x + (this.player.width / 2) - (this.width / 2) + this.xOffset : 
+                    this.player.x - (this.player.width / 2) - (this.width / 2) - this.xOffset;
+        this.y = this.player.y + (this.player.height / 2) - (this.height / 2);
+        
+        this.updateBB();
+    };
 
     draw(ctx) {
-        ctx.beginPath();
-        ctx.arc(this.playerCenterX, this.playerCenterY, this.player.width, 0, 2 * Math.PI);
-        ctx.stroke();        
-    }
-}
+        if (this.player.facing == 0) {
+            this.animator[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        } else if (this.player.facing == 1) {
+            this.animator[1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        }
+        
+        this.updateBB();
+
+        if (params.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
+    };
+};

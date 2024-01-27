@@ -1,6 +1,6 @@
 class Issac {
-    constructor(game, x, y, speed, player, garlic) {
-        Object.assign(this, {game, x, y, speed, player, garlic});
+    constructor(game, x, y, speed, player) {
+        Object.assign(this, {game, x, y, speed, player});
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/issac.png");
 
@@ -49,11 +49,7 @@ class Issac {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof TheProtagonist) {
-                    if (that.player.garlic) {
-                        that.hitpoints--;
-                    }
-                } else if (entity instanceof Tree) {
+                if (entity instanceof Tree) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -66,6 +62,10 @@ class Issac {
                     } else if (that.lastBB.top >= entity.BB.bottom) { // hit the bottom of tree
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
+                    }
+                } else if (entity instanceof Dagger) {
+                    if (that.player.dagger) {
+                        that.hitpoints -= 5;
                     }
                 }
             }
@@ -91,8 +91,8 @@ class Issac {
 }
 
 class Goblin {
-    constructor(game, x, y, speed, player, garlic) {
-        Object.assign(this, {game, x, y, speed, player, garlic});
+    constructor(game, x, y, speed, player) {
+        Object.assign(this, {game, x, y, speed, player});
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goblin_right.png");
         this.spritesheet2 = ASSET_MANAGER.getAsset("./sprites/goblin_left.png");
@@ -163,11 +163,7 @@ class Goblin {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof TheProtagonist) {
-                    if (that.player.garlic) {
-                        that.hitpoints--;
-                    }
-                } else if (entity instanceof Tree) {
+                if (entity instanceof Tree) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -180,6 +176,10 @@ class Goblin {
                     } else if (that.lastBB.top >= entity.BB.bottom) { // hit the bottom of tree
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
+                    }
+                } else if (entity instanceof Dagger) {
+                    if (that.player.dagger) {
+                        that.hitpoints -= 5;
                     }
                 }
             }
