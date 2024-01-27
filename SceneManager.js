@@ -14,13 +14,11 @@ class SceneManager {
         this.theProtagonist.y = 1000;
         
         this.tree = new Tree(this.game, 900, 1000);
-        const garlic = new Garlic(this.game, this.theProtagonist);
 
         const dagger = new Dagger(this.game, this.theProtagonist);
 
         this.game.addEntity(this.theProtagonist, background);
 
-        this.game.addEntity(garlic);
         this.game.addEntity(dagger);
 
         for (let i = 0; i < 10; i++) {
@@ -30,7 +28,7 @@ class SceneManager {
             let speed = Math.floor(Math.random() * (this.theProtagonist.speed * 0.6) + 150);
             speed = speed >= this.theProtagonist.speed ? speed - 200 : speed;
 
-            this.issac = new Issac(this.game, x, y, speed, this.theProtagonist, garlic);
+            this.issac = new Issac(this.game, x, y, speed, this.theProtagonist);
             this.game.addEntity(this.issac);
 
             const x2 = Math.floor(Math.random() * background.getWidth());
@@ -39,7 +37,7 @@ class SceneManager {
             let speed2 = Math.floor(Math.random() * (this.theProtagonist.speed * 0.6) + 150);
             speed2 = speed2 >= this.theProtagonist.speed ? speed2 - 200 : speed2;
 
-            this.goblin = new Goblin(this.game, x2, y2, speed2, this.theProtagonist, garlic);
+            this.goblin = new Goblin(this.game, x2, y2, speed2, this.theProtagonist);
             this.game.addEntity(this.goblin);
         }
 

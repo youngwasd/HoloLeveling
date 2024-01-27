@@ -3,7 +3,6 @@ class TheProtagonist {
         this.game = game;
         this.map = map;
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/protagonist.png");
-        this.garlic = true
         this.dagger = true;
 
         this.x = 1000;
@@ -18,6 +17,8 @@ class TheProtagonist {
         this.animator = new Animator(this.spritesheet, 2, 0, this.width, this.height, 5, 0.2, this.scale);
         this.mapWidth = this.map.getWidth();
         this.mapHeight = this.map.getHeight();
+
+        this.facing = 0; // start facing right
 
         this.hitpoints = 100;
         this.maxhitpoints = 100;
@@ -45,10 +46,12 @@ class TheProtagonist {
         // Check individual directions
         if (this.game.left && this.x > 0) {
             deltaX -= this.speed * elapsed;
+            this.facing = 1; // facing left
         }
 
         if (this.game.right && this.x < this.mapWidth - this.animator.width) {
             deltaX += this.speed * elapsed;
+            this.facing = 0; // facing right
         }
 
         if (this.game.up && this.y > 0) {
