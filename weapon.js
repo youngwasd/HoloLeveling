@@ -13,7 +13,7 @@ class Dagger {
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
 
-        this.xOffset = this.player.facing == 0 ? 70 : -27;
+        this.xOffset = this.player.facing == 0 ? 60 : -1.5;
 
         this.playerHeight = this.player.height * this.player.scale;
         this.playerWidth = this.player.width * this.player.scale;
@@ -36,7 +36,7 @@ class Dagger {
     };
 
     update() {
-        this.xOffset = this.player.facing == 0 ? 70 : -27;
+        this.xOffset = this.player.facing == 0 ? 60 : -1.5;
         
         this.x = this.player.facing == 0 ? this.player.x + (this.playerWidth / 2) - (this.scaledWidth / 2) + this.xOffset : 
                     this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;

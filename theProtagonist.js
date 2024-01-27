@@ -8,9 +8,9 @@ class TheProtagonist {
 
         this.x = 1000;
         this.y = 1000;
-        this.width = 48.4;
-        this.height = 43;
-        this.scale = 1;
+        this.width = 89;
+        this.height = 129;
+        this.scale = 0.7;
 
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
