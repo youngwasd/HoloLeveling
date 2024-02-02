@@ -15,6 +15,12 @@ class GameEngine {
         this.up = false;
         this.down = false;
 
+        this.mouseX = 0;
+        this.mouseY = 0;
+
+        // Whether the mouse is clicked
+        this.click = null;
+
         // Options and the Details
         this.options = options || {
             debugging: false,
@@ -40,19 +46,23 @@ class GameEngine {
         this.keyboardActive = false;
         let that = this;
 
-        var getXandY = function (e) {
+
+
+        function getXandY(e) {
             let x = e.clientX - that.ctx.canvas.getBoundingClientRect().left;
             let y = e.clientY - that.ctx.canvas.getBoundingClientRect().top;
-    
-            return { x: x, y: y, radius: 0 };
+            return { x: x, y: y };
         }
 
-        function mouseListener (e) {
-            that.mouse = getXandY(e);
+        function mouseListener(e) {
+            const { x, y } = getXandY(e);
+            that.mouseX = x;
+            that.mouseY = y;
         }
-    
-        function mouseClickListener (e) {
-            that.click = getXandY(e);
+
+        function mouseClickListener(e) {
+            const { x, y } = getXandY(e);
+            that.click = { x, y };
         }
 
         // Use arrow functions to ensure 'this' refers to the instance of GameEngine
@@ -104,6 +114,10 @@ class GameEngine {
                 this.down = false;
                 break;
         }
+    }
+
+    restart() {
+        window.location.reload(); // This will refresh the page
     }
 
     addEntity(entity) {

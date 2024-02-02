@@ -7,9 +7,10 @@ class SceneManager {
     }
 
     loadLevelOne() {
+        let end = new EndScreen(this.game);
         let background = new Map(this.game, 0, 0, 2500, 2500);
 
-        this.theProtagonist = new TheProtagonist(this.game, background);
+        this.theProtagonist = new TheProtagonist(this.game, background, end);
         this.theProtagonist.x = 1000;
         this.theProtagonist.y = 1000;
         
@@ -18,7 +19,7 @@ class SceneManager {
         const dagger = new Dagger(this.game, this.theProtagonist);
 
         this.game.addEntity(this.theProtagonist);
-
+        this.game.addEntity(end);
         this.game.addEntity(dagger);
 
         for (let i = 0; i < 10; i++) {

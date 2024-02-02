@@ -1,5 +1,6 @@
 class TheProtagonist {
-    constructor(game, map) {
+    constructor(game, map, end) {
+        this.end = end;
         this.game = game;
         this.map = map;
         this.protag_right = ASSET_MANAGER.getAsset("./sprites/protag_right.png");
@@ -133,7 +134,9 @@ class TheProtagonist {
         this.updateBB();
 
         if (this.hitpoints <= 0) {
-
+            console.log("You died");
+            this.end.isDead = true;
+            this.dead = true;
         }
     };
 
@@ -158,5 +161,7 @@ class TheProtagonist {
         ctx.setTransform(1, 0, 0, 1, -centerX + ctx.canvas.width / 2, -centerY + ctx.canvas.height / 2);
 
         this.healthbar.draw(ctx);
+
+
     };
 }
