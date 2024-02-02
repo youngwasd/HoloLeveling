@@ -1,6 +1,55 @@
+class Wave {
+    constructor(game, player) {
+        Object.assign(this, {game, player});
+
+        this.currWave = 0;
+        this.numEnemies = 0;
+
+        this.minY = 0;
+        this.minX = 0;
+        this.maxY = 2500;
+        this.maxX = 2500;
+    };
+
+    spawnWave() {
+        this.numEnemies = this.currWave * 2;
+        this.spawnEnemies();
+    };
+
+    spawnEnemies() {
+        for (let i = 0; i < this.numEnemies; i++) {
+            const x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
+            const y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
+
+            if (Math.random() < 0.5) {
+                this.game.addEntity(new Issac(this.game, x, y, this.player));
+            } else {
+                this.game.addEntity(new Goblin(this.game, x, y, this.player));
+            }
+        }
+        this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
+    };
+
+    update() {
+        if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin).length === 0) {
+            if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
+                this.game.entities.filter(map => map instanceof Map).forEach(map => {
+                    map.dead = true;
+                    
+                });
+            }
+            this.currWave++;
+            this.spawnWave();
+        }
+    };
+
+    draw(ctx) {
+    };
+};
+
 class Issac {
-    constructor(game, x, y, speed, player) {
-        Object.assign(this, {game, x, y, speed, player});
+    constructor(game, x, y, player) {
+        Object.assign(this, {game, x, y, player});
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/issac.png");
 
@@ -10,6 +59,9 @@ class Issac {
         this.scale = 1;
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
+
+        this.speed = Math.floor(Math.random() * (this.player.speed * 0.6) + 150);
+        this.speed = this.speed >= this.player.speed ? this.speed - 200 : this.speed;
 
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 0.8, this.scale);
 
@@ -23,7 +75,7 @@ class Issac {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
+        this.BB = new BoundingBox(this.x + 15, this.y + 15, this.scaledWidth / 2, this.scaledHeight / 2);
     }
 
     update() {
@@ -90,11 +142,11 @@ class Issac {
 
         this.healthbar.draw(ctx);
     };
-}
+};
 
 class Goblin {
-    constructor(game, x, y, speed, player) {
-        Object.assign(this, {game, x, y, speed, player});
+    constructor(game, x, y, player) {
+        Object.assign(this, {game, x, y, player});
 
         this.GoblinRight = ASSET_MANAGER.getAsset("./sprites/goblin_right.png");
         this.GoblinLeft = ASSET_MANAGER.getAsset("./sprites/goblin_left.png");
@@ -104,6 +156,9 @@ class Goblin {
         this.scale = 0.5;
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
+
+        this.speed = Math.floor(Math.random() * (this.player.speed * 0.6) + 150);
+        this.speed = this.speed >= this.player.speed ? this.speed - 200 : this.speed;
 
         this.animator = [];
 
@@ -127,7 +182,7 @@ class Goblin {
     
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
+        this.BB = new BoundingBox(this.x + 20, this.y + 20, this.scaledWidth / 2 , this.scaledHeight / 2);
     }
 
     update() {
@@ -206,4 +261,4 @@ class Goblin {
 
         this.healthbar.draw(ctx);
     }
-}
+};

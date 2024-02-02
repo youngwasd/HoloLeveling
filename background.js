@@ -2,6 +2,8 @@ class Map {
     constructor(gameEngine, x, y, width, height) {
         Object.assign(this, {gameEngine, x, y, width, height});
         this.background = ASSET_MANAGER.getAsset("./sprites/forest2.jpg");
+
+        this.dead = false;
     }
 
     update() {

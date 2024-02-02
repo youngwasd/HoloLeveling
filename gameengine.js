@@ -133,7 +133,7 @@ class GameEngine {
         params.DEBUG = document.getElementById("debug").checked;
 
         let entitiesCount = this.entities.length;
-        this.gamepadUpdate()
+        this.gamepadUpdate();
 
         for (let i = 0; i < entitiesCount; i++) {
             let entity = this.entities[i];
@@ -159,13 +159,11 @@ class GameEngine {
             this.up = gamepad.buttons[12].pressed || gamepad.axes[1] < -0.3;
             this.down = gamepad.buttons[13].pressed || gamepad.axes[1] > 0.3;
         }
-    }
+    };
 
     loop() {
         this.clockTick = this.timer.tick();
         this.update();
         this.draw();
-
-        this.click = null;
     };
 };
