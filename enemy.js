@@ -44,6 +44,11 @@ class Wave {
     };
 
     draw(ctx) {
+        // ctx.font = "30px Arial";
+        // ctx.fillStyle = "black";
+
+        // ctx.fillText('Wave: ' + this.currWave, 600, 50);
+        // ctx.fillText('Number of Enemies: ' + this.numEnemies, 600, 50);
     };
 };
 
