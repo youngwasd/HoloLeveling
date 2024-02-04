@@ -3,6 +3,10 @@ class SceneManager {
         this.game = game;
         this.game.entities = [];
 
+        this.loadUpgradeScreen();
+
+
+        // Load level one after selecting an upgrade (you can customize this logic)
         this.loadLevelOne();
     }
 
@@ -13,7 +17,7 @@ class SceneManager {
         this.theProtagonist = new TheProtagonist(this.game, background, end);
         this.theProtagonist.x = 1000;
         this.theProtagonist.y = 1000;
-        
+
         this.tree = new Tree(this.game, 900, 1000);
 
         const dagger = new Dagger(this.game, this.theProtagonist);
@@ -40,10 +44,18 @@ class SceneManager {
 
             this.goblin = new Goblin(this.game, x2, y2, speed2, this.theProtagonist);
             this.game.addEntity(this.goblin);
-        }
 
+        }
 
         this.game.addEntity(this.tree);
         this.game.addEntity(background);
+    }
+
+    loadUpgradeScreen() {
+        // Create UpgradeScreen instance
+        this.upgradeScreen = new UpgradeScreen(this.game);
+
+        // Display the upgrade screen at the start of the game
+        this.upgradeScreen.showUpgradeScreen();
     }
 }
