@@ -139,6 +139,8 @@ class GameEngine {
                 this.entities[i].draw(this.ctx, this);
             }
         }
+
+        this.ctx.fillText(`FPS ${this.timer.ticks.length}`, 50, 20);
     
         this.ctx.restore();
     };
