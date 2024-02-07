@@ -80,7 +80,7 @@ class Issac {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x + 15, this.y + 15, this.scaledWidth / 2, this.scaledHeight / 2);
+        this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     }
 
     update() {
@@ -187,7 +187,7 @@ class Goblin {
     
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x + 20, this.y + 20, this.scaledWidth / 2 , this.scaledHeight / 2);
+        this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     }
 
     update() {
