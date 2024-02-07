@@ -25,7 +25,11 @@ class HealthBar {
             ctx.fillRect(barX, barY, hp_length, healthbar_width);
             ctx.strokeRect(barX, barY, healthbar_length, healthbar_width);
 
-            ctx.restore(); // Restore the saved canvas state
+            ctx.font = "20px Arial"
+            ctx.fillStyle = "Black"
+            ctx.fillText(`FPS: ${this.agent.game.timer.ticks.length}`, 1190, 20);
+
+            ctx.restore();
         } else if ((this.agent.hitpoints < this.agent.maxhitpoints) && !this.player) {
             ctx.strokeStyle = "Black";
             ctx.fillStyle = "Red";
