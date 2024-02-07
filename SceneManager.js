@@ -9,6 +9,7 @@ class SceneManager {
     loadLevelOne() {
         this.end = new EndScreen(this.game);
         this.background = new Map(this.game, 0, 0, 2500, 2500);
+        
         this.theProtagonist = new TheProtagonist(this.game, this.background, this.end);
         
         this.game.addEntity(this.theProtagonist);

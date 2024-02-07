@@ -11,6 +11,10 @@ class Wave {
         this.maxX = 2500;
     };
 
+    getCurrentWave() {
+        return this.currWave;
+    }
+
     spawnWave() {
         this.numEnemies = this.currWave * 2;
         this.spawnEnemies();
@@ -20,11 +24,11 @@ class Wave {
         for (let i = 0; i < this.numEnemies; i++) {
             const x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
             const y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
-
+            this.speed = this.player.speed * 0.6 + this.numEnemies * 10;
             if (Math.random() < 0.5) {
-                this.game.addEntity(new Issac(this.game, x, y, this.player));
+                this.game.addEntity(new Issac(this.game, x, y, this.player, this.speed));
             } else {
-                this.game.addEntity(new Goblin(this.game, x, y, this.player));
+                this.game.addEntity(new Goblin(this.game, x, y, this.player, this.speed));
             }
         }
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
@@ -44,18 +48,22 @@ class Wave {
     };
 
     draw(ctx) {
-        // ctx.font = "30px Arial";
-        // ctx.fillStyle = "black";
 
-        // ctx.fillText('Wave: ' + this.currWave, 600, 50);
-        // ctx.fillText('Number of Enemies: ' + this.numEnemies, 600, 50);
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.font = "30px Arial";
+        ctx.fillStyle = "black";
+
+        ctx.fillText('Wave: ' + this.currWave, 450, 40);
+        ctx.restore();
+        
     };
 };
 
 class Issac {
-    constructor(game, x, y, player) {
-        Object.assign(this, {game, x, y, player});
-
+    constructor(game, x, y, player,speed) {
+        Object.assign(this, {game, x, y, player, speed});
+        
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/issac.png");
 
         // Initial position
@@ -65,7 +73,7 @@ class Issac {
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
 
-        this.speed = Math.floor(Math.random() * (this.player.speed * 0.6) + 150);
+        
         this.speed = this.speed >= this.player.speed ? this.speed - 200 : this.speed;
 
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 0.8, this.scale);
@@ -138,6 +146,7 @@ class Issac {
     }
     
     draw(ctx) {
+        
         ctx.drawImage(this.spritesheet, this.x, this.y); // this way of drawing issac makes it not scaleable
 
         if (params.DEBUG) {
@@ -150,8 +159,8 @@ class Issac {
 };
 
 class Goblin {
-    constructor(game, x, y, player) {
-        Object.assign(this, {game, x, y, player});
+    constructor(game, x, y, player, speed) {
+        Object.assign(this, {game, x, y, player, speed});
 
         this.GoblinRight = ASSET_MANAGER.getAsset("./sprites/goblin_right.png");
         this.GoblinLeft = ASSET_MANAGER.getAsset("./sprites/goblin_left.png");
@@ -162,7 +171,7 @@ class Goblin {
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
 
-        this.speed = Math.floor(Math.random() * (this.player.speed * 0.6) + 150);
+        
         this.speed = this.speed >= this.player.speed ? this.speed - 200 : this.speed;
 
         this.animator = [];

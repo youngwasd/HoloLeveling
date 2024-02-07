@@ -1,5 +1,6 @@
 class EndScreen {
     constructor(game) {
+        
         this.game = game;
         this.isDead = false;
 
@@ -22,6 +23,7 @@ class EndScreen {
         ) {
             this.game.restart(); // Add a restart method to your game class
         }
+        
     }
 
     draw(ctx) {
@@ -43,6 +45,11 @@ class EndScreen {
             ctx.font = "30px Arial";
             ctx.fillStyle = "white";
             ctx.fillText("Restart", this.restartButton.x + 50, this.restartButton.y + 35);
+            let waveInstance = this.game.entities.find(entity => entity instanceof Wave);
+            let wavesSurvived = waveInstance ? waveInstance.currWave : 0;
+            ctx.font = "40px Arial";
+            ctx.fillStyle = "white";
+            ctx.fillText("Waves Survived: " + wavesSurvived, 500, 375); // Adjust position as needed
         }
     }
 }
