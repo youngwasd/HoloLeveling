@@ -4,6 +4,7 @@ class Wave {
 
         this.currWave = 0;
         this.numEnemies = 0;
+        this.enemiesAlive = 0;
 
         this.minY = 0;
         this.minX = 0;
@@ -26,6 +27,7 @@ class Wave {
             } else {
                 this.game.addEntity(new Goblin(this.game, x, y, this.player));
             }
+            this.enemiesAlive++;
         }
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
     };
@@ -35,20 +37,27 @@ class Wave {
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
                 this.game.entities.filter(map => map instanceof Map).forEach(map => {
                     map.dead = true;
-                    
                 });
             }
             this.currWave++;
             this.spawnWave();
         }
+
+        this.enemiesAlive = this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin).length;
     };
 
     draw(ctx) {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
         ctx.font = "30px Arial";
         ctx.fillStyle = "black";
+        ctx.fillText('Wave: ' + this.currWave, 590, 30);
 
-        ctx.fillText('Wave: ' + this.currWave, 100, 50);
-        ctx.fillText('Number of Enemies: ' + this.numEnemies, 100, 50);
+        ctx.font = "20px Arial";
+        ctx.fillText('Enemies Remaining: ' + this.enemiesAlive, 5, 715);
+
+        ctx.restore();
     };
 };
 

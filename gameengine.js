@@ -127,7 +127,7 @@ class GameEngine {
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    
+
         this.ctx.save();
     
         // Ensure there is at least one entity in the entities array
@@ -140,8 +140,6 @@ class GameEngine {
             }
         }
 
-        this.ctx.fillText(`FPS ${this.timer.ticks.length}`, 50, 20);
-    
         this.ctx.restore();
     };
     
