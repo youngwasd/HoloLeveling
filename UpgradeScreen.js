@@ -1,4 +1,4 @@
-class UpgradeScreen {
+class upgradeScreen {
     constructor(game) {
         this.game = game;
         this.container = document.createElement('div');
