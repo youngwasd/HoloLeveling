@@ -1,5 +1,3 @@
-
-
 class Issac {
     constructor(game, x, y, player,speed) {
         Object.assign(this, {game, x, y, player, speed});
@@ -7,8 +5,8 @@ class Issac {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/issac.png");
 
         // Initial position
-        this.width = 57; // for issac
-        this.height = 67; // for issac
+        this.width = 100; // for issac
+        this.height = 100; // for issac
         this.scale = 1;
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
@@ -214,4 +212,4 @@ class Goblin {
 
         this.healthbar.draw(ctx);
     }
-};
+}
