@@ -8,6 +8,7 @@ class GameEngine {
 
         // Everything that will be updated and drawn each frame
         this.entities = [];
+        this.sceneManager = null;
 
         // Information on the input
         this.left = false;
@@ -129,6 +130,7 @@ class GameEngine {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
         this.ctx.save();
+        
     
         // Ensure there is at least one entity in the entities array
         if (this.entities.length > 0) {
@@ -146,6 +148,10 @@ class GameEngine {
     update() {
         params.DEBUG = document.getElementById("debug").checked;
 
+        if (this.sceneManager) {
+            this.sceneManager.update();
+        }
+        
         let entitiesCount = this.entities.length;
         this.gamepadUpdate();
 

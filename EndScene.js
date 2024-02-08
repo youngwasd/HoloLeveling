@@ -45,11 +45,11 @@ class EndScreen {
             ctx.font = "30px Arial";
             ctx.fillStyle = "white";
             ctx.fillText("Restart", this.restartButton.x + 50, this.restartButton.y + 35);
-            let waveInstance = this.game.entities.find(entity => entity instanceof Wave);
-            let wavesSurvived = waveInstance ? waveInstance.currWave : 0;
+            let waveInstance = this.game.sceneManager.currWave
+            
             ctx.font = "40px Arial";
             ctx.fillStyle = "white";
-            ctx.fillText("Waves Survived: " + wavesSurvived, 500, 375); // Adjust position as needed
+            ctx.fillText("Waves Survived: " + waveInstance, 500, 375); // Adjust position as needed
         }
     }
 }
