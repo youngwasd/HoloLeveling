@@ -59,7 +59,7 @@ class TheProtagonist {
             this.facing = 1; // facing left
         }
 
-        if (this.game.right && this.x < this.mapWidth - this.animator[0].width) {
+        if (this.game.right && this.x < this.mapWidth - this.scaledWidth) {
             deltaX += this.speed * elapsed;
             this.facing = 0; // facing right
         }
@@ -68,7 +68,7 @@ class TheProtagonist {
             deltaY -= this.speed * elapsed;
         }
 
-        if (this.game.down && this.y < this.mapHeight - this.animator[0].height) {
+        if (this.game.down && this.y < this.mapHeight - this.scaledHeight) {
             deltaY += this.speed * elapsed;
         }
         

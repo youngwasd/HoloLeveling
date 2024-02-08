@@ -28,7 +28,7 @@ class SceneManager {
     };
 
     startWave() {
-        this.numEnemies = this.currWave * 2;
+        this.numEnemies = Math.floor(this.currWave * 1.5);
         this.spawnEnemies();
     };
 
@@ -52,7 +52,6 @@ class SceneManager {
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
                 this.game.entities.filter(map => map instanceof Map).forEach(map => {
                     map.dead = true;
-
                 });
             }
             this.currWave++;
@@ -62,7 +61,5 @@ class SceneManager {
         this.enemiesAlive = this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin).length;
     };
 
-    draw(ctx) {
-
-    };
+    draw(ctx) {};
 };
