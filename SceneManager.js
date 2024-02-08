@@ -13,7 +13,7 @@ class SceneManager {
         this.maxY = 2500;
 
         this.loadLevelOne();
-    }
+    };
 
     loadLevelOne() {
         this.end = new EndScreen(this.game);
@@ -30,9 +30,9 @@ class SceneManager {
     };
 
     startWave() {
-        this.numEnemies = this.currWave * 2;
+        this.numEnemies = Math.floor(this.currWave * 1.5);
         this.spawnEnemies();
-    }
+    };
 
     spawnEnemies() {
         for (let i = 0; i < this.numEnemies; i++) {
@@ -48,9 +48,10 @@ class SceneManager {
         }
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
     };
+
     update() {
         if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin).length === 0) {
-            if(this.currWave %5 === 0) {
+            if (this.currWave % 5 === 0) {
                 this.loadUpgradeScreen();
             }
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
@@ -65,10 +66,9 @@ class SceneManager {
 
         this.enemiesAlive = this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin).length;
     };
-    draw(ctx) {
-        
-    };
-
+    
+    draw(ctx) {};
+    
     loadUpgradeScreen() {
         // Create UpgradeScreen instance
         this.upgradeScreen = new UpgradeScreen(this.game);
@@ -76,5 +76,4 @@ class SceneManager {
         // Display the upgrade screen at the start of the game
         this.upgradeScreen.showUpgradeScreen();
     }
-    
 };
