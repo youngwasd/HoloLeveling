@@ -71,7 +71,7 @@ class SceneManager {
     
     loadUpgradeScreen() {
         // Create UpgradeScreen instance
-        this.upgradeScreen = new UpgradeScreen(this.game);
+        this.upgradeScreen = new upgradeScreen(this.game);
 
         // Display the upgrade screen at the start of the game
         this.upgradeScreen.showUpgradeScreen();
