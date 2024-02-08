@@ -5,13 +5,13 @@ class Issac {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/issac.png");
 
         // Initial position
-        this.width = 57; // for issac
-        this.height = 67; // for issac
+        this.width = 100; // for issac
+        this.height = 100; // for issac
         this.scale = 1;
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
 
-        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 0.8, this.scale);
+        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.2, this.scale);
 
         this.dead = false;
         this.hitpoints = 100;
