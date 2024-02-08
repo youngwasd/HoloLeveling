@@ -1,5 +1,3 @@
-
-
 class Issac {
     constructor(game, x, y, player,speed) {
         Object.assign(this, {game, x, y, player, speed});
@@ -12,7 +10,6 @@ class Issac {
         this.scale = 1;
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
-
         
         this.speed = this.speed >= this.player.speed ? this.speed - 200 : this.speed;
 
@@ -109,7 +106,6 @@ class Goblin {
         this.scale = 0.5;
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
-
         
         this.speed = this.speed >= this.player.speed ? this.speed - 200 : this.speed;
 

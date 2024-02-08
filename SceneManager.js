@@ -18,7 +18,6 @@ class SceneManager {
     loadLevelOne() {
         this.end = new EndScreen(this.game);
         this.background = new Map(this.game, 0, 0, 2500, 2500);
-        
         this.theProtagonist = new TheProtagonist(this.game, this.background, this.end);
         
         this.game.addEntity(this.theProtagonist);
@@ -26,13 +25,12 @@ class SceneManager {
         this.game.addEntity(this.end);
         this.startWave();
         this.game.addEntity(new Tree(this.game, 900, 1000));
-        
     };
 
     startWave() {
         this.numEnemies = this.currWave * 2;
         this.spawnEnemies();
-    }
+    };
 
     spawnEnemies() {
         for (let i = 0; i < this.numEnemies; i++) {
@@ -48,6 +46,7 @@ class SceneManager {
         }
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
     };
+
     update() {
         if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin).length === 0) {
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
@@ -62,8 +61,8 @@ class SceneManager {
 
         this.enemiesAlive = this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin).length;
     };
+
     draw(ctx) {
-        
+
     };
-    
 };

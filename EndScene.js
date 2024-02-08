@@ -1,6 +1,5 @@
 class EndScreen {
     constructor(game) {
-        
         this.game = game;
         this.isDead = false;
 
@@ -49,7 +48,7 @@ class EndScreen {
             
             ctx.font = "40px Arial";
             ctx.fillStyle = "white";
-            ctx.fillText("Waves Survived: " + waveInstance, 500, 375); // Adjust position as needed
+            ctx.fillText("Waves Survived: " + waveInstance, 475, 375); // Adjust position as needed
         }
     }
 }
