@@ -5,9 +5,9 @@ class UpgradeScreen {
         this.upgrade2 = this.upgrade2.bind(this);
         this.upgrade3 = this.upgrade3.bind(this);
         this.upgrades = [
-            { name: 'Upgrade 1', x: 250, y: 500, width: 200, height: 50, action: this.upgrade1 },
-            { name: 'Upgrade 2', x: 550, y: 500, width: 200, height: 50, action: this.upgrade2 },
-            { name: 'Upgrade 3', x: 850, y: 500, width: 200, height: 50, action: this.upgrade3 },
+            { name: 'Increase Max HP', x: 225, y: 500, width: 250, height: 50, action: this.upgrade1 },
+            { name: 'Increase Dagger Damage', x: 525, y: 500, width: 250, height: 50, action: this.upgrade2 },
+            { name: 'Heal', x: 825, y: 500, width: 250, height: 50, action: this.upgrade3 },
             // Add more upgrades as needed
         ];
         this.visible = false;
@@ -40,7 +40,11 @@ class UpgradeScreen {
 
             ctx.font = '20px Arial';
             ctx.fillStyle = 'white';
-            ctx.fillText(button.name, button.x + 10, button.y + 30);
+
+            const textX = button.x + (button.width - ctx.measureText(button.name).width) / 2;
+            const textY = button.y + button.height / 2 + 7;
+
+            ctx.fillText(button.name,  textX, textY);
         });
         ctx.restore();
     }
@@ -82,19 +86,17 @@ class UpgradeScreen {
     upgrade1() {
         const player = this.game.entities.find(entity => entity instanceof TheProtagonist);
         if (player) {
-            player.maxhitpoints += 50;
+            player.maxhitpoints += 20;
             console.log(player.maxhitpoints);
         }
-        // Upgrade 1 logic
     }
 
     upgrade2() {
         const dagger = this.game.entities.find(entity => entity instanceof Dagger);
         if (dagger) {
-            dagger.damage += 2;
+            dagger.damage += 3;
             console.log(dagger.damage);
         }
-        // Upgrade 2 logic
     }
 
     upgrade3() {
@@ -103,6 +105,5 @@ class UpgradeScreen {
             player.hitpoints = player.maxhitpoints;
             console.log(player.hitpoints);
         }
-        // Upgrade 2 logic
     }
 }

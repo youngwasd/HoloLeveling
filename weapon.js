@@ -20,7 +20,6 @@ class Dagger {
 
         this.x = this.player.facing == 0 ? this.player.x + (this.playerWidth / 2) - (this.scaledWidth / 2) + this.xOffset : 
                     this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;
-
         this.y = this.player.y + (this.playerHeight / 2) - (this.scaledHeight / 2);
         
         this.animator[0] = new Animator(this.rightDag, 2, 0, this.width, this.height, 5, 0.15, this.scale);
