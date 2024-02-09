@@ -18,7 +18,6 @@ ASSET_MANAGER.downloadAll(() => {
 	const ctx = canvas.getContext("2d");
 
 	gameEngine.init(ctx);
-	const scene = new SceneManager(gameEngine);
-	gameEngine.sceneManager = scene;
+	new SceneManager(gameEngine);
 	gameEngine.start();
 });

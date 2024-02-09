@@ -8,7 +8,6 @@ class GameEngine {
 
         // Everything that will be updated and drawn each frame
         this.entities = [];
-        this.sceneManager = null;
 
         // Information on the input
         this.left = false;
@@ -46,8 +45,6 @@ class GameEngine {
     startInput() {
         this.keyboardActive = false;
         let that = this;
-
-
 
         function getXandY(e) {
             let x = e.clientX - that.ctx.canvas.getBoundingClientRect().left;
@@ -131,7 +128,6 @@ class GameEngine {
 
         this.ctx.save();
         
-    
         // Ensure there is at least one entity in the entities array
         if (this.entities.length > 0) {
             this.ctx.translate(-this.entities[0].cameraX, -this.entities[0].cameraY);
@@ -142,15 +138,13 @@ class GameEngine {
             }
         }
 
+        this.camera.draw(this.ctx);
+
         this.ctx.restore();
     };
     
     update() {
         params.DEBUG = document.getElementById("debug").checked;
-
-        if (this.sceneManager) {
-            this.sceneManager.update();
-        }
         
         let entitiesCount = this.entities.length;
         this.gamepadUpdate();
@@ -162,6 +156,8 @@ class GameEngine {
                 entity.update();
             }
         }
+
+        this.camera.update();
 
         for (let i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].dead) {
