@@ -49,12 +49,12 @@ class SceneManager {
             this.enemiesAlive++;
         }
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
-        this.game.addEntity(this.upgradeScreen);
+        
     };
 
     update() {
         if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin).length === 0) {
-            if (this.currWave % 5 === 0) {
+            if (this.currWave % 2 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
             }
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
@@ -72,11 +72,4 @@ class SceneManager {
     
     draw(ctx) {};
     
-    loadUpgradeScreen() {
-        // Create UpgradeScreen instance
-        
-        
-        // Display the upgrade screen at the start of the game
-        this.upgradeScreen.show();
-    }
 };
