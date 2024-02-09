@@ -17,6 +17,8 @@ class GameEngine {
 
         this.mouseX = 0;
         this.mouseY = 0;
+        
+        this.paused = false;
 
         // Whether the mouse is clicked
         this.click = null;
@@ -144,6 +146,9 @@ class GameEngine {
     };
     
     update() {
+        if(this.paused) {
+            return;
+        }
         params.DEBUG = document.getElementById("debug").checked;
         
         let entitiesCount = this.entities.length;
@@ -179,7 +184,23 @@ class GameEngine {
 
     loop() {
         this.clockTick = this.timer.tick();
-        this.update();
+        if (this.paused) {
+            // Handle input for pause menu or upgrade screen
+            this.handlePauseInput();
+        } else {
+            // Regular game update
+            this.update();
+        }
         this.draw();
     };
+
+    handlePauseInput() {
+
+        let upgradeScreen = this.entities.find(entity => entity instanceof UpgradeScreen);
+        if (this.click && upgradeScreen) {
+            upgradeScreen.handleClick(this.click);
+            this.click = null; // Reset click to avoid repeated handling
+        }
+    
+    }
 };
