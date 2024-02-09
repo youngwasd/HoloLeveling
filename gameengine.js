@@ -67,12 +67,42 @@ class GameEngine {
 
         // Use arrow functions to ensure 'this' refers to the instance of GameEngine
         this.ctx.canvas.addEventListener("mousemove", event => mouseListener(event));
-        this.ctx.canvas.addEventListener("click", event => mouseClickListener(event));
+        this.ctx.canvas.addEventListener("click", event => {
+            const { x, y } = getXandY(event);
+            this.click = { x, y };
+            this.processClick(); // Process the click immediately
+            this.click = null; // Reset click after processing
+        });
         this.ctx.canvas.addEventListener("keydown", event => this.keydownListener(event));
         this.ctx.canvas.addEventListener("keyup", event => this.keyUpListener(event));
     }
 
-    keydownListener = (e) => {
+    
+    // ... existing properties and methods ...
+
+    processClick() {
+        // Check for paused state and handle upgrade screen clicks
+        if (this.paused) {
+            let upgradeScreen = this.entities.find(entity => entity instanceof UpgradeScreen);
+            if (upgradeScreen) {
+                upgradeScreen.handleClick(this.click);
+            }
+        } else {
+            // Check for end screen and handle restart button clicks
+            let endScreen = this.entities.find(entity => entity instanceof EndScreen);
+            if (endScreen && endScreen.isDead) {
+                endScreen.handleClick(this.click);
+            }
+        }
+
+        this.click = null; // Reset click after processing
+    }
+
+    // ... rest of the GameEngine class ...
+
+
+
+keydownListener = (e) => {
         this.keyboardActive = true;
         switch (e.code) {
             case "ArrowLeft":

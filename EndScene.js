@@ -51,4 +51,14 @@ class EndScreen {
             ctx.fillText("Waves Survived: " + waveInstance, 475, 375); // Adjust position as needed
         }
     }
+
+    handleClick(click) {
+        if (this.isDead &&
+            click.x >= this.restartButton.x &&
+            click.x <= this.restartButton.x + this.restartButton.width &&
+            click.y >= this.restartButton.y &&
+            click.y <= this.restartButton.y + this.restartButton.height) {
+            this.game.restart();
+        }
+    }
 }
