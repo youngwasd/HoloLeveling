@@ -17,6 +17,7 @@ class SceneManager {
 
     loadLevelOne() {
         this.end = new EndScreen(this.game);
+        this.upgradeScreen = new UpgradeScreen(this.game);
         this.background = new Map(this.game, 0, 0, 2500, 2500);
         
         this.theProtagonist = new TheProtagonist(this.game, this.background, this.end);
@@ -24,6 +25,7 @@ class SceneManager {
         this.game.addEntity(this.theProtagonist);
         this.game.addEntity(new Dagger(this.game, this.theProtagonist));
         this.game.addEntity(this.end);
+        this.game.addEntity(this.upgradeScreen);
         this.startWave();
         this.game.addEntity(new Tree(this.game, 900, 1000));
         
@@ -47,12 +49,13 @@ class SceneManager {
             this.enemiesAlive++;
         }
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
+        this.game.addEntity(this.upgradeScreen);
     };
 
     update() {
         if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin).length === 0) {
             if (this.currWave % 5 === 0) {
-                this.loadUpgradeScreen();
+                this.upgradeScreen.show();
             }
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
                 this.game.entities.filter(map => map instanceof Map).forEach(map => {
@@ -71,9 +74,9 @@ class SceneManager {
     
     loadUpgradeScreen() {
         // Create UpgradeScreen instance
-        this.upgradeScreen = new upgradeScreen(this.game);
-
+        
+        
         // Display the upgrade screen at the start of the game
-        this.upgradeScreen.showUpgradeScreen();
+        this.upgradeScreen.show();
     }
 };
