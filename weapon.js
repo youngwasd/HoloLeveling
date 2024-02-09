@@ -28,7 +28,7 @@ class Dagger {
         this.animator[1].reverse();
 
         this.damage = 2;
-        
+
         this.updateBB();
     };
 

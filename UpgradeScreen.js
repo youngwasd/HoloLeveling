@@ -1,10 +1,11 @@
 class UpgradeScreen {
-    constructor(game) {
-        this.game = game;
+    constructor(game, dagger) {
+        Object.assign(this, {game, dagger});
+
         this.upgrades = [
-            { name: 'Upgrade 1', x: 300, y: 500, width: 200, height: 50, action: this.upgrade1 },
-            { name: 'Upgrade 2', x: 600, y: 500, width: 200, height: 50, action: this.upgrade2 },
-            { name: 'Upgrade 3', x: 900, y: 500, width: 200, height: 50, action: this.upgrade3 },
+            { name: 'Upgrade 1', x: 250, y: 500, width: 200, height: 50, action: this.upgrade1 },
+            { name: 'Upgrade 2', x: 550, y: 500, width: 200, height: 50, action: this.upgrade2 },
+            { name: 'Upgrade 3', x: 850, y: 500, width: 200, height: 50, action: this.upgrade3 },
             // Add more upgrades as needed
         ];
         this.visible = false;
@@ -78,16 +79,19 @@ class UpgradeScreen {
     // Define upgrade actions
     upgrade1() {
         this.visible = false;
+        this.dagger.damage += 1;
         // Upgrade 1 logic
     }
 
     upgrade2() {
         this.visible = false;
+        this.dagger.damage += 2;
         // Upgrade 2 logic
     }
 
     upgrade3() {
         this.visible = false;
+        this.dagger.damage += 3;
         // Upgrade 2 logic
     }
 }
