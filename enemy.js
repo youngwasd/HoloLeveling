@@ -69,7 +69,7 @@ class Issac {
                     }
                 } else if (entity instanceof Dagger) {
                     if (that.player.dagger) {
-                        that.hitpoints -= 5;
+                        that.hitpoints -= entity.damage;
                     }
                 }
             }
@@ -181,14 +181,14 @@ class Goblin {
                     }
                 } else if (entity instanceof Dagger) {
                     if (that.player.dagger) {
-                        that.hitpoints -= 5;
+                        that.hitpoints -= entity.damage;
                     }
                 }
             }
         });
 
         this.updateBB();
-        
+
         if (this.hitpoints <= 0) {
             this.dead = true;
         }
