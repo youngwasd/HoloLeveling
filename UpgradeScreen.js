@@ -1,6 +1,6 @@
 class UpgradeScreen {
     constructor(game) {
-        this.game = game;
+        Object.assign(this, {game});
         this.upgrade1 = this.upgrade1.bind(this);
         this.upgrade2 = this.upgrade2.bind(this);
         this.upgrade3 = this.upgrade3.bind(this);
@@ -80,23 +80,29 @@ class UpgradeScreen {
 
     // Define upgrade actions
     upgrade1() {
-        let player = this.game.entities.find(entity => entity instanceof TheProtagonist);
+        const player = this.game.entities.find(entity => entity instanceof TheProtagonist);
         if (player) {
-            player.maxhitpoints = 150;
+            player.maxhitpoints += 50;
             console.log(player.maxhitpoints);
         }
         // Upgrade 1 logic
     }
 
     upgrade2() {
-        this.visible = false;
-        this.dagger.damage += 2;
+        const dagger = this.game.entities.find(entity => entity instanceof Dagger);
+        if (dagger) {
+            dagger.damage += 2;
+            console.log(dagger.damage);
+        }
         // Upgrade 2 logic
     }
 
     upgrade3() {
-        this.visible = false;
-        this.dagger.damage += 3;
+        const player = this.game.entities.find(entity => entity instanceof TheProtagonist);
+        if (player) {
+            player.hitpoints = player.maxhitpoints;
+            console.log(player.hitpoints);
+        }
         // Upgrade 2 logic
     }
 }
