@@ -48,7 +48,7 @@ class SceneManager {
             this.enemiesAlive++;
         }
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
-        this.game.addEntity(this.upgradeScreen);
+        
     };
 
     update() {
@@ -71,11 +71,4 @@ class SceneManager {
     
     draw(ctx) {};
     
-    loadUpgradeScreen() {
-        // Create UpgradeScreen instance
-        
-        
-        // Display the upgrade screen at the start of the game
-        this.upgradeScreen.show();
-    }
 };
