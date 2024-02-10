@@ -11,6 +11,8 @@ ASSET_MANAGER.queueDownload("./sprites/trees.png");
 ASSET_MANAGER.queueDownload("./sprites/goblin_right.png");
 ASSET_MANAGER.queueDownload("./sprites/goblin_left.png");
 ASSET_MANAGER.queueDownload("./sprites/dagger_right.png");
+ASSET_MANAGER.queueDownload("./sprites/rightSlash.png");
+ASSET_MANAGER.queueDownload("./sprites/leftSlash.png");
 ASSET_MANAGER.queueDownload("./sprites/dagger_left.png");
 
 ASSET_MANAGER.downloadAll(() => {
