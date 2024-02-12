@@ -40,10 +40,14 @@ class SceneManager {
             const x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
             const y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
             this.speed = this.theProtagonist.speed * 0.6 + this.numEnemies * 10;
-            if (Math.random() < 0.5) {
+            const charcelect = Math.random();
+            if (charcelect < 0.3) {
                 this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, this.speed));
-            } else {
+            } else  if (charcelect < 0.6 && charcelect > 0.3){
                 this.game.addEntity(new Goblin(this.game, x, y, this.theProtagonist, this.speed));
+            } else if (charcelect > 0.6) {
+                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed));
+                
             }
             this.enemiesAlive++;
         }
@@ -52,7 +56,7 @@ class SceneManager {
 
     update() {
         if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin).length === 0) {
-            if (this.currWave % 2 === 0 && this.currWave !== 0) {
+            if (this.currWave % 5 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
             }
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
