@@ -8,7 +8,6 @@ class GameEngine {
 
         // Everything that will be updated and drawn each frame
         this.entities = [];
-        this.sceneManager = null;
 
         // Information on the input
         this.left = false;
@@ -18,6 +17,8 @@ class GameEngine {
 
         this.mouseX = 0;
         this.mouseY = 0;
+        
+        this.paused = false;
 
         // Whether the mouse is clicked
         this.click = null;
@@ -47,8 +48,6 @@ class GameEngine {
         this.keyboardActive = false;
         let that = this;
 
-
-
         function getXandY(e) {
             let x = e.clientX - that.ctx.canvas.getBoundingClientRect().left;
             let y = e.clientY - that.ctx.canvas.getBoundingClientRect().top;
@@ -68,12 +67,42 @@ class GameEngine {
 
         // Use arrow functions to ensure 'this' refers to the instance of GameEngine
         this.ctx.canvas.addEventListener("mousemove", event => mouseListener(event));
-        this.ctx.canvas.addEventListener("click", event => mouseClickListener(event));
+        this.ctx.canvas.addEventListener("click", event => {
+            const { x, y } = getXandY(event);
+            this.click = { x, y };
+            this.processClick(); // Process the click immediately
+            this.click = null; // Reset click after processing
+        });
         this.ctx.canvas.addEventListener("keydown", event => this.keydownListener(event));
         this.ctx.canvas.addEventListener("keyup", event => this.keyUpListener(event));
     }
 
-    keydownListener = (e) => {
+    
+    // ... existing properties and methods ...
+
+    processClick() {
+        // Check for paused state and handle upgrade screen clicks
+        if (this.paused) {
+            let upgradeScreen = this.entities.find(entity => entity instanceof UpgradeScreen);
+            if (upgradeScreen) {
+                upgradeScreen.handleClick(this.click);
+            }
+        } else {
+            // Check for end screen and handle restart button clicks
+            let endScreen = this.entities.find(entity => entity instanceof EndScreen);
+            if (endScreen && endScreen.isDead) {
+                endScreen.handleClick(this.click);
+            }
+        }
+
+        this.click = null; // Reset click after processing
+    }
+
+    // ... rest of the GameEngine class ...
+
+
+
+keydownListener = (e) => {
         this.keyboardActive = true;
         switch (e.code) {
             case "ArrowLeft":
@@ -131,7 +160,6 @@ class GameEngine {
 
         this.ctx.save();
         
-    
         // Ensure there is at least one entity in the entities array
         if (this.entities.length > 0) {
             this.ctx.translate(-this.entities[0].cameraX, -this.entities[0].cameraY);
@@ -142,15 +170,16 @@ class GameEngine {
             }
         }
 
+        this.camera.draw(this.ctx);
+
         this.ctx.restore();
     };
     
     update() {
-        params.DEBUG = document.getElementById("debug").checked;
-
-        if (this.sceneManager) {
-            this.sceneManager.update();
+        if(this.paused) {
+            return;
         }
+        params.DEBUG = document.getElementById("debug").checked;
         
         let entitiesCount = this.entities.length;
         this.gamepadUpdate();
@@ -162,6 +191,8 @@ class GameEngine {
                 entity.update();
             }
         }
+
+        this.camera.update();
 
         for (let i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].dead) {
@@ -183,7 +214,23 @@ class GameEngine {
 
     loop() {
         this.clockTick = this.timer.tick();
-        this.update();
+        if (this.paused) {
+            // Handle input for pause menu or upgrade screen
+            this.handlePauseInput();
+        } else {
+            // Regular game update
+            this.update();
+        }
         this.draw();
     };
+
+    handlePauseInput() {
+
+        let upgradeScreen = this.entities.find(entity => entity instanceof UpgradeScreen);
+        if (this.click && upgradeScreen) {
+            upgradeScreen.handleClick(this.click);
+            this.click = null; // Reset click to avoid repeated handling
+        }
+    
+    }
 };

@@ -44,11 +44,21 @@ class EndScreen {
             ctx.font = "30px Arial";
             ctx.fillStyle = "white";
             ctx.fillText("Restart", this.restartButton.x + 50, this.restartButton.y + 35);
-            let waveInstance = this.game.sceneManager.currWave
+            let waveInstance = this.game.camera.currWave
             
             ctx.font = "40px Arial";
             ctx.fillStyle = "white";
             ctx.fillText("Waves Survived: " + waveInstance, 475, 375); // Adjust position as needed
+        }
+    }
+
+    handleClick(click) {
+        if (this.isDead &&
+            click.x >= this.restartButton.x &&
+            click.x <= this.restartButton.x + this.restartButton.width &&
+            click.y >= this.restartButton.y &&
+            click.y <= this.restartButton.y + this.restartButton.height) {
+            this.game.restart();
         }
     }
 }

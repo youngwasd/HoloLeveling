@@ -5,8 +5,8 @@ class Issac {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/issac.png");
 
         // Initial position
-        this.width = 100; // for issac
-        this.height = 100; // for issac
+        this.width = 58; // for issac
+        this.height = 68; // for issac
         this.scale = 1;
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
@@ -69,7 +69,7 @@ class Issac {
                     }
                 } else if (entity instanceof Dagger) {
                     if (that.player.dagger) {
-                        that.hitpoints -= 5;
+                        that.hitpoints -= entity.damage;
                     }
                 }
             }
@@ -181,14 +181,14 @@ class Goblin {
                     }
                 } else if (entity instanceof Dagger) {
                     if (that.player.dagger) {
-                        that.hitpoints -= 5;
+                        that.hitpoints -= entity.damage;
                     }
                 }
             }
         });
 
         this.updateBB();
-        
+
         if (this.hitpoints <= 0) {
             this.dead = true;
         }

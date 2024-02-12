@@ -2,6 +2,7 @@ class SceneManager {
     constructor(game) {
         this.game = game;
         this.game.entities = [];
+        this.game.camera = this;
 
         // Wave properties
         this.currWave = 0;
@@ -18,15 +19,15 @@ class SceneManager {
     loadLevelOne() {
         this.end = new EndScreen(this.game);
         this.background = new Map(this.game, 0, 0, 2500, 2500);
-        
         this.theProtagonist = new TheProtagonist(this.game, this.background, this.end);
-        
+        this.upgradeScreen = new UpgradeScreen(this.game);
+
         this.game.addEntity(this.theProtagonist);
         this.game.addEntity(new Dagger(this.game, this.theProtagonist));
         this.game.addEntity(this.end);
+        this.game.addEntity(this.upgradeScreen);
         this.startWave();
         this.game.addEntity(new Tree(this.game, 900, 1000));
-        
     };
 
     startWave() {
@@ -51,29 +52,20 @@ class SceneManager {
 
     update() {
         if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin).length === 0) {
-            if (this.currWave % 5 === 0) {
-                this.loadUpgradeScreen();
+            if (this.currWave % 2 === 0 && this.currWave !== 0) {
+                this.upgradeScreen.show();
             }
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
                 this.game.entities.filter(map => map instanceof Map).forEach(map => {
                     map.dead = true;
-
                 });
             }
             this.currWave++;
             this.startWave();
         }
-
         this.enemiesAlive = this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin).length;
     };
     
     draw(ctx) {};
     
-    loadUpgradeScreen() {
-        // Create UpgradeScreen instance
-        this.upgradeScreen = new upgradeScreen(this.game);
-
-        // Display the upgrade screen at the start of the game
-        this.upgradeScreen.showUpgradeScreen();
-    }
 };

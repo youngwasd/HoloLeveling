@@ -20,12 +20,13 @@ class Dagger {
 
         this.x = this.player.facing == 0 ? this.player.x + (this.playerWidth / 2) - (this.scaledWidth / 2) + this.xOffset :
                     this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;
-
         this.y = this.player.y + (this.playerHeight / 2) - (this.scaledHeight / 2);
 
         this.animator[0] = new Animator(this.rightSlash, 2, 0, this.width, this.height, 1, .6, this.scale);
         this.animator[1] = new Animator(this.leftSlash, 2, 0, 65, this.height, 1, .6, this.scale);
         this.animator[1].reverse();
+
+        this.damage = 3;
 
         this.updateBB();
 
