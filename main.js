@@ -14,6 +14,8 @@ ASSET_MANAGER.queueDownload("./sprites/dagger_right.png");
 ASSET_MANAGER.queueDownload("./sprites/rightSlash.png");
 ASSET_MANAGER.queueDownload("./sprites/leftSlash.png");
 ASSET_MANAGER.queueDownload("./sprites/dagger_left.png");
+ASSET_MANAGER.queueDownload("./sprites/Bat_Right.png");
+ASSET_MANAGER.queueDownload("./sprites/Bat_Left.png");
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
