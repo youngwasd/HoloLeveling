@@ -57,11 +57,11 @@ class SceneManager {
                 this.enemiesAlive++;
             } else if (rand === 3) {
                 for (let j = 0; j < this.currWave; j++) {
-                x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
-                y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
-                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed, this.health - 50));
-                this.enemiesAlive ++;
-                 }
+                    x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
+                    y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
+                    this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed, this.health - 50));
+                    this.enemiesAlive ++;
+                }
             } else if (rand === 4) {
                 this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, this.speed, this.health));
                 this.enemiesAlive++;

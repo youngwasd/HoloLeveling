@@ -465,8 +465,8 @@ class Golem {
     constructor(game, x, y, player, speed, hitpoints) {
         Object.assign(this, {game, x, y, player, speed});
 
-        this.BatRight = ASSET_MANAGER.getAsset("./sprites/Golemv2.png");
-        this.BatLeft = ASSET_MANAGER.getAsset("./sprites/Golemv2_Left.png");
+        this.goRight = ASSET_MANAGER.getAsset("./sprites/Golemv2.png");
+        this.goLeft = ASSET_MANAGER.getAsset("./sprites/Golemv2_Left.png");
 
         this.width = 45;
         this.height = 40;
@@ -478,8 +478,8 @@ class Golem {
 
         this.animator = [];
 
-        this.animator[0] = new Animator(this.BatRight, 0, 0, this.width, this.height, 10, 0.2, this.scale);
-        this.animator[1] = new Animator(this.BatLeft, 0, 0, this.width, this.height, 10, 0.2, this.scale);
+        this.animator[0] = new Animator(this.goRight, 0, 0, this.width, this.height, 10, 0.2, this.scale);
+        this.animator[1] = new Animator(this.goLeft, 0, 0, this.width, this.height, 10, 0.2, this.scale);
         this.animator[1].reverse();
 
         if (this.player.x > this.x) {
