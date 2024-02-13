@@ -40,15 +40,17 @@ class SceneManager {
             const x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
             const y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
             this.speed = this.theProtagonist.speed * 0.6 + this.numEnemies * 10;
-            const rand = Math.floor(Math.random() * 4) + 1;
+            const rand = Math.floor(Math.random() * 5) + 1;
             if (rand === 1) {
                 this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, this.speed));
             } else  if (rand === 2){
                 this.game.addEntity(new Goblin(this.game, x, y, this.theProtagonist, this.speed));
             } else if (rand === 3) {
                 this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed));
-            } else {
+            } else if(rand ===4) {
                 this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, this.speed));
+            } else {
+                this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, this.speed));
             }
             this.enemiesAlive++;
         }
@@ -56,7 +58,7 @@ class SceneManager {
     };
 
     update() {
-        if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin || entity instanceof Bats || entity instanceof Zombie).length === 0) {
+        if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin || entity instanceof Bats || entity instanceof Golem || entity instanceof Zombie).length === 0) {
             if (this.currWave % 5 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
             }
@@ -68,7 +70,7 @@ class SceneManager {
             this.currWave++;
             this.startWave();
         }
-        this.enemiesAlive = this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin || entity instanceof Bats || entity instanceof Zombie).length;
+        this.enemiesAlive = this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin || entity instanceof Bats || entity instanceof Golem|| entity instanceof Zombie).length;
     };
     
     draw(ctx) {};

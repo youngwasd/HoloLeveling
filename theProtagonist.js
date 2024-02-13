@@ -127,7 +127,26 @@ class TheProtagonist {
                             that.hitCooldown -= that.game.clockTick;
                         }
                     }
+                } else if (entity instanceof Bats) {
+                    if (that.BB.collide(entity.BB)) {
+                        if (that.hitCooldown <= 0) { // logic for player getting hit might need to be changed
+                            that.hitpoints -= 10;
+                            that.hitCooldown = that.hitCooldownInterval;
+                        } else {
+                            that.hitCooldown -= that.game.clockTick;
+                        }
+                    }
+                } else if (entity instanceof Golem) {
+                    if (that.BB.collide(entity.BB)) {
+                        if (that.hitCooldown <= 0) { // logic for player getting hit might need to be changed
+                            that.hitpoints -= 10;
+                            that.hitCooldown = that.hitCooldownInterval;
+                        } else {
+                            that.hitCooldown -= that.game.clockTick;
+                        }
+                    }
                 }
+                
             }
         });
 
