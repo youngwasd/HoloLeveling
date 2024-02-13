@@ -37,29 +37,42 @@ class SceneManager {
 
     spawnEnemies() {
         for (let i = 0; i < this.numEnemies; i++) {
-            const x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
-            const y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
+            let x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
+            let y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
             this.speed = this.theProtagonist.speed * 0.6 + this.numEnemies * 10;
+            this.health = 100 + this.currWave * 10
             const rand = Math.floor(Math.random() * 5) + 1;
+            
             if (rand === 1) {
-                this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, this.speed));
+                this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, this.speed, this.health));
+                this.enemiesAlive++;
             } else  if (rand === 2){
-                this.game.addEntity(new Goblin(this.game, x, y, this.theProtagonist, this.speed));
+                this.game.addEntity(new Goblin(this.game, x+10, y+10, this.theProtagonist, this.speed, this.health));
+                this.enemiesAlive++;
             } else if (rand === 3) {
-                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed));
+                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed, this.health -50));
+                 x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
+                 y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
+                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed, this.health -50));
+                 x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
+                 y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
+                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed,this.health -50));
+                this.enemiesAlive+=3;
             } else if(rand ===4) {
-                this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, this.speed));
+                this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, this.speed ,this.health));
+                this.enemiesAlive++;
             } else {
-                this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, this.speed));
+                this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, this.speed, this.health));
+                this.enemiesAlive++;
             }
-            this.enemiesAlive++;
+            
         }
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
     };
 
     update() {
         if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin || entity instanceof Bats || entity instanceof Golem || entity instanceof Zombie).length === 0) {
-            if (this.currWave % 5 === 0 && this.currWave !== 0) {
+            if (this.currWave % 2 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
             }
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {

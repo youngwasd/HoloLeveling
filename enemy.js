@@ -1,5 +1,5 @@
 class Issac {
-    constructor(game, x, y, player,speed) {
+    constructor(game, x, y, player,speed , hitpoints) {
         Object.assign(this, {game, x, y, player, speed});
         
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/issac.png");
@@ -16,8 +16,8 @@ class Issac {
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 0.8, this.scale);
 
         this.dead = false;
-        this.hitpoints = 100;
-        this.maxhitpoints = 100;
+        this.hitpoints = hitpoints;
+        this.maxhitpoints = hitpoints;
 
         this.updateBB();
         this.healthbar = new HealthBar(this, false);
@@ -53,7 +53,7 @@ class Issac {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats) {
+                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem || entity instanceof Zombie) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -97,7 +97,7 @@ class Issac {
 };
 
 class Goblin {
-    constructor(game, x, y, player, speed) {
+    constructor(game, x, y, player,speed , hitpoints) {
         Object.assign(this, {game, x, y, player, speed});
 
         this.GoblinRight = ASSET_MANAGER.getAsset("./sprites/goblin_right.png");
@@ -124,8 +124,8 @@ class Goblin {
         }
         
         this.dead = false;
-        this.hitpoints = 100;
-        this.maxhitpoints = 100;
+        this.hitpoints = hitpoints;
+        this.maxhitpoints = hitpoints;
 
         this.healthbar = new HealthBar(this, false);
         this.updateBB();
@@ -168,7 +168,7 @@ class Goblin {
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats
-                    || entity instanceof Zombie) {
+                    || entity instanceof Zombie || entity instanceof Golem) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -218,7 +218,7 @@ class Goblin {
 }
 
 class Bats {
-    constructor(game, x, y, player, speed) {
+    constructor(game, x, y, player,speed , hitpoints) {
         Object.assign(this, {game, x, y, player, speed});
 
         this.BatRight = ASSET_MANAGER.getAsset("./sprites/Bat_Right.png");
@@ -245,8 +245,8 @@ class Bats {
         }
 
         this.dead = false;
-        this.hitpoints = 100;
-        this.maxhitpoints = 100;
+        this.hitpoints = hitpoints;
+        this.maxhitpoints = hitpoints;
 
         this.healthbar = new HealthBar(this, false);
         this.updateBB();
@@ -288,7 +288,7 @@ class Bats {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats
+                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem
                     || entity instanceof Zombie) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
@@ -339,7 +339,7 @@ class Bats {
 }
 
 class Zombie {
-    constructor(game, x, y, player, speed) {
+    constructor(game, x, y, player,speed , hitpoints) {
         Object.assign(this, {game, x, y, player, speed});
 
         this.zomLeft = ASSET_MANAGER.getAsset("./sprites/zombie_left.png");
@@ -365,8 +365,8 @@ class Zombie {
         }
 
         this.dead = false;
-        this.hitpoints = 100;
-        this.maxhitpoints = 100;
+        this.hitpoints = hitpoints;
+        this.maxhitpoints = hitpoints;
 
         this.healthbar = new HealthBar(this, false);
     };
@@ -409,7 +409,7 @@ class Zombie {
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats
-                    || entity instanceof Zombie) {
+                    || entity instanceof Zombie || entity instanceof Golem) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -459,7 +459,7 @@ class Zombie {
 }
 
 class Golem{
-    constructor(game, x, y, player, speed) {
+    constructor(game, x, y, player,speed , hitpoints) {
         Object.assign(this, {game, x, y, player, speed});
 
         this.BatRight = ASSET_MANAGER.getAsset("./sprites/Golem_Right.png");
@@ -486,8 +486,8 @@ class Golem{
         }
 
         this.dead = false;
-        this.hitpoints = 100;
-        this.maxhitpoints = 100;
+        this.hitpoints = hitpoints;
+        this.maxhitpoints = hitpoints;
 
         this.healthbar = new HealthBar(this, false);
         this.updateBB();
@@ -529,7 +529,7 @@ class Golem{
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem) {
+                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem|| entity instanceof Zombie) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
