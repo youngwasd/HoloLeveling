@@ -41,21 +41,25 @@ class SceneManager {
             const y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
             this.speed = this.theProtagonist.speed * 0.6 + this.numEnemies * 10;
             const charcelect = Math.random();
-            if (charcelect < 0.3) {
-                this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, this.speed));
-            } else  if (charcelect < 0.6 && charcelect > 0.3){
-                this.game.addEntity(new Goblin(this.game, x, y, this.theProtagonist, this.speed));
-            } else if (charcelect > 0.6) {
-                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed));
-                
-            }
+            this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, this.speed));
+            this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, this.speed));
+            this.game.addEntity(new Goblin(this.game, x, y, this.theProtagonist, this.speed));
+            this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed));
+            // if (charcelect < 0.3) {
+            //     this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, this.speed));
+            // } else  if (charcelect < 0.6 && charcelect > 0.3){
+            //     this.game.addEntity(new Goblin(this.game, x, y, this.theProtagonist, this.speed));
+            // } else if (charcelect > 0.6) {
+            //     this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed));
+            //    
+            //}
             this.enemiesAlive++;
         }
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
     };
 
     update() {
-        if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin).length === 0) {
+        if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin || entity instanceof Bats || entity instanceof Golem).length === 0) {
             if (this.currWave % 5 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
             }
@@ -67,9 +71,10 @@ class SceneManager {
             this.currWave++;
             this.startWave();
         }
-        this.enemiesAlive = this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin).length;
+        this.enemiesAlive = this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin || entity instanceof Bats || entity instanceof Golem).length;
     };
     
     draw(ctx) {};
     
 };
+

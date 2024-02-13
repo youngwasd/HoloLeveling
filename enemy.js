@@ -53,7 +53,7 @@ class Issac {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats) {
+                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -165,7 +165,7 @@ class Goblin {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats) {
+                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -283,7 +283,125 @@ class Bats {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats) {
+                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem) {
+                    if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
+                        that.x = entity.BB.left - that.BB.width;
+                        if (deltaX > 0) deltaX = 0;
+                    } else if (that.lastBB.left >= entity.BB.right) { // hit the right of tree
+                        that.x = entity.BB.right;
+                        if (deltaX < 0) deltaX = 0;
+                    } else if (that.lastBB.bottom <= entity.BB.top) { // hit the top of tree
+                        that.y = entity.BB.top - that.BB.height;
+                        if (deltaY > 0) deltaY = 0;
+                    } else if (that.lastBB.top >= entity.BB.bottom) { // hit the bottom of tree
+                        that.y = entity.BB.bottom;
+                        if (deltaY < 0) deltaY = 0;
+                    }
+                } else if (entity instanceof Dagger) {
+                    if (that.player.dagger) {
+                        that.hitpoints -= entity.damage;
+                    }
+                }
+            }
+        });
+
+        this.updateBB();
+
+        if (this.hitpoints <= 0) {
+            this.dead = true;
+        }
+    }
+
+    draw(ctx) {
+        if (this.direction === 0) {
+            this.animator[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        } else if (this.direction === 1) {
+            this.animator[1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        }
+
+        this.updateBB();
+
+        if (params.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
+
+        this.healthbar.draw(ctx);
+    }
+}
+
+class Golem{
+    constructor(game, x, y, player, speed) {
+        Object.assign(this, {game, x, y, player, speed});
+
+        this.BatRight = ASSET_MANAGER.getAsset("./sprites/Golem_Right.png");
+        this.BatLeft = ASSET_MANAGER.getAsset("./sprites/Golem_Left.png");
+
+        this.width = 90;
+        this.height = 64;
+        this.scale = 2.5;
+        this.scaledWidth = this.width * this.scale;
+        this.scaledHeight = this.height * this.scale;
+
+        this.speed = this.speed >= this.player.speed ? this.speed - 200 : this.speed;
+
+        this.animator = [];
+
+        this.animator[0] = new Animator(this.BatRight, 0, 0, this.width, this.height, 9, 0.2, this.scale);
+        this.animator[1] = new Animator(this.BatLeft, 0, 0, this.width, this.height, 9, 0.2, this.scale);
+        this.animator[1].reverse();
+
+        if (this.player.x > this.x) {
+            this.direction = 0;
+        } else {
+            this.direction = 1;
+        }
+
+        this.dead = false;
+        this.hitpoints = 100;
+        this.maxhitpoints = 100;
+
+        this.healthbar = new HealthBar(this, false);
+        this.updateBB();
+    }
+
+    updateBB() {
+        this.lastBB = this.BB;
+        this.BB = new BoundingBox(this.x + 60, this.y +60 , this.scaledWidth- 125, this.scaledHeight - 60);
+    }
+
+    update() {
+        const protagonist = this.game.entities.find(entity => entity instanceof TheProtagonist);
+        const elapsed = this.game.clockTick;
+
+        let deltaX = 0;
+        let deltaY = 0;
+
+        if (protagonist) {
+            deltaX = protagonist.x - this.x;
+            deltaY = protagonist.y - this.y;
+
+            const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            const normalizedDeltaX = (deltaX / length) * this.speed * elapsed;
+            const normalizedDeltaY = (deltaY / length) * this.speed * elapsed;
+
+            this.x += normalizedDeltaX;
+            this.y += normalizedDeltaY;
+
+            if (protagonist.x >= this.x) {
+                this.direction = 0;
+            } else {
+                this.direction = 1;
+            }
+        }
+
+        this.updateBB();
+
+        // collision
+        let that = this;
+        this.game.entities.forEach(function (entity) {
+            if (entity.BB && that.BB.collide(entity.BB)) {
+                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
