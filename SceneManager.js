@@ -49,8 +49,8 @@ class SceneManager {
             if (rand === 1) {
                 this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, this.speed, this.health));
                 this.enemiesAlive++;
-            } else  if (rand === 2){
-                this.game.addEntity(new Goblin(this.game, x+10, y+10, this.theProtagonist, this.speed, this.health));
+            } else if (rand === 2) {
+                this.game.addEntity(new Goblin(this.game, x, y, this.theProtagonist, this.speed, this.health));
                 this.enemiesAlive++;
             } else if (rand === 3) {
                 this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed, this.health -50));
@@ -59,7 +59,7 @@ class SceneManager {
                 this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed, this.health -50));
                  x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
                  y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
-                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed,this.health -50));
+                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed,this.health - 50));
                 this.enemiesAlive += 3;
             } else if (rand === 4) {
                 this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, this.speed ,this.health));

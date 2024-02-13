@@ -43,6 +43,7 @@ class TheProtagonist {
 
     updateBB() {
         this.lastBB = this.BB;
+        //this.BB = new BoundingBox(this.x + 8, this.y + 8, this.scaledWidth - 15, this.scaledHeight - 10);
         this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     };
 
@@ -127,7 +128,7 @@ class TheProtagonist {
                             that.hitCooldown -= that.game.clockTick;
                         }
                     }
-                }                
+                }
             }
         });
 
@@ -138,8 +139,8 @@ class TheProtagonist {
             this.end.isDead = true;
             this.dead = true;
         }
-    };
-
+    };    
+    
     draw(ctx) {
         if (this.facing == 0) {
             this.animator[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);

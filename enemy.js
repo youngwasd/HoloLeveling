@@ -25,6 +25,7 @@ class Issac {
 
     updateBB() {
         this.lastBB = this.BB;
+        //this.BB = new BoundingBox(this.x + 10, this.y + 7, this.scaledWidth - 20, this.scaledHeight - 15);
         this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     }
 
@@ -133,6 +134,7 @@ class Goblin {
     
     updateBB() {
         this.lastBB = this.BB;
+        //this.BB = new BoundingBox(this.x + 15, this.y + 8, this.scaledWidth - 35, this.scaledHeight - 20);
         this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     }
 
@@ -254,6 +256,7 @@ class Bats {
 
     updateBB() {
         this.lastBB = this.BB;
+        //this.BB = new BoundingBox(this.x + 8, this.y + 5, this.scaledWidth - 15, this.scaledHeight - 13);
         this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     }
 
@@ -339,7 +342,7 @@ class Bats {
 }
 
 class Zombie {
-    constructor(game, x, y, player,speed , hitpoints) {
+    constructor(game, x, y, player, speed, hitpoints) {
         Object.assign(this, {game, x, y, player, speed});
 
         this.zomLeft = ASSET_MANAGER.getAsset("./sprites/zombie_left.png");
@@ -495,7 +498,8 @@ class Golem {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x + 60, this.y +60 , this.scaledWidth- 125, this.scaledHeight - 60);
+        //this.BB = new BoundingBox(this.x + 80, this.y + 70, this.scaledWidth - 155, this.scaledHeight - 70);
+        this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     }
 
     update() {
