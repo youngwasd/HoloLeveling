@@ -34,12 +34,17 @@ class Tree {
         this.startX = 116;
         this.startY = 5;
 
+        this.updateBB();
+    };
+
+    updateBB() {
+        this.lastBB = this.BB;
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
-    }
+    };
 
     update() {
-
-    }
+        this.updateBB();
+    };
 
     draw(ctx) {
         ctx.drawImage(this.spritesheet, this.startX, this.startY, 40, 60, this.x, this.y, this.width, this.height);
@@ -48,5 +53,5 @@ class Tree {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         }
-    }
-}
+    };
+};
