@@ -2,8 +2,8 @@ class Dagger {
     constructor(game, player) {
         Object.assign(this, {game, player});
 
-        this.rightSlash = ASSET_MANAGER.getAsset("./sprites/rightSlash.png");
-        this.leftSlash = ASSET_MANAGER.getAsset("./sprites/leftSlash.png");
+        this.rightSlash = ASSET_MANAGER.getAsset("./sprites/newsprite3.png");
+        this.leftSlash = ASSET_MANAGER.getAsset("./sprites/newsprite4.png");
 
         this.animator = [];
         this.scale = 3;
@@ -22,8 +22,8 @@ class Dagger {
                     this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;
         this.y = this.player.y + (this.playerHeight / 2) - (this.scaledHeight / 2);
 
-        this.animator[0] = new Animator(this.rightSlash, 2, 0, this.width, this.height, 1, .6, this.scale);
-        this.animator[1] = new Animator(this.leftSlash, 2, 0, 65, this.height, 1, .6, this.scale);
+        this.animator[0] = new Animator(this.rightSlash, 2, 0, this.width, this.height, 3, .31, this.scale);
+        this.animator[1] = new Animator(this.leftSlash, 2, 0, this.width, this.height, 3, .31, this.scale);
         this.animator[1].reverse();
 
         this.damage = 3;
@@ -53,8 +53,7 @@ class Dagger {
         // Update timer
         this.timer += this.game.clockTick;
 
-        // Check if 3 seconds have passed
-        if (this.timer >= 1) {
+        if (this.timer >= 0.92) {
             this.timer = 0;  // Reset timer
             this.isVisible = !this.isVisible;  // Toggle visibility
         }
