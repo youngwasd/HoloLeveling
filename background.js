@@ -1,9 +1,11 @@
 class Map {
     constructor(gameEngine, x, y, width, height) {
-        Object.assign(this, {gameEngine, x, y, width, height});
-        this.background = ASSET_MANAGER.getAsset("./sprites/forest2.jpg");
+        Object.assign(this, {gameEngine, x, y});
+        this.background = ASSET_MANAGER.getAsset("./sprites/grass.jpg");
 
         this.dead = false;
+        this.width = 320;
+        this.height = 320;
     }
 
     update() {
@@ -11,15 +13,28 @@ class Map {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.background, this.x, this.y, this.width, this.height);
+        const numRows = Math.ceil(2500 / this.height); 
+        const numCols = Math.ceil(2500 / this.width); 
+
+        for (let row = 0; row < numRows; row++) {
+            for (let col = 0; col < numCols; col++) {
+                
+                let x = this.x + col * this.width;
+                let y = this.y + row * this.height;
+
+                
+                ctx.drawImage(this.background, x, y, this.width, this.height);
+            }
+        }
     }
 
+
     getWidth() {
-        return this.width;
+        return 2500;
     }
 
     getHeight() {
-        return this.height;
+        return 2500;
     }
 }
 

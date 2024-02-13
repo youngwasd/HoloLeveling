@@ -50,7 +50,7 @@ class SceneManager {
                 this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, this.speed, this.health));
                 this.enemiesAlive++;
             } else  if (rand === 2){
-                this.game.addEntity(new Goblin(this.game, x+10, y+10, this.theProtagonist, this.speed, this.health));
+                this.game.addEntity(new Goblin(this.game, x, y, this.theProtagonist, this.speed, this.health));
                 this.enemiesAlive++;
             } else if (rand === 3) {
                 this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed, this.health -50));
