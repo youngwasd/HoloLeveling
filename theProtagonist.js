@@ -71,7 +71,7 @@ class TheProtagonist {
         if (this.game.down && this.y < this.mapHeight - this.scaledHeight) {
             deltaY += this.speed * elapsed;
         }
-        
+
         const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
         if (length !== 0) {
             const normalizedDeltaX = (deltaX / length) * this.speed * elapsed;
@@ -90,7 +90,7 @@ class TheProtagonist {
         }
 
         this.updateBB();
-        
+
         // collision
         let that = this;
         this.game.entities.forEach(function (entity) {
@@ -109,7 +109,7 @@ class TheProtagonist {
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
                     }
-                } else if (entity instanceof Issac) {
+                } else if (entity instanceof Issac || entity instanceof Bats) {
                     if (that.BB.collide(entity.BB)) {
                         if (that.hitCooldown <= 0) { // logic for player getting hit might need to be changed
                             that.hitpoints -= 5;
@@ -118,7 +118,7 @@ class TheProtagonist {
                             that.hitCooldown -= that.game.clockTick;
                         }
                     }
-                } else if (entity instanceof Goblin) {
+                } else if (entity instanceof Goblin || entity instanceof Zombie) {
                     if (that.BB.collide(entity.BB)) {
                         if (that.hitCooldown <= 0) { // logic for player getting hit might need to be changed
                             that.hitpoints -= 10;
@@ -165,7 +165,7 @@ class TheProtagonist {
         } else if (this.facing == 1) {
             this.animator[1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
         }
-        
+
         this.updateBB();
 
         if (params.DEBUG) {
@@ -176,7 +176,7 @@ class TheProtagonist {
         // Calculate the center position of the character
         const centerX = this.x + this.scaledWidth / 2;
         const centerY = this.y + this.scaledWidth / 2;
-    
+
         ctx.setTransform(1, 0, 0, 1, -centerX + ctx.canvas.width / 2, -centerY + ctx.canvas.height / 2);
         this.healthbar.draw(ctx);
     };
