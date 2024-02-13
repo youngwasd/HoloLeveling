@@ -109,7 +109,7 @@ class TheProtagonist {
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
                     }
-                } else if (entity instanceof Issac) {
+                } else if (entity instanceof Issac || entity instanceof Bats) {
                     if (that.BB.collide(entity.BB)) {
                         if (that.hitCooldown <= 0) { // logic for player getting hit might need to be changed
                             that.hitpoints -= 5;
@@ -118,7 +118,7 @@ class TheProtagonist {
                             that.hitCooldown -= that.game.clockTick;
                         }
                     }
-                } else if (entity instanceof Goblin) {
+                } else if (entity instanceof Goblin || entity instanceof Zombie) {
                     if (that.BB.collide(entity.BB)) {
                         if (that.hitCooldown <= 0) { // logic for player getting hit might need to be changed
                             that.hitpoints -= 10;
