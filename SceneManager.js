@@ -58,7 +58,7 @@ class SceneManager {
                  y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
                 this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed,this.health -50));
                 this.enemiesAlive+=3;
-            } else if(rand ===4) {
+            } else if (rand === 4) {
                 this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, this.speed ,this.health));
                 this.enemiesAlive++;
             } else {
@@ -72,7 +72,7 @@ class SceneManager {
 
     update() {
         if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin || entity instanceof Bats || entity instanceof Golem || entity instanceof Zombie).length === 0) {
-            if (this.currWave % 2 === 0 && this.currWave !== 0) {
+            if (this.currWave % 5 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
             }
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {

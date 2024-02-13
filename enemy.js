@@ -458,8 +458,8 @@ class Zombie {
     }
 }
 
-class Golem{
-    constructor(game, x, y, player,speed , hitpoints) {
+class Golem {
+    constructor(game, x, y, player, speed, hitpoints) {
         Object.assign(this, {game, x, y, player, speed});
 
         this.BatRight = ASSET_MANAGER.getAsset("./sprites/Golem_Right.png");
