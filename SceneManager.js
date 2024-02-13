@@ -44,7 +44,7 @@ class SceneManager {
             let y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
             this.speed = this.theProtagonist.speed * 0.6 + this.numEnemies * 10;
             this.health = 100 + this.currWave * 10
-            const rand = Math.floor(Math.random() * 5) + 1;
+            const rand = Math.floor(Math.random() * 6) + 1;
             
             if (rand === 1) {
                 this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, this.speed, this.health));
@@ -62,7 +62,10 @@ class SceneManager {
                 this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed,this.health - 50));
                 this.enemiesAlive += 3;
             } else if (rand === 4) {
-                this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, this.speed ,this.health));
+                this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, this.speed, this.health));
+                this.enemiesAlive++;
+            }else if (rand === 5) {
+                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed, this.health));
                 this.enemiesAlive++;
             } else {
                 this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, this.speed, this.health));
