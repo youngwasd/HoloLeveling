@@ -462,12 +462,12 @@ class Golem {
     constructor(game, x, y, player, speed, hitpoints) {
         Object.assign(this, {game, x, y, player, speed});
 
-        this.BatRight = ASSET_MANAGER.getAsset("./sprites/Golem_Right.png");
-        this.BatLeft = ASSET_MANAGER.getAsset("./sprites/Golem_Left.png");
+        this.BatRight = ASSET_MANAGER.getAsset("./sprites/Golemv2.png");
+        this.BatLeft = ASSET_MANAGER.getAsset("./sprites/Golemv2_Left.png");
 
-        this.width = 90;
-        this.height = 64;
-        this.scale = 2.5;
+        this.width = 45;
+        this.height = 40;
+        this.scale = 8;
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
 
@@ -475,8 +475,8 @@ class Golem {
 
         this.animator = [];
 
-        this.animator[0] = new Animator(this.BatRight, 0, 0, this.width, this.height, 9, 0.2, this.scale);
-        this.animator[1] = new Animator(this.BatLeft, 0, 0, this.width, this.height, 9, 0.2, this.scale);
+        this.animator[0] = new Animator(this.BatRight, 0, 0, this.width, this.height, 10, 0.2, this.scale);
+        this.animator[1] = new Animator(this.BatLeft, 0, 0, this.width, this.height, 10, 0.2, this.scale);
         this.animator[1].reverse();
 
         if (this.player.x > this.x) {
@@ -495,7 +495,7 @@ class Golem {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x + 60, this.y +60 , this.scaledWidth- 125, this.scaledHeight - 60);
+        this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     }
 
     update() {
@@ -529,7 +529,7 @@ class Golem {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem|| entity instanceof Zombie) {
+                if ( entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem|| entity instanceof Zombie) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -547,6 +547,9 @@ class Golem {
                     if (that.player.dagger) {
                         that.hitpoints -= entity.damage;
                     }
+                } else if(entity instanceof Tree){
+                    entity.dead = true;
+
                 }
             }
         });

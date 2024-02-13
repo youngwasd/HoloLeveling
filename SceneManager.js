@@ -27,7 +27,8 @@ class SceneManager {
         this.game.addEntity(this.end);
         this.game.addEntity(this.upgradeScreen);
         this.startWave();
-        this.game.addEntity(new Tree(this.game, 900, 1000));
+
+        this.spawnTrees()
 
         ASSET_MANAGER.pauseBackgroundMusic();
         ASSET_MANAGER.playAsset("./music/minecraft.mp3");
@@ -42,9 +43,11 @@ class SceneManager {
         for (let i = 0; i < this.numEnemies; i++) {
             let x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
             let y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
-            this.speed = this.theProtagonist.speed * 0.6 + this.numEnemies * 10;
+            this.speed = 100 + this.currWave * 100
+
             this.health = 100 + this.currWave * 10
             const rand = Math.floor(Math.random() * 6) + 1;
+
             
             if (rand === 1) {
                 this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, this.speed, this.health));
@@ -53,14 +56,12 @@ class SceneManager {
                 this.game.addEntity(new Goblin(this.game, x, y, this.theProtagonist, this.speed, this.health));
                 this.enemiesAlive++;
             } else if (rand === 3) {
-                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed, this.health -50));
-                 x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
-                 y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
-                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed, this.health -50));
-                 x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
-                 y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
-                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed,this.health -50));
-                this.enemiesAlive+=3;
+                for (let j = 0; j < this.currWave; j++) {
+                x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
+                y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
+                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed, this.health - 50));
+                this.enemiesAlive ++;
+                 }
             } else if (rand === 4) {
                 this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, this.speed, this.health));
                 this.enemiesAlive++;
@@ -68,7 +69,7 @@ class SceneManager {
                 this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed, this.health));
                 this.enemiesAlive++;
             } else {
-                this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, this.speed, this.health));
+                this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, this.speed *0.5, this.health * 5));
                 this.enemiesAlive++;
             }
             
@@ -88,13 +89,16 @@ class SceneManager {
         this.updateAudio();
 
         if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin || entity instanceof Bats || entity instanceof Golem || entity instanceof Zombie).length === 0) {
-            if (this.currWave % 5 === 0 && this.currWave !== 0) {
+            if (this.currWave % 2 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
             }
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
                 this.game.entities.filter(map => map instanceof Map).forEach(map => {
                     map.dead = true;
                 });
+            }
+            if (this.currWave == 5){
+
             }
             this.currWave++;
             this.startWave();
@@ -103,4 +107,38 @@ class SceneManager {
     };
     
     draw(ctx) {};
+
+    spawnTrees() {
+        const spacing = 150; // Minimum spacing between trees
+        const treeWidth = 100; // Approximate tree width
+        const treeHeight = 100; // Approximate tree height
+        const gridSize = spacing + Math.max(treeWidth, treeHeight); // Calculate grid size to include spacing
+        const numCols = Math.floor(2500 / gridSize);
+        const numRows = Math.floor(2500 / gridSize);
+        const totalCells = numCols * numRows;
+        const treesToSpawn = Math.floor(totalCells * 0.6); // Still targeting 30% of the map area
+
+        let occupiedCells = new Set();
+
+        while (occupiedCells.size < treesToSpawn) {
+            let col = Math.floor(Math.random() * numCols);
+            let row = Math.floor(Math.random() * numRows);
+            let cellIndex = row * numCols + col; // Calculate a unique cell index
+
+            if (!occupiedCells.has(cellIndex)) {
+                occupiedCells.add(cellIndex);
+
+                // Random offset within the cell for x and y, ensuring the tree stays within the cell bounds
+                let xOffset = Math.random() * (gridSize - treeWidth);
+                let yOffset = Math.random() * (gridSize - treeHeight);
+
+                let x = col * gridSize + xOffset;
+                let y = row * gridSize + yOffset;
+
+                this.game.addEntity(new Tree(this.game, x, y));
+            }
+        }
+    }
+
+
 };
