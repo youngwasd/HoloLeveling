@@ -2,6 +2,7 @@ const gameEngine = new GameEngine();
 
 const ASSET_MANAGER = new AssetManager();
 
+// sprites
 ASSET_MANAGER.queueDownload("./sprites/protag_right.png");
 ASSET_MANAGER.queueDownload("./sprites/protag_left.png");
 ASSET_MANAGER.queueDownload("./sprites/forest.png");
@@ -21,9 +22,14 @@ ASSET_MANAGER.queueDownload("./sprites/Golem_Left.png");
 ASSET_MANAGER.queueDownload("./sprites/zombie_left.png");
 ASSET_MANAGER.queueDownload("./sprites/zombie_right.png");
 
+// music
+ASSET_MANAGER.queueDownload("./music/minecraft.mp3");
+
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
+
+	ASSET_MANAGER.autoRepeat("./music/minecraft.mp3");
 
 	gameEngine.init(ctx);
 	new SceneManager(gameEngine);

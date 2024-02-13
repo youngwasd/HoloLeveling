@@ -42,6 +42,8 @@ class Dagger {
     }
 
     update() {
+        if (this.player.dead == true) return;
+
         this.xOffset = this.player.facing == 0 ? 60 : -1.5;
 
         this.x = this.player.facing == 0 ? this.player.x + (this.playerWidth / 2) - (this.scaledWidth / 2) + this.xOffset :

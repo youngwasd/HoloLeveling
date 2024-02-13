@@ -28,6 +28,9 @@ class SceneManager {
         this.game.addEntity(this.upgradeScreen);
         this.startWave();
         this.game.addEntity(new Tree(this.game, 900, 1000));
+
+        ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.playAsset("./music/minecraft.mp3");
     };
 
     startWave() {
@@ -57,7 +60,17 @@ class SceneManager {
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
     };
 
+    updateAudio() {
+        const mute = document.getElementById("mute").checked;
+        const volume = document.getElementById("volume").value;
+
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
+    };
+
     update() {
+        this.updateAudio();
+
         if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin || entity instanceof Bats || entity instanceof Golem || entity instanceof Zombie).length === 0) {
             if (this.currWave % 5 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
@@ -74,5 +87,4 @@ class SceneManager {
     };
     
     draw(ctx) {};
-    
 };
