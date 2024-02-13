@@ -5,15 +5,15 @@ class Issac {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/issac.png");
 
         // Initial position
-        this.width = 58; // for issac
-        this.height = 68; // for issac
-        this.scale = 1;
+        this.width = 28; // for issac
+        this.height = 40; // for issac
+        this.scale = 2;
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
         
         this.speed = this.speed >= this.player.speed ? this.speed - 200 : this.speed;
 
-        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 0.8, this.scale);
+        this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.2, this.scale);
 
         this.dead = false;
         this.hitpoints = hitpoints;
@@ -85,7 +85,7 @@ class Issac {
     }
     
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, this.x, this.y); // this way of drawing issac makes it not scaleable
+           this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
         if (params.DEBUG) {
             ctx.strokeStyle = 'Red';
