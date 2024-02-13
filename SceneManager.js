@@ -60,7 +60,7 @@ class SceneManager {
                  x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
                  y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
                 this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed,this.health -50));
-                this.enemiesAlive+=3;
+                this.enemiesAlive += 3;
             } else if (rand === 4) {
                 this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, this.speed ,this.health));
                 this.enemiesAlive++;
@@ -68,7 +68,6 @@ class SceneManager {
                 this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, this.speed, this.health));
                 this.enemiesAlive++;
             }
-            
         }
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
     };
