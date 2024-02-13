@@ -86,7 +86,7 @@ class Issac {
     }
     
     draw(ctx) {
-           this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
         if (params.DEBUG) {
             ctx.strokeStyle = 'Red';
@@ -465,11 +465,11 @@ class Golem {
     constructor(game, x, y, player, speed, hitpoints) {
         Object.assign(this, {game, x, y, player, speed});
 
-        this.BatRight = ASSET_MANAGER.getAsset("./sprites/Golem_Right.png");
-        this.BatLeft = ASSET_MANAGER.getAsset("./sprites/Golem_Left.png");
+        this.goRight = ASSET_MANAGER.getAsset("./sprites/Golem_Right.png");
+        this.goLeft = ASSET_MANAGER.getAsset("./sprites/Golem_Left.png");
 
         this.width = 90;
-        this.height = 64;
+        this.height = 40;
         this.scale = 2.5;
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
@@ -478,8 +478,8 @@ class Golem {
 
         this.animator = [];
 
-        this.animator[0] = new Animator(this.BatRight, 0, 0, this.width, this.height, 9, 0.2, this.scale);
-        this.animator[1] = new Animator(this.BatLeft, 0, 0, this.width, this.height, 9, 0.2, this.scale);
+        this.animator[0] = new Animator(this.goRight, 23, 24, this.width, this.height, 9, 0.2, this.scale);
+        this.animator[1] = new Animator(this.goLeft, 23, 24, this.width, this.height, 9, 0.2, this.scale);
         this.animator[1].reverse();
 
         if (this.player.x > this.x) {
