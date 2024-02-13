@@ -458,7 +458,7 @@ class Zombie {
     }
 }
 
-class Golem{
+class Golem {
     constructor(game, x, y, player, speed) {
         Object.assign(this, {game, x, y, player, speed});
 

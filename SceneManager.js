@@ -47,7 +47,7 @@ class SceneManager {
                 this.game.addEntity(new Goblin(this.game, x, y, this.theProtagonist, this.speed));
             } else if (rand === 3) {
                 this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, this.speed));
-            } else if(rand ===4) {
+            } else if (rand === 4) {
                 this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, this.speed));
             } else {
                 this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, this.speed));
