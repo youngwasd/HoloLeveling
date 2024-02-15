@@ -23,8 +23,8 @@ ASSET_MANAGER.queueDownload("./sprites/zombie_left.png");
 ASSET_MANAGER.queueDownload("./sprites/zombie_right.png");
 ASSET_MANAGER.queueDownload("./sprites/grass.jpg");
 ASSET_MANAGER.queueDownload("./sprites/slash2.png");
-ASSET_MANAGER.queueDownload("./sprites/newsprite3.png");
-ASSET_MANAGER.queueDownload("./sprites/newsprite4.png");
+ASSET_MANAGER.queueDownload("./sprites/slashv3.png");
+ASSET_MANAGER.queueDownload("./sprites/slashv3_left.png");
 
 
 
