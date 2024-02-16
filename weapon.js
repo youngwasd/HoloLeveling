@@ -1,94 +1,112 @@
 class Dagger {
     constructor(game, player) {
         Object.assign(this, {game, player});
-
+    
         this.rightSlash = ASSET_MANAGER.getAsset("./sprites/slashv3.png");
         this.leftSlash = ASSET_MANAGER.getAsset("./sprites/slashv3_left.png");
-
+    
         this.animator = [];
         this.scale = 1;
         this.width = 80;
         this.height = 116;
-
+    
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
-
+    
         this.xOffset = this.player.facing == 0 ? 60 : -1.5;
-
+    
         this.playerHeight = this.player.height * this.player.scale;
         this.playerWidth = this.player.width * this.player.scale;
-
+    
         this.x = this.player.facing == 0 ? this.player.x + (this.playerWidth / 2) - (this.scaledWidth / 2) + this.xOffset :
-                    this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;
+            this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;
         this.y = this.player.y + (this.playerHeight / 2) - (this.scaledHeight / 2);
-
-        this.animator[0] = new Animator(this.rightSlash, 2, 0, this.width, this.height, 8, .31, this.scale);
-        this.animator[1] = new Animator(this.leftSlash, 2, 0, this.width, this.height, 8, .31, this.scale);
+    
+        this.animator[0] = new Animator(this.rightSlash, 0, 0, this.width, this.height, 8, 0.1, this.scale);
+        this.animator[1] = new Animator(this.leftSlash, 0, 0, this.width, this.height, 8, 0.1, this.scale);
         this.animator[1].reverse();
-
+        
+        this.direction = 0;
         this.damage = 3;
-        this.frame = 0;
+        
+        this.isVisible = false;
+        this.timer = 0;
         this.updateBB();
-
-        this.isVisible = true;  // Flag to track visibility
-        this.timer = 0;         // Timer to count seconds
     }
-
+    
     updateBB() {
-        if (this.isVisible) {
-            this.lastBB = this.BB;
-            this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
-        }
+        this.lastBB = this.BB;
+        this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     }
+    
+    // update() {
+    //     if (this.player.dead) return;
+    //    
+    //     this.timer += this.game.clockTick;
+    //    
+    //     if (this.animator[this.direction].isDone()) {
+    //         if (this.player.facing === 0) {
+    //             this.direction = 0;
+    //         } else {
+    //             this.direction = 1;
+    //         }
+    //     }
+    //     console.log(this.timer);
+    //     if (this.timer >0.75 && this.timer <= 1.6) {
+    //         this.isVisible = false;
+    //        
+    //     } else if (this.timer > 1.55) {
+    //         this.isVisible = true;
+    //         this.timer = 0;
+    //     }
+    //    
+    //     this.xOffset = this.direction === 0 ? 60 : -1.5;
+    //     this.x = this.direction === 0 ? this.player.x + (this.playerWidth / 2) - (this.scaledWidth / 2) + this.xOffset :
+    //         this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;
+    //     this.y = this.player.y + (this.playerHeight / 2) - (this.scaledHeight / 2);
+    //
+    //     this.updateBB();
+    // }
 
     update() {
-        if (this.player.dead == true) return;
+        if (this.player.dead) return;
 
-        this.xOffset = this.player.facing == 0 ? 60 : -1.5;
-
-        this.x = this.player.facing == 0 ? this.player.x + (this.playerWidth / 2) - (this.scaledWidth / 2) + this.xOffset :
-                    this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;
-        this.y = this.player.y + (this.playerHeight / 2) - (this.scaledHeight / 2);
-
-        // Update timer
         this.timer += this.game.clockTick;
-
-        // if (this.timer >= 1) {
-        //     this.timer = 0;  // Reset timer
-        //     this.isVisible = false;  // Toggle visibility
-        // }
         
-        if(this.frame === 1|| this.frame === 2 || this.frame === 3 ) {
-            this.isVisible = true;
+        if (this.player.facing === 0) this.direction = 0;
+        else this.direction = 1;
+        
+        console.log(this.timer);
+        if (this.timer >= 1) {
+            if (this.animator[this.direction].isDone()) {
+                
+                this.isVisible = false;
+                this.timer = 0;
+            } else {
+                this.isVisible = true;
+            }
         } else {
             this.isVisible = false;
         }
+
+        // Update dagger position
+        this.xOffset = this.direction === 0 ? 60 : -1.5;
+        this.x = this.direction === 0 ? this.player.x + (this.playerWidth / 2) - (this.scaledWidth / 2) + this.xOffset :
+            this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;
+        this.y = this.player.y + (this.playerHeight / 2) - (this.scaledHeight / 2);
+
         this.updateBB();
-        this.frame++;
-        
-        if(this.timer >=0.33){
-            this.frame ++;
-        }
-        if(this.timer >= 3){
-            this.frame = 0;
-            this.timer =0;
-        }
     }
 
     draw(ctx) {
-        
-            if (this.player.facing == 0) {
-                this.animator[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-            } else if (this.player.facing == 1) {
-                this.animator[1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-            }
-
+        if (this.isVisible) {
+            this.animator[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
             this.updateBB();
 
             if (params.DEBUG) {
                 ctx.strokeStyle = 'Red';
                 ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
             }
-        
+        }
     }
 }
