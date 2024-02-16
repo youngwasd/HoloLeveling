@@ -48,13 +48,11 @@ class TheProtagonist {
     };
 
     update() {
-        
         let deltaX = 0;
         let deltaY = 0;
 
         let elapsed = this.game.clockTick;
 
-       
         if (this.game.left && this.x > 0) {
             deltaX -= this.speed * elapsed;
             this.facing = 1; 
@@ -92,7 +90,6 @@ class TheProtagonist {
 
         this.updateBB();
 
-      
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
@@ -121,7 +118,7 @@ class TheProtagonist {
                     }
                 } else if (entity instanceof Goblin || entity instanceof Zombie || entity instanceof Golem) {
                     if (that.BB.collide(entity.BB)) {
-                        if (that.hitCooldown <= 0) { 
+                        if (that.hitCooldown <= 0) {
                             that.hitpoints -= 10;
                             that.hitCooldown = that.hitCooldownInterval;
                         } else {
@@ -155,7 +152,6 @@ class TheProtagonist {
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         }
 
-       
         const centerX = this.x + this.scaledWidth / 2;
         const centerY = this.y + this.scaledWidth / 2;
 
