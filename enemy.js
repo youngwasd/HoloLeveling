@@ -518,7 +518,7 @@ class Golem {
         this.animator = [];
 
         this.animator[0] = new Animator(this.goRight, 0, 0, this.width, this.height, 10, 0.2, this.scale);
-        this.animator[1] = new Animator(this.goLeft, 0, 0, this.width, this.height, 10, 0.2, this.scale);
+        this.animator[1] = new Animator(this.goRight, 0, 0, this.width, this.height, 10, 0.2, this.scale);
         this.animator[1].reverse();
 
         if (this.player.x > this.x) {
