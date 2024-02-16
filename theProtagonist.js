@@ -116,7 +116,7 @@ class TheProtagonist {
                             that.hitCooldown -= that.game.clockTick;
                         }
                     }
-                } else if (entity instanceof Goblin || entity instanceof Zombie || entity instanceof Golem) {
+                } else if (entity instanceof Goblin || entity instanceof Zombie) {
                     if (that.BB.collide(entity.BB)) {
                         if (that.hitCooldown <= 0) {
                             that.hitpoints -= 10;
