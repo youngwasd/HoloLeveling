@@ -42,14 +42,23 @@ class Animator {
         this.totalTime = duration * frames;
         this.isReversed = false;
     }
-
     drawFrame(tick, ctx, x, y) {
         this.elapsedTime += tick;
-        if (this.elapsedTime > this.totalTime) this.elapsedTime -= this.totalTime;
 
+        if (this.elapsedTime > this.totalTime) this.elapsedTime -= this.totalTime;
         const frame = this.currentFrame();
         const frameX = this.isReversed ? this.frames - frame - 1 : frame;
-        ctx.drawImage(this.spriteSheet, this.xStart + this.width * frameX, this.yStart, this.width, this.height, x, y, this.width * this.scale, this.height * this.scale);
+        ctx.drawImage(
+            this.spriteSheet,
+            this.xStart + this.width * frameX,
+            this.yStart,
+            this.width,
+            this.height,
+            x,
+            y,
+            this.width * this.scale,
+            this.height * this.scale
+        );
     }
 
     currentFrame() {
@@ -61,6 +70,6 @@ class Animator {
     }
 
     isDone() {
-        return this.frames - 1 === this.currentFrame();
+        return this.elapsedTime >= this.totalTime;
     }
 }
