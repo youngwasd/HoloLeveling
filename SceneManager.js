@@ -4,7 +4,7 @@ class SceneManager {
         this.game.entities = [];
         this.game.camera = this;
 
-        // Wave properties
+       
         this.currWave = 0;
         this.numEnemies = 0;
         this.enemiesAlive = 0;

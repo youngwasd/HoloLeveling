@@ -48,21 +48,21 @@ class TheProtagonist {
     };
 
     update() {
-        // Reset movement values
+        
         let deltaX = 0;
         let deltaY = 0;
 
         let elapsed = this.game.clockTick;
 
-        // Check individual directions
+       
         if (this.game.left && this.x > 0) {
             deltaX -= this.speed * elapsed;
-            this.facing = 1; // facing left
+            this.facing = 1; 
         }
 
         if (this.game.right && this.x < this.mapWidth - this.scaledWidth) {
             deltaX += this.speed * elapsed;
-            this.facing = 0; // facing right
+            this.facing = 0; 
         }
 
         if (this.game.up && this.y > 0) {
@@ -92,27 +92,27 @@ class TheProtagonist {
 
         this.updateBB();
 
-        // collision
+      
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if (entity instanceof Tree) {
-                    if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
+                    if (that.lastBB.right <= entity.BB.left) { 
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
-                    } else if (that.lastBB.left >= entity.BB.right) { // hit the right of tree
+                    } else if (that.lastBB.left >= entity.BB.right) {
                         that.x = entity.BB.right;
                         if (deltaX < 0) deltaX = 0;
-                    } else if (that.lastBB.bottom <= entity.BB.top) { // hit the top of tree
+                    } else if (that.lastBB.bottom <= entity.BB.top) { 
                         that.y = entity.BB.top - that.BB.height;
                         if (deltaY > 0) deltaY = 0;
-                    } else if (that.lastBB.top >= entity.BB.bottom) { // hit the bottom of tree
+                    } else if (that.lastBB.top >= entity.BB.bottom) { 
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
                     }
                 } else if (entity instanceof Issac || entity instanceof Bats) {
                     if (that.BB.collide(entity.BB)) {
-                        if (that.hitCooldown <= 0) { // logic for player getting hit might need to be changed
+                        if (that.hitCooldown <= 0) { 
                             that.hitpoints -= 5;
                             that.hitCooldown = that.hitCooldownInterval;
                         } else {
@@ -121,7 +121,7 @@ class TheProtagonist {
                     }
                 } else if (entity instanceof Goblin || entity instanceof Zombie || entity instanceof Golem) {
                     if (that.BB.collide(entity.BB)) {
-                        if (that.hitCooldown <= 0) { // logic for player getting hit might need to be changed
+                        if (that.hitCooldown <= 0) { 
                             that.hitpoints -= 10;
                             that.hitCooldown = that.hitCooldownInterval;
                         } else {
@@ -155,7 +155,7 @@ class TheProtagonist {
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         }
 
-        // Calculate the center position of the character
+       
         const centerX = this.x + this.scaledWidth / 2;
         const centerY = this.y + this.scaledWidth / 2;
 
