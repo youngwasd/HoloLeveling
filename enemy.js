@@ -506,7 +506,7 @@ class Golem {
 
         this.goRight = ASSET_MANAGER.getAsset("./sprites/Golemv2.png");
         //this.goLeft = ASSET_MANAGER.getAsset("./sprites/Golemv2_Left.png");
-        this.goLeft = ASSET_MANAGER.getAsset("./sprites/Golemv2.png");
+        this.goLeft = ASSET_MANAGER.getAsset("./sprites/Golem_left.png");
         this.width = 45;
         this.height = 40;
         this.scale = 8;
