@@ -66,9 +66,9 @@ class SceneManager {
             } else if (rand === 5) {
                 this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, speed, health));
                 this.enemiesAlive++;
-            } else {
-                this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, speed * 0.5, health * 5));
-                this.enemiesAlive++;
+            // } else {
+            //     this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, speed * 0.5, health * 5));
+            //     this.enemiesAlive++;
             }
         }
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
