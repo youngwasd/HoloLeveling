@@ -1,6 +1,6 @@
 class Issac {
-    constructor(game, x, y, player,speed , hitpoints) {
-        Object.assign(this, {game, x, y, player, speed});
+    constructor(game, x, y, player, speed, hitpoints) {
+        Object.assign(this, {game, x, y, player, speed, hitpoints});
         
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/issac.png");
 
@@ -16,8 +16,9 @@ class Issac {
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.2, this.scale);
 
         this.dead = false;
-        this.hitpoints = hitpoints;
-        this.maxhitpoints = hitpoints;
+        this.maxhitpoints = this.hitpoints;
+
+        this.hit = false;
 
         this.updateBB();
         this.healthbar = new HealthBar(this, false);
@@ -51,6 +52,7 @@ class Issac {
         this.updateBB();
 
         // collision
+        let daggerVis = false;
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
@@ -69,14 +71,18 @@ class Issac {
                         if (deltaY < 0) deltaY = 0;
                     }
                 } else if (entity instanceof Dagger) {
-                    if (that.player.dagger) {
-                        if (entity.isVisible) {
+                    if (that.player.dagger && entity.isVisible) {
+                        if (!that.hit) {
                             that.hitpoints -= entity.damage;
+                            that.hit = true;
                         }
+                        daggerVis = true;
                     }
                 }
             }
         });
+
+        if (!daggerVis) this.hit = false;
 
         this.updateBB();
 
@@ -98,8 +104,8 @@ class Issac {
 };
 
 class Goblin {
-    constructor(game, x, y, player,speed , hitpoints) {
-        Object.assign(this, {game, x, y, player, speed});
+    constructor(game, x, y, player, speed, hitpoints) {
+        Object.assign(this, {game, x, y, player, speed, hitpoints});
 
         this.GoblinRight = ASSET_MANAGER.getAsset("./sprites/goblin_right.png");
         this.GoblinLeft = ASSET_MANAGER.getAsset("./sprites/goblin_left.png");
@@ -125,8 +131,9 @@ class Goblin {
         }
         
         this.dead = false;
-        this.hitpoints = hitpoints;
-        this.maxhitpoints = hitpoints;
+        this.maxhitpoints = this.hitpoints;
+
+        this.hit = false;
 
         this.healthbar = new HealthBar(this, false);
         this.updateBB();
@@ -166,6 +173,7 @@ class Goblin {
         this.updateBB();
 
         // collision
+        let daggerVis = false;
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
@@ -185,14 +193,18 @@ class Goblin {
                         if (deltaY < 0) deltaY = 0;
                     }
                 } else if (entity instanceof Dagger) {
-                    if (that.player.dagger) {
-                        if (entity.isVisible) {
+                    if (that.player.dagger && entity.isVisible) {
+                        if (!that.hit) {
                             that.hitpoints -= entity.damage;
+                            that.hit = true;
                         }
+                        daggerVis = true;
                     }
                 }
             }
         });
+
+        if (!daggerVis) this.hit = false;
 
         this.updateBB();
 
@@ -220,8 +232,8 @@ class Goblin {
 }
 
 class Bats {
-    constructor(game, x, y, player,speed , hitpoints) {
-        Object.assign(this, {game, x, y, player, speed});
+    constructor(game, x, y, player, speed, hitpoints) {
+        Object.assign(this, {game, x, y, player, speed, hitpoints});
 
         this.BatRight = ASSET_MANAGER.getAsset("./sprites/Bat_Right.png");
         this.BatLeft = ASSET_MANAGER.getAsset("./sprites/Bat_Left.png");
@@ -247,8 +259,9 @@ class Bats {
         }
 
         this.dead = false;
-        this.hitpoints = hitpoints;
-        this.maxhitpoints = hitpoints;
+        this.maxhitpoints = this.hitpoints;
+
+        this.hit = false;
 
         this.healthbar = new HealthBar(this, false);
         this.updateBB();
@@ -288,6 +301,7 @@ class Bats {
         this.updateBB();
 
         // collision
+        let daggerVis = false;
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
@@ -307,14 +321,18 @@ class Bats {
                         if (deltaY < 0) deltaY = 0;
                     }
                 } else if (entity instanceof Dagger) {
-                    if (that.player.dagger) {
-                        if (entity.isVisible) {
+                    if (that.player.dagger && entity.isVisible) {
+                        if (!that.hit) {
                             that.hitpoints -= entity.damage;
+                            that.hit = true;
                         }
+                        daggerVis = true;
                     }
                 }
             }
         });
+
+        if (!daggerVis) this.hit = false;
 
         this.updateBB();
 
@@ -343,7 +361,7 @@ class Bats {
 
 class Zombie {
     constructor(game, x, y, player, speed, hitpoints) {
-        Object.assign(this, {game, x, y, player, speed});
+        Object.assign(this, {game, x, y, player, speed, hitpoints});
 
         this.zomLeft = ASSET_MANAGER.getAsset("./sprites/zombie_left.png");
         this.zomRight = ASSET_MANAGER.getAsset("./sprites/zombie_right.png");
@@ -354,7 +372,7 @@ class Zombie {
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
 
-        this.speed = this.speed >= this.player.speed ? this.speed - 200 : this.speed;
+        this.zomSpeed = this.speed >= this.player.speed ? this.speed - 200 : this.speed;
 
         this.animator = [];
         this.animator[0] = new Animator(this.zomRight, 0, 0, this.width, this.height, 4, 0.15, this.scale);
@@ -368,8 +386,13 @@ class Zombie {
         }
 
         this.dead = false;
-        this.hitpoints = hitpoints;
-        this.maxhitpoints = hitpoints;
+        this.maxhitpoints = this.hitpoints;
+
+        this.hit = false;
+
+        // fast ms for short time
+        this.seconds = 0;
+        this.speedTimes = 1;
 
         this.healthbar = new HealthBar(this, false);
     };
@@ -384,6 +407,17 @@ class Zombie {
         const protagonist = this.game.entities.find(entity => entity instanceof TheProtagonist);
         const elapsed = this.game.clockTick;
 
+        this.seconds += this.game.clockTick;
+
+        if (this.seconds >= 5) {
+            if (this.seconds <= 8) {
+                this.speedTimes = 2;
+            } else {
+                this.speedTimes = 1;
+                this.seconds = 0;
+            }
+        }
+
         let deltaX = 0;
         let deltaY = 0;
 
@@ -392,8 +426,8 @@ class Zombie {
             deltaY = protagonist.y - this.y;
 
             const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            const normalizedDeltaX = (deltaX / length) * this.speed * elapsed;
-            const normalizedDeltaY = (deltaY / length) * this.speed * elapsed;
+            const normalizedDeltaX = (deltaX / length) * this.zomSpeed * this.speedTimes * elapsed;
+            const normalizedDeltaY = (deltaY / length) * this.zomSpeed * this.speedTimes * elapsed;
 
             this.x += normalizedDeltaX;
             this.y += normalizedDeltaY;
@@ -408,6 +442,7 @@ class Zombie {
         this.updateBB();
 
         // collision
+        let daggerVis = false;
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
@@ -427,14 +462,18 @@ class Zombie {
                         if (deltaY < 0) deltaY = 0;
                     }
                 } else if (entity instanceof Dagger) {
-                    if (that.player.dagger) {
-                        if (entity.isVisible) {
+                    if (that.player.dagger && entity.isVisible) {
+                        if (!that.hit) {
                             that.hitpoints -= entity.damage;
+                            that.hit = true;
                         }
+                        daggerVis = true;
                     }
                 }
             }
         });
+
+        if (!daggerVis) this.hit = false;
 
         this.updateBB();
 
@@ -463,7 +502,7 @@ class Zombie {
 
 class Golem {
     constructor(game, x, y, player, speed, hitpoints) {
-        Object.assign(this, {game, x, y, player, speed});
+        Object.assign(this, {game, x, y, player, speed, hitpoints});
 
         this.goRight = ASSET_MANAGER.getAsset("./sprites/Golemv2.png");
         this.goLeft = ASSET_MANAGER.getAsset("./sprites/Golemv2_Left.png");
@@ -489,8 +528,9 @@ class Golem {
         }
 
         this.dead = false;
-        this.hitpoints = hitpoints;
-        this.maxhitpoints = hitpoints;
+        this.maxhitpoints = this.hitpoints;
+
+        this.hit = false;
 
         this.healthbar = new HealthBar(this, false);
         this.updateBB();
@@ -529,10 +569,11 @@ class Golem {
         this.updateBB();
 
         // collision
+        let daggerVis = false;
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if ( entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem|| entity instanceof Zombie) {
+                if (entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem || entity instanceof Zombie) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -546,16 +587,21 @@ class Golem {
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
                     }
-                } else if (entity instanceof Dagger) {
-                    if (that.player.dagger) {
-                        that.hitpoints -= entity.damage;
+                }  else if (entity instanceof Dagger) {
+                    if (that.player.dagger && entity.isVisible) {
+                        if (!that.hit) {
+                            that.hitpoints -= entity.damage;
+                            that.hit = true;
+                        }
+                        daggerVis = true;
                     }
-                } else if(entity instanceof Tree){
+                } else if(entity instanceof Tree) {
                     entity.dead = true;
-
                 }
             }
         });
+
+        if (!daggerVis) this.hit = false;
 
         this.updateBB();
 

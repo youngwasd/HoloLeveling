@@ -26,19 +26,17 @@ class Dagger {
         this.animator[1] = new Animator(this.leftSlash, 2, 0, this.width, this.height, 3, .31, this.scale);
         this.animator[1].reverse();
 
-        this.damage = 3;
+        this.damage = 75;
 
         this.updateBB();
 
-        this.isVisible = true;  // Flag to track visibility
+        this.isVisible = false;  // Flag to track visibility
         this.timer = 0;         // Timer to count seconds
     }
 
     updateBB() {
-        if (this.isVisible) {
-            this.lastBB = this.BB;
-            this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
-        }
+        this.lastBB = this.BB;
+        this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     }
 
     update() {

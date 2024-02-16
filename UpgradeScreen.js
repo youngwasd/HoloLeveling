@@ -94,7 +94,7 @@ class UpgradeScreen {
     upgrade2() {
         const dagger = this.game.entities.find(entity => entity instanceof Dagger);
         if (dagger) {
-            dagger.damage += 3;
+            dagger.damage += 35;
             console.log(dagger.damage);
         }
     }
