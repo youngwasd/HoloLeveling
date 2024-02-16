@@ -32,6 +32,8 @@ class Dagger {
         this.isVisible = false;
         this.timer = 0;
         this.updateBB();
+
+      
     }
     
     updateBB() {

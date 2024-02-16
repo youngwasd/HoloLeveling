@@ -6,11 +6,9 @@ class Map {
         this.dead = false;
         this.width = 320;
         this.height = 320;
-    }
+    };
 
-    update() {
-
-    }
+    update() {};
 
     draw(ctx) {
         const numRows = Math.ceil(2500 / this.height); 
@@ -18,31 +16,26 @@ class Map {
 
         for (let row = 0; row < numRows; row++) {
             for (let col = 0; col < numCols; col++) {
-                
                 let x = this.x + col * this.width;
                 let y = this.y + row * this.height;
 
-                
                 ctx.drawImage(this.background, x, y, this.width, this.height);
             }
         }
-    }
-
+    };
 
     getWidth() {
         return 2500;
-    }
+    };
 
     getHeight() {
         return 2500;
-    }
-}
+    };
+};
 
 class Tree {
     constructor(game, x, y) {
-        this.game = game;
-        this.x = x;
-        this.y = y;
+        Object.assign(this, {game, x, y});
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/trees.png");
         this.width = 100;
         this.height = 120;

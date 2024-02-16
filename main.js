@@ -26,9 +26,6 @@ ASSET_MANAGER.queueDownload("./sprites/slash2.png");
 ASSET_MANAGER.queueDownload("./sprites/slashv3.png");
 ASSET_MANAGER.queueDownload("./sprites/slashv3_left.png");
 
-
-
-
 // music
 ASSET_MANAGER.queueDownload("./music/minecraft.mp3");
 
