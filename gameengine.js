@@ -76,33 +76,27 @@ class GameEngine {
         this.ctx.canvas.addEventListener("keydown", event => this.keydownListener(event));
         this.ctx.canvas.addEventListener("keyup", event => this.keyUpListener(event));
     }
-
-    
     // ... existing properties and methods ...
 
     processClick() {
-        // Check for paused state and handle upgrade screen clicks
+        
         if (this.paused) {
             let upgradeScreen = this.entities.find(entity => entity instanceof UpgradeScreen);
             if (upgradeScreen) {
                 upgradeScreen.handleClick(this.click);
             }
         } else {
-            // Check for end screen and handle restart button clicks
+            
             let endScreen = this.entities.find(entity => entity instanceof EndScreen);
             if (endScreen && endScreen.isDead) {
                 endScreen.handleClick(this.click);
             }
         }
 
-        this.click = null; // Reset click after processing
+        this.click = null; 
     }
 
-    // ... rest of the GameEngine class ...
-
-
-
-keydownListener = (e) => {
+    keydownListener = (e) => {
         this.keyboardActive = true;
         switch (e.code) {
             case "ArrowLeft":
@@ -147,7 +141,7 @@ keydownListener = (e) => {
     }
 
     restart() {
-        window.location.reload(); // This will refresh the page
+        window.location.reload(); 
     }
 
     addEntity(entity) {
@@ -155,16 +149,13 @@ keydownListener = (e) => {
     };
 
     draw() {
-        // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
         this.ctx.save();
         
-        // Ensure there is at least one entity in the entities array
         if (this.entities.length > 0) {
             this.ctx.translate(-this.entities[0].cameraX, -this.entities[0].cameraY);
-    
-            // Draw latest things first
+            
             for (let i = this.entities.length - 1; i >= 0; i--) {
                 this.entities[i].draw(this.ctx, this);
             }
@@ -176,9 +167,10 @@ keydownListener = (e) => {
     };
     
     update() {
-        if(this.paused) {
+        if (this.paused) {
             return;
         }
+        
         params.DEBUG = document.getElementById("debug").checked;
         
         let entitiesCount = this.entities.length;
@@ -225,12 +217,10 @@ keydownListener = (e) => {
     };
 
     handlePauseInput() {
-
         let upgradeScreen = this.entities.find(entity => entity instanceof UpgradeScreen);
         if (this.click && upgradeScreen) {
             upgradeScreen.handleClick(this.click);
             this.click = null; // Reset click to avoid repeated handling
         }
-    
     }
 };

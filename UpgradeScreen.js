@@ -8,7 +8,7 @@ class UpgradeScreen {
             { name: 'Increase Max HP', x: 225, y: 500, width: 250, height: 50, action: this.upgrade1 },
             { name: 'Increase Dagger Damage', x: 525, y: 500, width: 250, height: 50, action: this.upgrade2 },
             { name: 'Heal', x: 825, y: 500, width: 250, height: 50, action: this.upgrade3 },
-            // Add more upgrades as needed
+            
         ];
         this.visible = false;
     }
@@ -27,11 +27,11 @@ class UpgradeScreen {
     draw(ctx) {
         if (!this.visible) return;
 
-        // Draw the background overlay
+        
         ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
         ctx.fillRect(0, 0, 2500, 2500);
 
-        // Draw buttons
+        
         ctx.save();
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         this.upgrades.forEach(button => {
@@ -52,7 +52,7 @@ class UpgradeScreen {
     handleClick(click) {
         if (!this.visible) return;
 
-        // Check each upgrade button
+        
         this.upgrades.forEach(button => {
             if (click.x >= button.x && click.x <= button.x + button.width &&
                 click.y >= button.y && click.y <= button.y + button.height) {
@@ -79,10 +79,10 @@ class UpgradeScreen {
 
     hide() {
         this.visible = false;
-        this.game.paused = false; // Unpause the game
+        this.game.paused = false; 
     }
 
-    // Define upgrade actions
+    
     upgrade1() {
         const player = this.game.entities.find(entity => entity instanceof TheProtagonist);
         if (player) {

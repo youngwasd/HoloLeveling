@@ -20,7 +20,7 @@ class EndScreen {
             this.game.mouseY <= this.restartButton.y + this.restartButton.height &&
             this.game.click
         ) {
-            this.game.restart(); // Add a restart method to your game class
+            this.game.restart();
         }
         
     }
@@ -48,7 +48,7 @@ class EndScreen {
             
             ctx.font = "40px Arial";
             ctx.fillStyle = "white";
-            ctx.fillText("Waves Survived: " + waveInstance, 475, 375); // Adjust position as needed
+            ctx.fillText("Waves Survived: " + waveInstance, 475, 375);
         }
     }
 

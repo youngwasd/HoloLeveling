@@ -60,13 +60,13 @@ class Issac {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
-                    } else if (that.lastBB.left >= entity.BB.right) { // hit the right of tree
+                    } else if (that.lastBB.left >= entity.BB.right) {
                         that.x = entity.BB.right;
                         if (deltaX < 0) deltaX = 0;
-                    } else if (that.lastBB.bottom <= entity.BB.top) { // hit the top of tree
+                    } else if (that.lastBB.bottom <= entity.BB.top) {
                         that.y = entity.BB.top - that.BB.height;
                         if (deltaY > 0) deltaY = 0;
-                    } else if (that.lastBB.top >= entity.BB.bottom) { // hit the bottom of tree
+                    } else if (that.lastBB.top >= entity.BB.bottom) {
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
                     }
@@ -182,13 +182,13 @@ class Goblin {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
-                    } else if (that.lastBB.left >= entity.BB.right) { // hit the right of tree
+                    } else if (that.lastBB.left >= entity.BB.right) { 
                         that.x = entity.BB.right;
                         if (deltaX < 0) deltaX = 0;
-                    } else if (that.lastBB.bottom <= entity.BB.top) { // hit the top of tree
+                    } else if (that.lastBB.bottom <= entity.BB.top) {
                         that.y = entity.BB.top - that.BB.height;
                         if (deltaY > 0) deltaY = 0;
-                    } else if (that.lastBB.top >= entity.BB.bottom) { // hit the bottom of tree
+                    } else if (that.lastBB.top >= entity.BB.bottom) { 
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
                     }
@@ -307,16 +307,16 @@ class Bats {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem
                     || entity instanceof Zombie) {
-                    if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
+                    if (that.lastBB.right <= entity.BB.left) { 
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
-                    } else if (that.lastBB.left >= entity.BB.right) { // hit the right of tree
+                    } else if (that.lastBB.left >= entity.BB.right) { 
                         that.x = entity.BB.right;
                         if (deltaX < 0) deltaX = 0;
-                    } else if (that.lastBB.bottom <= entity.BB.top) { // hit the top of tree
+                    } else if (that.lastBB.bottom <= entity.BB.top) { 
                         that.y = entity.BB.top - that.BB.height;
                         if (deltaY > 0) deltaY = 0;
-                    } else if (that.lastBB.top >= entity.BB.bottom) { // hit the bottom of tree
+                    } else if (that.lastBB.top >= entity.BB.bottom) { 
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
                     }
@@ -448,16 +448,16 @@ class Zombie {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats
                     || entity instanceof Zombie || entity instanceof Golem) {
-                    if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
+                    if (that.lastBB.right <= entity.BB.left) { 
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
-                    } else if (that.lastBB.left >= entity.BB.right) { // hit the right of tree
+                    } else if (that.lastBB.left >= entity.BB.right) { 
                         that.x = entity.BB.right;
                         if (deltaX < 0) deltaX = 0;
-                    } else if (that.lastBB.bottom <= entity.BB.top) { // hit the top of tree
+                    } else if (that.lastBB.bottom <= entity.BB.top) { 
                         that.y = entity.BB.top - that.BB.height;
                         if (deltaY > 0) deltaY = 0;
-                    } else if (that.lastBB.top >= entity.BB.bottom) { // hit the bottom of tree
+                    } else if (that.lastBB.top >= entity.BB.bottom) {
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
                     }
@@ -574,16 +574,16 @@ class Golem {
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if (entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem || entity instanceof Zombie) {
-                    if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
+                    if (that.lastBB.right <= entity.BB.left) { 
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
-                    } else if (that.lastBB.left >= entity.BB.right) { // hit the right of tree
+                    } else if (that.lastBB.left >= entity.BB.right) { 
                         that.x = entity.BB.right;
                         if (deltaX < 0) deltaX = 0;
-                    } else if (that.lastBB.bottom <= entity.BB.top) { // hit the top of tree
+                    } else if (that.lastBB.bottom <= entity.BB.top) { 
                         that.y = entity.BB.top - that.BB.height;
                         if (deltaY > 0) deltaY = 0;
-                    } else if (that.lastBB.top >= entity.BB.bottom) { // hit the bottom of tree
+                    } else if (that.lastBB.top >= entity.BB.bottom) { 
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
                     }
