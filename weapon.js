@@ -32,12 +32,12 @@ class Dagger {
         this.timer = 0;
 
         this.updateBB();
-    }
+    };
 
     updateBB() {
         this.lastBB = this.BB;
         this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
-    }
+    };
 
     update() {
         if (this.player.dead) return;
@@ -59,7 +59,7 @@ class Dagger {
         this.y = this.player.y + (this.playerHeight / 2) - (this.scaledHeight / 2);
 
         this.updateBB();
-    }
+    };
 
     draw(ctx) {
         if (this.isVisible) {
@@ -70,5 +70,5 @@ class Dagger {
                 ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
             }
         }
-    }
-}
+    };
+};

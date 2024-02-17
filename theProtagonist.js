@@ -158,4 +158,4 @@ class TheProtagonist {
         ctx.setTransform(1, 0, 0, 1, -centerX + ctx.canvas.width / 2, -centerY + ctx.canvas.height / 2);
         this.healthbar.draw(ctx);
     };
-}
+};

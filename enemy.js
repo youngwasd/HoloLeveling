@@ -56,7 +56,7 @@ class Issac {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Zombie) {
+                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Zombie) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -177,7 +177,7 @@ class Goblin {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats
+                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac
                     || entity instanceof Zombie) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
@@ -305,8 +305,7 @@ class Bats {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats
-                    || entity instanceof Zombie) {
+                if (entity instanceof Bats) {
                     if (that.lastBB.right <= entity.BB.left) { 
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -446,7 +445,7 @@ class Zombie {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats
+                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac
                     || entity instanceof Zombie) {
                     if (that.lastBB.right <= entity.BB.left) { 
                         that.x = entity.BB.left - that.BB.width;
@@ -573,7 +572,7 @@ class Zombie {
 //         let that = this;
 //         this.game.entities.forEach(function (entity) {
 //             if (entity.BB && that.BB.collide(entity.BB)) {
-//                 if (entity instanceof Goblin || entity instanceof Issac || entity instanceof Bats || entity instanceof Golem || entity instanceof Zombie) {
+//                 if (entity instanceof Goblin || entity instanceof Issac || entity instanceof Golem || entity instanceof Zombie) {
 //                     if (that.lastBB.right <= entity.BB.left) { 
 //                         that.x = entity.BB.left - that.BB.width;
 //                         if (deltaX > 0) deltaX = 0;
