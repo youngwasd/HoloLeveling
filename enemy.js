@@ -1,7 +1,7 @@
 class Issac {
     constructor(game, x, y, player, speed, hitpoints) {
         Object.assign(this, {game, x, y, player, speed, hitpoints});
-        
+
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/issac.png");
 
         // Initial position
@@ -10,7 +10,7 @@ class Issac {
         this.scale = 2;
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
-        
+
         this.speed = this.speed >= this.player.speed ? this.speed - 200 : this.speed;
 
         this.animator = new Animator(this.spritesheet, 0, 0, this.width, this.height, 3, 0.2, this.scale);
@@ -90,7 +90,7 @@ class Issac {
             this.dead = true;
         }
     }
-    
+
     draw(ctx) {
         this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
@@ -109,13 +109,13 @@ class Goblin {
 
         this.GoblinRight = ASSET_MANAGER.getAsset("./sprites/goblin_right.png");
         this.GoblinLeft = ASSET_MANAGER.getAsset("./sprites/goblin_left.png");
-        
+
         this.width = 170; // need to fix
         this.height = 170;
         this.scale = 0.5;
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
-        
+
         this.speed = this.speed >= this.player.speed ? this.speed - 200 : this.speed;
 
         this.animator = [];
@@ -129,7 +129,7 @@ class Goblin {
         } else {
             this.direction = 1;
         }
-        
+
         this.dead = false;
         this.maxhitpoints = this.hitpoints;
 
@@ -138,7 +138,7 @@ class Goblin {
         this.healthbar = new HealthBar(this, false);
         this.updateBB();
     }
-    
+
     updateBB() {
         this.lastBB = this.BB;
         //this.BB = new BoundingBox(this.x + 15, this.y + 8, this.scaledWidth - 35, this.scaledHeight - 20);
@@ -182,13 +182,13 @@ class Goblin {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
-                    } else if (that.lastBB.left >= entity.BB.right) { 
+                    } else if (that.lastBB.left >= entity.BB.right) {
                         that.x = entity.BB.right;
                         if (deltaX < 0) deltaX = 0;
                     } else if (that.lastBB.bottom <= entity.BB.top) {
                         that.y = entity.BB.top - that.BB.height;
                         if (deltaY > 0) deltaY = 0;
-                    } else if (that.lastBB.top >= entity.BB.bottom) { 
+                    } else if (that.lastBB.top >= entity.BB.bottom) {
                         that.y = entity.BB.bottom;
                         if (deltaY < 0) deltaY = 0;
                     }
@@ -219,7 +219,7 @@ class Goblin {
         } else if (this.direction === 1) {
             this.animator[1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
         }
-        
+
         this.updateBB();
 
         if (params.DEBUG) {
@@ -393,12 +393,17 @@ class Zombie {
         this.seconds = 0;
         this.speedTimes = 1;
 
+        // Knockback variables
+        this.knockback = false;
+        this.knockbackSpeed = 200;
+        this.knockbackDuration = .6;
+        this.knockbackTimer = 0;
+
         this.healthbar = new HealthBar(this, false);
     };
 
     updateBB() {
         this.lastBB = this.BB;
-        //this.BB = new BoundingBox(this.x + 25, this.y + 10, this.scaledWidth - 50, this.scaledHeight - 20);
         this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     };
 
@@ -428,13 +433,30 @@ class Zombie {
             const normalizedDeltaX = (deltaX / length) * this.zomSpeed * this.speedTimes * elapsed;
             const normalizedDeltaY = (deltaY / length) * this.zomSpeed * this.speedTimes * elapsed;
 
-            this.x += normalizedDeltaX;
-            this.y += normalizedDeltaY;
+            if (!this.knockback) {
+                this.x += normalizedDeltaX;
+                this.y += normalizedDeltaY;
+            }
 
             if (protagonist.x >= this.x) {
                 this.direction = 0;
             } else {
                 this.direction = 1;
+            }
+        }
+
+        if (this.knockback) {
+            const knockbackX = deltaX > 0 ? -this.knockbackSpeed : this.knockbackSpeed;
+            const knockbackY = deltaY > 0 ? -this.knockbackSpeed : this.knockbackSpeed;
+
+            this.x += knockbackX * elapsed;
+            this.y += knockbackY * elapsed;
+
+            this.knockbackTimer += elapsed;
+
+            if (this.knockbackTimer >= this.knockbackDuration) {
+                this.knockback = false;
+                this.knockbackTimer = 0;
             }
         }
 
@@ -447,13 +469,13 @@ class Zombie {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac
                     || entity instanceof Zombie) {
-                    if (that.lastBB.right <= entity.BB.left) { 
+                    if (that.lastBB.right <= entity.BB.left) {
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
-                    } else if (that.lastBB.left >= entity.BB.right) { 
+                    } else if (that.lastBB.left >= entity.BB.right) {
                         that.x = entity.BB.right;
                         if (deltaX < 0) deltaX = 0;
-                    } else if (that.lastBB.bottom <= entity.BB.top) { 
+                    } else if (that.lastBB.bottom <= entity.BB.top) {
                         that.y = entity.BB.top - that.BB.height;
                         if (deltaY > 0) deltaY = 0;
                     } else if (that.lastBB.top >= entity.BB.bottom) {
@@ -465,6 +487,9 @@ class Zombie {
                         if (!that.hit) {
                             that.hitpoints -= entity.damage;
                             that.hit = true;
+
+                            // Apply knockback when hit
+                            that.knockback = true;
                         }
                         daggerVis = true;
                     }

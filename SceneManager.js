@@ -60,7 +60,7 @@ class SceneManager {
                     this.enemiesAlive++;
                 }
             } else if (rand === 4) {
-                this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, speed, health));
+                this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, speed, health + 1000));
                 this.enemiesAlive++;
             } else if (rand === 5) {
                 this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, speed, health));
