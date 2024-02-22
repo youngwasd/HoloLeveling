@@ -45,7 +45,7 @@ class SceneManager {
             const speed = Math.floor(Math.random() * (this.theProtagonist.speed - 125 + 1)) + 125; // random number between 125 and 500
             const health = 100 + this.currWave * 10;
             const rand = Math.floor(Math.random() * 6) + 1;
-            
+
             if (rand === 1) {
                 this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, speed, health));
                 this.enemiesAlive++;
@@ -60,15 +60,14 @@ class SceneManager {
                     this.enemiesAlive++;
                 }
             } else if (rand === 4) {
-                this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, speed, health + 1000));
+                this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, speed, health));
                 this.enemiesAlive++;
             } else if (rand === 5) {
                 this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, speed, health));
                 this.enemiesAlive++;
-            // } else {
-            //     this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, speed * 0.5, health * 5));
-            //     this.enemiesAlive++;
-            // }
+            } else {
+                this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, speed * 0.5, health * 5));
+                this.enemiesAlive++;
             }
         }
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
