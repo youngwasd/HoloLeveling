@@ -38,33 +38,41 @@ class Dagger {
         this.lastBB = this.BB;
         this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     };
-
     update() {
         if (this.player.dead) return;
-        
-        this.timer += this.game.clockTick;
-        
-        // if (this.animator[this.direction].isDone()) this.direction = this.player.facing === 0 ? 0 : 1;
 
+        this.timer += this.game.clockTick;
+
+        // Determine the direction of the player
         this.direction = this.player.facing === 0 ? 0 : 1;
-        
-        if (this.timer >= 1.5) {
+
+        // Check if the timer exceeds a certain duration to show the weapon
+        if (this.timer >= 0.5 && this.timer < 1.196) {
             this.isVisible = true;
+        } else {
+            this.isVisible = false;
+        }
+
+        // If the timer exceeds 1.5, reset it and hide the weapon
+        if (this.timer >= 1.5) {
+            this.isVisible = false;
             this.timer = 0;
         }
-        
+
+        // Update weapon position
         this.xOffset = this.direction === 0 ? 65 : 3;
         this.x = this.direction === 0 ? this.player.x + (this.playerWidth / 2) - (this.scaledWidth / 2) + this.xOffset :
             this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;
         this.y = this.player.y + (this.playerHeight / 2) - (this.scaledHeight / 2);
 
+        // Update collision box
         this.updateBB();
-    };
+    }
 
     draw(ctx) {
         if (this.isVisible) {
             this.animator[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-            
+
             if (params.DEBUG) {
                 ctx.strokeStyle = 'Red';
                 ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
