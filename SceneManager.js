@@ -45,7 +45,7 @@ class SceneManager {
             const speed = Math.floor(Math.random() * (this.theProtagonist.speed - 125 + 1)) + 125; // random number between 125 and 500
             const health = 100 + this.currWave * 10;
             const rand = Math.floor(Math.random() * 6) + 1;
-
+            
             if (rand === 1) {
                 this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, speed, health));
                 this.enemiesAlive++;

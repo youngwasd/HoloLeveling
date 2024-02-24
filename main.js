@@ -17,7 +17,6 @@ ASSET_MANAGER.queueDownload("./sprites/Golemv2_Left.png");
 ASSET_MANAGER.queueDownload("./sprites/zombie_left.png");
 ASSET_MANAGER.queueDownload("./sprites/zombie_right.png");
 ASSET_MANAGER.queueDownload("./sprites/grass.jpg");
-ASSET_MANAGER.queueDownload("./sprites/slash2.png");
 ASSET_MANAGER.queueDownload("./sprites/slashv3.png");
 ASSET_MANAGER.queueDownload("./sprites/slashv3_left.png");
 
