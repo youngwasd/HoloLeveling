@@ -612,11 +612,6 @@ class Golem {
 
         this.hit = false;
 
-        this.knockback = false;
-        this.knockbackSpeed = 200;
-        this.knockbackDuration = .6;
-        this.knockbackTimer = 0;
-
         this.healthbar = new HealthBar(this, false);
         this.updateBB();
     };
@@ -638,33 +633,16 @@ class Golem {
             deltaY = protagonist.y - this.y;
 
             const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            const normalizedDeltaX = (deltaX / length) * this.zomSpeed * this.speedTimes * elapsed;
-            const normalizedDeltaY = (deltaY / length) * this.zomSpeed * this.speedTimes * elapsed;
+            const normalizedDeltaX = (deltaX / length) * this.speed * elapsed;
+            const normalizedDeltaY = (deltaY / length) * this.speed * elapsed;
 
-            if (!this.knockback) {
-                this.x += normalizedDeltaX;
-                this.y += normalizedDeltaY;
-            }
+            this.x += normalizedDeltaX;
+            this.y += normalizedDeltaY;
 
             if (protagonist.x >= this.x) {
                 this.direction = 0;
             } else {
                 this.direction = 1;
-            }
-        }
-
-        if (this.knockback) {
-            const knockbackX = deltaX > 0 ? -this.knockbackSpeed : this.knockbackSpeed;
-            const knockbackY = deltaY > 0 ? -this.knockbackSpeed : this.knockbackSpeed;
-
-            this.x += knockbackX * elapsed;
-            this.y += knockbackY * elapsed;
-
-            this.knockbackTimer += elapsed;
-
-            if (this.knockbackTimer >= this.knockbackDuration) {
-                this.knockback = false;
-                this.knockbackTimer = 0;
             }
         }
 
@@ -694,7 +672,6 @@ class Golem {
                         if (!that.hit) {
                             that.hitpoints -= entity.damage;
                             that.hit = true;
-                            that.knockback = true;
                         }
                         daggerVis = true;
                     }
