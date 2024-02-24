@@ -77,7 +77,7 @@ class Issac {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Zombie) {
+                if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac || entity instanceof Zombie || entity instanceof Golem) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -223,7 +223,7 @@ class Goblin {
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac
-                    || entity instanceof Zombie) {
+                    || entity instanceof Zombie || entity instanceof Golem) {
                     if (that.lastBB.right <= entity.BB.left) { // hit the left of tree
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -260,11 +260,7 @@ class Goblin {
     }
 
     draw(ctx) {
-        if (this.direction === 0) {
-            this.animator[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        } else if (this.direction === 1) {
-            this.animator[1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        }
+        this.animator[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
         this.updateBB();
 
@@ -411,11 +407,7 @@ class Bats {
     }
 
     draw(ctx) {
-        if (this.direction === 0) {
-            this.animator[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        } else if (this.direction === 1) {
-            this.animator[1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        }
+        this.animator[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
         this.updateBB();
 
@@ -447,7 +439,7 @@ class Zombie {
         this.animator[0] = new Animator(this.zomRight, 0, 0, this.width, this.height, 4, 0.15, this.scale);
         this.animator[1] = new Animator(this.zomLeft, 0, 0, this.width, this.height, 4, 0.15, this.scale);
         this.animator[1].reverse();
-
+        
         if (this.player.x > this.x) {
             this.direction = 0;
         } else {
@@ -538,7 +530,7 @@ class Zombie {
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if (entity instanceof Tree || entity instanceof Goblin || entity instanceof Issac
-                    || entity instanceof Zombie) {
+                    || entity instanceof Zombie || entity instanceof Golem) {
                     if (that.lastBB.right <= entity.BB.left) {
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -575,11 +567,7 @@ class Zombie {
     };
 
     draw(ctx) {
-        if (this.direction === 0) {
-            this.animator[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        } else if (this.direction === 1) {
-            this.animator[1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        }
+        this.animator[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
         this.updateBB();
 
@@ -687,7 +675,7 @@ class Golem {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Goblin || entity instanceof Issac || entity instanceof Golem || entity instanceof Zombie) {
+                if (entity instanceof Goblin || entity instanceof Issac || entity instanceof Golem || entity instanceof Zombie || entity instanceof Golem) {
                     if (that.lastBB.right <= entity.BB.left) { 
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -726,11 +714,7 @@ class Golem {
     };
 
     draw(ctx) {
-        if (this.direction === 0) {
-            this.animator[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        } else if (this.direction === 1) {
-            this.animator[1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        }
+        this.animator[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
         this.updateBB();
 

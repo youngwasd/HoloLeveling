@@ -85,7 +85,7 @@ class SceneManager {
         this.updateAudio();
 
         if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin ||
-            entity instanceof Bats || entity instanceof Zombie).length === 0) {
+            entity instanceof Bats || entity instanceof Zombie || entity instanceof Golem).length === 0) {
             if (this.currWave % 2 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
             }
@@ -102,7 +102,7 @@ class SceneManager {
         }
         this.enemiesAlive = this.game.entities.filter(entity => entity instanceof Issac ||
             entity instanceof Goblin || entity instanceof Bats ||
-            entity instanceof Zombie).length;
+            entity instanceof Zombie || entity instanceof Golem).length;
     };
     
     draw(ctx) {};
@@ -136,5 +136,5 @@ class SceneManager {
                 this.game.addEntity(new Tree(this.game, x, y));
             }
         }
-    }
+    };
 };
