@@ -6,7 +6,7 @@ class Issac {
 
         // Initial position
         this.width = 28; // for issac
-        this.height = 40; // for issac
+        this.height = 34; // for issac
         this.scale = 2;
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
