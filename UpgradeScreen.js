@@ -4,12 +4,22 @@ class UpgradeScreen {
         this.upgrade1 = this.upgrade1.bind(this);
         this.upgrade2 = this.upgrade2.bind(this);
         this.upgrade3 = this.upgrade3.bind(this);
+        this.upgrade4 = this.upgrade4.bind(this);
+        this.fireballShown = false;
         this.upgrades = [
-            { name: 'Increase Max HP', x: 225, y: 500, width: 250, height: 50, action: this.upgrade1 },
-            { name: 'Increase Weapons Damage', x: 525, y: 500, width: 250, height: 50, action: this.upgrade2 },
-            { name: 'Heal', x: 825, y: 500, width: 250, height: 50, action: this.upgrade3 },
+            { name: 'Increase Max HP', action: this.upgrade1 },
+            { name: 'Increase Weapons Damage', action: this.upgrade2 },
+            { name: 'Heal', action: this.upgrade3 },
+            { name: 'Fire Ball', action: this.upgrade4}
         ];
         this.visible = false;
+    }
+
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
     }
 
     update() {
@@ -25,13 +35,13 @@ class UpgradeScreen {
 
     draw(ctx) {
         if (!this.visible) return;
-        
+
         ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
         ctx.fillRect(0, 0, 2500, 2500);
-        
+
         ctx.save();
         ctx.setTransform(1, 0, 0, 1, 0, 0);
-        this.upgrades.forEach(button => {
+        this.currentUpgrades.forEach(button => {
             ctx.fillStyle = 'grey';
             ctx.fillRect(button.x, button.y, button.width, button.height);
 
@@ -71,7 +81,26 @@ class UpgradeScreen {
     show() {
         this.visible = true;
         this.game.paused = true;
+
+        // Conditionally filter the upgrades array to exclude Fire Ball if it has been shown
+        let availableUpgrades = this.fireballShown ? this.upgrades.filter(upgrade => !upgrade.fireball) : this.upgrades;
+
+        // Shuffle the available upgrades array
+        this.shuffleArray(availableUpgrades);
+
+        // Select the first 3 upgrades after shuffling
+        this.currentUpgrades = availableUpgrades.slice(0, 3);
+
+        // Assign positions dynamically based on selection order
+        const positions = [225, 525, 825]; // x positions for the 3 upgrades
+        this.currentUpgrades.forEach((upgrade, index) => {
+            upgrade.x = positions[index];
+            upgrade.y = 500; // Keeping y constant for simplicity
+            upgrade.width = 250;
+            upgrade.height = 50;
+        });
     }
+
 
     hide() {
         this.visible = false;
@@ -107,6 +136,14 @@ class UpgradeScreen {
         if (player) {
             player.hitpoints = player.maxhitpoints;
             console.log("Fully healed: " + player.hitpoints);
+        }
+    }
+    
+    upgrade4() {
+        const player = this.game.entities.find(entity => entity instanceof TheProtagonist);
+        if (player) {
+            player.weapons.fireball = true;
+            console.log("Fireball unlocked");
         }
     }
 }

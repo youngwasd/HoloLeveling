@@ -94,7 +94,7 @@ class SceneManager {
                 this.upgradeScreen.show();
             }
 
-            if (this.currWave / 5 === 1) this.theProtagonist.weapons.fireball = true; // (temporary) fireball is active after round 5
+            
 
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
                 this.game.entities.filter(map => map instanceof Map).forEach(map => {
