@@ -38,21 +38,25 @@ class Dagger {
         this.lastBB = this.BB;
         this.BB = new BoundingBox(this.x, this.y, this.scaledWidth, this.scaledHeight);
     };
-
+    
     update() {
         if (this.player.dead) return;
-        
+
         this.timer += this.game.clockTick;
-        
-        // if (this.animator[this.direction].isDone()) this.direction = this.player.facing === 0 ? 0 : 1;
 
         this.direction = this.player.facing === 0 ? 0 : 1;
-        
-        if (this.timer >= 1.5) {
+
+        if (this.timer >= 0.5 && this.timer < 1.196) {
             this.isVisible = true;
+        } else {
+            this.isVisible = false;
+        }
+
+        if (this.timer >= 1.5) {
+            this.isVisible = false;
             this.timer = 0;
         }
-        
+
         this.xOffset = this.direction === 0 ? 65 : 3;
         this.x = this.direction === 0 ? this.player.x + (this.playerWidth / 2) - (this.scaledWidth / 2) + this.xOffset :
             this.player.x - (this.playerWidth / 2) - (this.scaledWidth / 2) - this.xOffset;
@@ -64,7 +68,7 @@ class Dagger {
     draw(ctx) {
         if (this.isVisible) {
             this.animator[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-            
+
             if (params.DEBUG) {
                 ctx.strokeStyle = 'Red';
                 ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
