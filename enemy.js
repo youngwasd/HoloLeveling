@@ -93,7 +93,7 @@ class Issac {
                         if (deltaY < 0) deltaY = 0;
                     }
                 } else if (entity instanceof Dagger) {
-                    if (that.player.dagger && entity.isVisible) {
+                    if (that.player.weapons.dagger && entity.isVisible) {
                         if (!that.hit) {
                             that.hitpoints -= entity.damage;
                             that.hit = true;
@@ -242,7 +242,7 @@ class Goblin {
                         if (deltaY < 0) deltaY = 0;
                     }
                 } else if (entity instanceof Dagger) {
-                    if (that.player.dagger && entity.isVisible) {
+                    if (that.player.weapons.dagger && entity.isVisible) {
                         if (!that.hit) {
                             that.hitpoints -= entity.damage;
                             that.hit = true;
@@ -392,7 +392,7 @@ class Bats {
                         if (deltaY < 0) deltaY = 0;
                     }
                 } else if (entity instanceof Dagger) {
-                    if (that.player.dagger && entity.isVisible) {
+                    if (that.player.weapons.dagger && entity.isVisible) {
                         if (!that.hit) {
                             that.hitpoints -= entity.damage;
                             that.hit = true;
@@ -553,7 +553,7 @@ class Zombie {
                         if (deltaY < 0) deltaY = 0;
                     }
                 } else if (entity instanceof Dagger) {
-                    if (that.player.dagger && entity.isVisible) {
+                    if (that.player.weapons.dagger && entity.isVisible) {
                         if (!that.hit) {
                             that.hitpoints -= entity.damage;
                             that.hit = true;
@@ -593,12 +593,12 @@ class Golem {
     constructor(game, x, y, player, speed, hitpoints) {
         Object.assign(this, {game, x, y, player, speed, hitpoints});
 
-        this.goRight = ASSET_MANAGER.getAsset("./sprites/Golemv2.png");
-        this.goLeft = ASSET_MANAGER.getAsset("./sprites/Golemv2_Left.png");
+        this.goRight = ASSET_MANAGER.getAsset("./sprites/golem_right.png");
+        this.goLeft = ASSET_MANAGER.getAsset("./sprites/golem_left.png");
 
-        this.width = 45;
-        this.height = 40;
-        this.scale = 8;
+        this.width = 780 / 4;
+        this.height = 162;
+        this.scale = 1.5;
         this.scaledWidth = this.width * this.scale;
         this.scaledHeight = this.height * this.scale;
 
@@ -606,8 +606,8 @@ class Golem {
 
         this.animator = [];
 
-        this.animator[0] = new Animator(this.goRight, 0, 0, this.width, this.height, 10, 0.2, this.scale);
-        this.animator[1] = new Animator(this.goLeft, 0, 0, this.width, this.height, 10, 0.2, this.scale);
+        this.animator[0] = new Animator(this.goRight, 0, 0, this.width, this.height, 4, 0.35, this.scale);
+        this.animator[1] = new Animator(this.goLeft, 0, 0, this.width, this.height, 4, 0.35, this.scale);
         this.animator[1].reverse();
 
         if (this.player.x > this.x) {
@@ -662,7 +662,7 @@ class Golem {
         let that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Goblin || entity instanceof Issac || entity instanceof Golem || entity instanceof Zombie || entity instanceof Golem) {
+                if (entity instanceof Goblin || entity instanceof Issac || entity instanceof Golem || entity instanceof Zombie) {
                     if (that.lastBB.right <= entity.BB.left) { 
                         that.x = entity.BB.left - that.BB.width;
                         if (deltaX > 0) deltaX = 0;
@@ -677,7 +677,7 @@ class Golem {
                         if (deltaY < 0) deltaY = 0;
                     }
                 }  else if (entity instanceof Dagger) {
-                    if (that.player.dagger && entity.isVisible) {
+                    if (that.player.weapons.dagger && entity.isVisible) {
                         if (!that.hit) {
                             that.hitpoints -= entity.damage;
                             that.hit = true;

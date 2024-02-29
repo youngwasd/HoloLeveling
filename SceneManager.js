@@ -22,23 +22,16 @@ class SceneManager {
     loadLevelOne() {
         this.end = new EndScreen(this.game);
         this.background = new Map(this.game, 0, 0, 2500, 2500);
-        let lava = new Lava(this.game, 100,1000);
         this.theProtagonist = new TheProtagonist(this.game, this.background, this.end);
-        
         this.upgradeScreen = new UpgradeScreen(this.game);
-        
-        this.game.addEntity(this.theProtagonist)
-        
+
+        this.game.addEntity(this.theProtagonist);
         this.game.addEntity(new Dagger(this.game, this.theProtagonist));
+        this.game.addEntity(new Fireball(this.game, this.theProtagonist));
         this.game.addEntity(this.end);
-        
         this.game.addEntity(this.upgradeScreen);
-        
         this.startWave();
-        
-         this.spawnTrees(); // Capture the return value of occupied cells by trees.
-        //this.spawnLavaClusters();
-        
+        this.spawnTrees()
 
         ASSET_MANAGER.pauseBackgroundMusic();
         ASSET_MANAGER.playAsset("./music/minecraft.mp3");
@@ -50,7 +43,6 @@ class SceneManager {
     };
 
     spawnEnemies() {
-        
         for (let i = 0; i < this.numEnemies; i++) {
             let x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
             let y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
@@ -58,44 +50,31 @@ class SceneManager {
             const health = 100 + this.currWave * 10;
             const rand = Math.floor(Math.random() * 6) + 1;
 
-            
             if (rand === 1) {
-                //this.enemis.push(new Issac(this.game, x, y, this.theProtagonist, speed, health));
-                this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, speed, health, this.lava));
+                this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, speed, health));
                 this.enemiesAlive++;
             } else if (rand === 2) {
-                //this.enemis.push(new Goblin(this.game, x, y, this.theProtagonist, speed, health));
-                this.game.addEntity(new Goblin(this.game, x, y, this.theProtagonist, speed, health, this.lava));
+                this.game.addEntity(new Goblin(this.game, x, y, this.theProtagonist, speed, health));
                 this.enemiesAlive++;
             } else if (rand === 3) {
                 for (let j = 0; j < this.currWave; j++) {
                     x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
                     y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
-                    //this.enemis.push(new Bats(this.game, x, y, this.theProtagonist, speed, health - 50));
-                    this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, speed, health - 50, this.lava));
+                    this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, speed, health - 50));
                     this.enemiesAlive++;
                 }
             } else if (rand === 4) {
-                //this.enemis.push(new Zombie(this.game, x, y, this.theProtagonist, speed, health));
-                this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, speed, health, this.lava));
+                this.game.addEntity(new Zombie(this.game, x, y, this.theProtagonist, speed, health));
                 this.enemiesAlive++;
             } else if (rand === 5) {
-                //this.enemis.push(new Bats(this.game, x, y, this.theProtagonist, speed, health));
-                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, speed, health, this.lava));
+                this.game.addEntity(new Bats(this.game, x, y, this.theProtagonist, speed, health));
                 this.enemiesAlive++;
             } else {
-                //this.enemis.push(new Golem(this.game, x, y, this.theProtagonist, speed * 0.5, health * 5));
-                this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, speed * 0.5, health * 5,this.lava));
+                this.game.addEntity(new Golem(this.game, x, y, this.theProtagonist, speed * 0.5, health * 5));
                 this.enemiesAlive++;
             }
         }
-       // this.spawnLavaClusters()
-       
-        //this.game.addEntity(new Lava(this.game, 100,1000));
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
-        //this.game.addEntity(new Lava(this.game, 100,1000));
-        
-        
     };
 
     updateAudio() {
@@ -114,16 +93,15 @@ class SceneManager {
             if (this.currWave % 2 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
             }
+
+            if (this.currWave / 5 === 1) this.theProtagonist.weapons.fireball = true; // (temporary) fireball is active after round 5
+
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
                 this.game.entities.filter(map => map instanceof Map).forEach(map => {
                     map.dead = true;
                 });
             }
-            if (this.currWave == 5) {
-
-            }
             this.currWave++;
-            
             this.startWave();
         }
         this.enemiesAlive = this.game.entities.filter(entity => entity instanceof Issac ||
@@ -160,7 +138,6 @@ class SceneManager {
                 let y = row * gridSize + yOffset;
 
                 this.game.addEntity(new Tree(this.game, x, y));
-                
             }
         }
 
