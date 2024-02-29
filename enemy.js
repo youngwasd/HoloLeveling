@@ -1,6 +1,6 @@
 class Issac {
     constructor(game, x, y, player, speed, hitpoints) {
-        Object.assign(this, {game, x, y, player, speed, hitpoints});
+        Object.assign(this, {game, x, y, player, speed,hitpoints });
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/issac.png");
 
@@ -26,6 +26,7 @@ class Issac {
 
         this.updateBB();
         this.healthbar = new HealthBar(this, false);
+        
     };
 
     updateBB() {
@@ -114,6 +115,7 @@ class Issac {
     }
 
     draw(ctx) {
+        
         this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
         if (params.DEBUG) {
@@ -412,6 +414,7 @@ class Bats {
     }
 
     draw(ctx) {
+        
         this.animator[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
         this.updateBB();
@@ -572,6 +575,7 @@ class Zombie {
     };
 
     draw(ctx) {
+        
         this.animator[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
         this.updateBB();
@@ -696,6 +700,7 @@ class Golem {
     };
 
     draw(ctx) {
+        
         this.animator[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
         this.updateBB();

@@ -6,22 +6,25 @@ class Map {
         this.dead = false;
         this.width = 320;
         this.height = 320;
+        
     };
 
     update() {};
 
     draw(ctx) {
         const numRows = Math.ceil(2500 / this.height); 
-        const numCols = Math.ceil(2500 / this.width); 
-
+        const numCols = Math.ceil(2500 / this.width);
+        
         for (let row = 0; row < numRows; row++) {
             for (let col = 0; col < numCols; col++) {
                 let x = this.x + col * this.width;
                 let y = this.y + row * this.height;
 
                 ctx.drawImage(this.background, x, y, this.width, this.height);
+                
             }
         }
+        
     };
 
     getWidth() {
@@ -78,6 +81,7 @@ class Lava{
     }
     updateBB(){
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        
     }
     draw(ctx){
         ctx.drawImage(this.spritesheet, this.startX, this.startY, 1184, 1184, this.x, this.y, this.width, this.height);

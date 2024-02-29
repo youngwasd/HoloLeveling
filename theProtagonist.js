@@ -128,7 +128,7 @@ class TheProtagonist {
                 } else if (entity instanceof Lava) {
                     if (that.BB.collide(entity.BB)) {
                         if (that.hitCooldown <= 0) {
-                            that.hitpoints -= 5;
+                            that.hitpoints -= 0.1;
                             that.hitCooldown = that.hitCooldownInterval;
                         } else {
                             that.hitCooldown -= that.game.clockTick;
@@ -148,6 +148,7 @@ class TheProtagonist {
     };    
     
     draw(ctx) {
+        
         if (this.facing == 0) {
             this.animator[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
         } else if (this.facing == 1) {
@@ -166,5 +167,6 @@ class TheProtagonist {
 
         ctx.setTransform(1, 0, 0, 1, -centerX + ctx.canvas.width / 2, -centerY + ctx.canvas.height / 2);
         this.healthbar.draw(ctx);
+        
     };
 };
