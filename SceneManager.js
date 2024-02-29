@@ -27,7 +27,8 @@ class SceneManager {
         this.game.addEntity(this.upgradeScreen);
         this.startWave();
 
-        this.spawnTrees()
+        let occupiedCellsByTrees = this.spawnTrees(); // Capture the return value of occupied cells by trees.
+        this.spawnLava(occupiedCellsByTrees); // Pass it to spawnLava.
 
         ASSET_MANAGER.pauseBackgroundMusic();
         ASSET_MANAGER.playAsset("./music/minecraft.mp3");
@@ -136,5 +137,53 @@ class SceneManager {
                 this.game.addEntity(new Tree(this.game, x, y));
             }
         }
-    };
+
+        return occupiedCells; // Return the set of occupied cells.
+    }
+
+
+    spawnLava(trees) {
+        const spacing = 25;
+        const bufferZone = 150; // Minimum distance from a tree
+        const lavaWidth = 75;
+        const lavaHeight = 75;
+        const gridSize = spacing + Math.max(lavaWidth, lavaHeight);
+        const numCols = Math.floor(2500 / gridSize);
+        const numRows = Math.floor(2500 / gridSize);
+        const totalCells = numCols * numRows;
+        const lavaToSpawn = Math.floor(totalCells * 0.1);
+
+        let occupiedCellsByLava = new Set();
+
+        while (occupiedCellsByLava.size < lavaToSpawn) {
+            let isValid = true;
+            let col = Math.floor(Math.random() * numCols);
+            let row = Math.floor(Math.random() * numRows);
+            let cellIndex = row * numCols + col;
+
+            let xOffset = Math.random() * (gridSize - lavaWidth);
+            let yOffset = Math.random() * (gridSize - lavaHeight);
+
+            let x = col * gridSize + xOffset;
+            let y = row * gridSize + yOffset;
+
+            // Check distance from all trees
+            for (let tree of trees) {
+                let dx = x - tree.x;
+                let dy = y - tree.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < bufferZone + Math.max(120, 120) / 2) { // Adjust if tree dimensions are different
+                    isValid = false;
+                    break;
+                }
+            }
+
+            if (isValid && !occupiedCellsByLava.has(cellIndex)) {
+                occupiedCellsByLava.add(cellIndex);
+                this.game.addEntity(new Lava(this.game, x, y));
+            }
+        }
+    }
+
+
 };

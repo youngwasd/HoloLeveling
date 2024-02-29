@@ -63,3 +63,25 @@ class Tree {
         }
     };
 };
+
+class Lava{
+    constructor(game, x, y){
+        Object.assign(this, {game, x, y});
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/lava.png");
+        this.width = 75;
+        this.height = 75;
+        this.startX = 0;
+        this.startY = 0;
+    }
+    update(){
+        this.updateBB();
+    }
+    updateBB(){
+        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+    }
+    draw(ctx){
+        ctx.drawImage(this.spritesheet, this.startX, this.startY, 1184, 1184, this.x, this.y, this.width, this.height);
+    }
+}
+
+

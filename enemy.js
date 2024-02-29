@@ -165,6 +165,8 @@ class Goblin {
 
         this.healthbar = new HealthBar(this, false);
         this.updateBB();
+
+        
     }
 
     updateBB() {
@@ -257,6 +259,9 @@ class Goblin {
         if (this.hitpoints <= 0) {
             this.dead = true;
         }
+
+       
+        
     }
 
     draw(ctx) {
