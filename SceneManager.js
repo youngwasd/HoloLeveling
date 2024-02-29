@@ -93,9 +93,6 @@ class SceneManager {
             if (this.currWave % 2 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
             }
-
-            
-
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
                 this.game.entities.filter(map => map instanceof Map).forEach(map => {
                     map.dead = true;
@@ -140,51 +137,45 @@ class SceneManager {
                 this.game.addEntity(new Tree(this.game, x, y));
             }
         }
-
-        return occupiedCells; // Return the set of occupied cells.
+        return occupiedCells;
     }
 
 
     spawnLavaClusters() {
-        const clusters = 5; // We want three clusters
+        const clusters = 5;
         const minBlocks = 5;
         const maxBlocks = 25;
-        const lavaSize = 75; // Lava blocks are 75x75 pixels
-        const bufferZone = 200; // Buffer zone from trees
-        const maxAttempts = 5000; // Maximum attempts to find a suitable location for a lava block
+        const lavaSize = 75;
+        const bufferZone = 200;
+        const maxAttempts = 5000;
 
         for (let i = 0; i < clusters; i++) {
             const numBlocks = Math.floor(Math.random() * (maxBlocks - minBlocks + 1)) + minBlocks;
             let cluster = [];
             let attempts = 0;
 
-            // Determine a random center for the cluster
             let center = {
                 x: Math.random() * (this.maxX - bufferZone * 2) + bufferZone,
                 y: Math.random() * (this.maxY - bufferZone * 2) + bufferZone
             };
 
-            // Check if the center is too close to a tree
             while (this.isNearTree(center.x, center.y, bufferZone) && attempts < maxAttempts) {
                 center.x = Math.random() * (this.maxX - bufferZone * 2) + bufferZone;
                 center.y = Math.random() * (this.maxY - bufferZone * 2) + bufferZone;
                 attempts++;
             }
 
-            // Place the first block at the center
             if (attempts < maxAttempts) {
                 cluster.push(center);
                 this.lava.push(new Lava(this.game, center.x, center.y));
             }
 
-            // Place the remaining blocks in the cluster
             for (let j = 1; j < numBlocks; j++) {
-                if (attempts >= maxAttempts) break; // If we've exceeded attempts, stop trying to place more blocks
+                if (attempts >= maxAttempts) break;
 
                 let lastBlock = cluster[cluster.length - 1];
                 let newBlock = this.getAdjacentPosition(lastBlock.x, lastBlock.y, lavaSize);
 
-                // Check the new block's position
                 attempts = 0;
                 while ((this.isNearTree(newBlock.x, newBlock.y, bufferZone) || this.isOccupied(newBlock.x, newBlock.y, cluster)) && attempts < maxAttempts) {
                     newBlock = this.getAdjacentPosition(lastBlock.x, lastBlock.y, lavaSize);
@@ -194,47 +185,34 @@ class SceneManager {
                     cluster.push(newBlock);
                     this.game.addEntity(new Lava(this.game, newBlock.x, newBlock.y));
                 }
-
-                
             }
         }
     }
 
-// Utility method to check if a position is near a tree
     isNearTree(x, y, bufferZone) {
-        // Assuming that trees are stored in this.game.entities and each tree has an x and y property
         for (let i = 0; i < this.game.entities.length; i++) {
             let entity = this.game.entities[i];
-            // Check if the entity is a Tree before calculating the distance
             if (entity instanceof Tree) {
                 let dx = x - entity.x;
                 let dy = y - entity.y;
                 let distance = Math.sqrt(dx * dx + dy * dy);
 
-                // Check if the distance is less than the bufferZone
                 if (distance < bufferZone) {
-                    return true; // The point is near a tree
+                    return true;
                 }
             }
         }
-        return false; // No trees are within the bufferZone of the point
+        return false;
     }
 
-
-// Utility method to get a position adjacent to the last block
     getAdjacentPosition(x, y, size) {
-        const directions = [[-size, 0], [size, 0], [0, -size], [0, size]]; // Left, Right, Up, Down
+        const directions = [[-size, 0], [size, 0], [0, -size], [0, size]];
         const randomDirection = directions[Math.floor(Math.random() * directions.length)];
 
         return { x: x + randomDirection[0], y: y + randomDirection[1] };
     }
 
-// Check if the position is already occupied by a lava block in the cluster
     isOccupied(x, y, cluster) {
         return cluster.some(block => block.x === x && block.y === y);
     }
-
-
-
-
 };
