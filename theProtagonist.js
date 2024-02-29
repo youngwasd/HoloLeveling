@@ -5,7 +5,11 @@ class TheProtagonist {
         this.map = map;
         this.protag_right = ASSET_MANAGER.getAsset("./sprites/protag_right.png");
         this.protag_left = ASSET_MANAGER.getAsset("./sprites/protag_left.png");
-        this.dagger = true;
+
+        this.weapons = {
+            dagger: true,
+            fireball: false
+        };
 
         this.x = 1000;
         this.y = 1000;

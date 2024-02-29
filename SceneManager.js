@@ -23,10 +23,10 @@ class SceneManager {
 
         this.game.addEntity(this.theProtagonist);
         this.game.addEntity(new Dagger(this.game, this.theProtagonist));
+        this.game.addEntity(new Fireball(this.game, this.theProtagonist));
         this.game.addEntity(this.end);
         this.game.addEntity(this.upgradeScreen);
         this.startWave();
-
         this.spawnTrees()
 
         ASSET_MANAGER.pauseBackgroundMusic();
@@ -45,7 +45,7 @@ class SceneManager {
             const speed = Math.floor(Math.random() * (this.theProtagonist.speed - 125 + 1)) + 125; // random number between 125 and 500
             const health = 100 + this.currWave * 10;
             const rand = Math.floor(Math.random() * 6) + 1;
-            
+
             if (rand === 1) {
                 this.game.addEntity(new Issac(this.game, x, y, this.theProtagonist, speed, health));
                 this.enemiesAlive++;
@@ -89,13 +89,13 @@ class SceneManager {
             if (this.currWave % 2 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
             }
+
+            if (this.currWave / 5 === 1) this.theProtagonist.weapons.fireball = true; // (temporary) fireball is active after round 5
+
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
                 this.game.entities.filter(map => map instanceof Map).forEach(map => {
                     map.dead = true;
                 });
-            }
-            if (this.currWave == 5) {
-
             }
             this.currWave++;
             this.startWave();

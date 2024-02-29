@@ -6,9 +6,8 @@ class UpgradeScreen {
         this.upgrade3 = this.upgrade3.bind(this);
         this.upgrades = [
             { name: 'Increase Max HP', x: 225, y: 500, width: 250, height: 50, action: this.upgrade1 },
-            { name: 'Increase Dagger Damage', x: 525, y: 500, width: 250, height: 50, action: this.upgrade2 },
+            { name: 'Increase Weapons Damage', x: 525, y: 500, width: 250, height: 50, action: this.upgrade2 },
             { name: 'Heal', x: 825, y: 500, width: 250, height: 50, action: this.upgrade3 },
-            
         ];
         this.visible = false;
     }
@@ -26,11 +25,9 @@ class UpgradeScreen {
 
     draw(ctx) {
         if (!this.visible) return;
-
         
         ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
         ctx.fillRect(0, 0, 2500, 2500);
-
         
         ctx.save();
         ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -51,7 +48,6 @@ class UpgradeScreen {
 
     handleClick(click) {
         if (!this.visible) return;
-
         
         this.upgrades.forEach(button => {
             if (click.x >= button.x && click.x <= button.x + button.width &&
@@ -81,21 +77,28 @@ class UpgradeScreen {
         this.visible = false;
         this.game.paused = false; 
     }
-
     
     upgrade1() {
         const player = this.game.entities.find(entity => entity instanceof TheProtagonist);
         if (player) {
             player.maxhitpoints += 20;
-            console.log(player.maxhitpoints);
+            console.log("Increased max HP: " + player.maxhitpoints);
         }
     }
 
     upgrade2() {
         const dagger = this.game.entities.find(entity => entity instanceof Dagger);
+        const fireball = this.game.entities.find(entity => entity instanceof Fireball);
+        const player = this.game.entities.find(entity => entity instanceof TheProtagonist);
+
+        if (fireball && player.weapons.fireball) {
+            fireball.damage += 35;
+            console.log("Increased fireball damage: " + fireball.damage);
+        }
+
         if (dagger) {
             dagger.damage += 35;
-            console.log(dagger.damage);
+            console.log("Increased dagger damage: " + dagger.damage);
         }
     }
 
@@ -103,7 +106,7 @@ class UpgradeScreen {
         const player = this.game.entities.find(entity => entity instanceof TheProtagonist);
         if (player) {
             player.hitpoints = player.maxhitpoints;
-            console.log(player.hitpoints);
+            console.log("Fully healed: " + player.hitpoints);
         }
     }
 }
