@@ -170,7 +170,7 @@ class Fireball {
                 this.animator[ball.direction].drawFrame(this.game.clockTick, ctx, ball.x, ball.y);
 
                 if (params.DEBUG) {
-                    if (this.game.camera.currWave % 2 === 0 && this.game.camera.currWave !== 0) {
+                    if (this.game.camera.upgradeScreen.getVisible()) {
                         return;
                     } else {
                         ctx.strokeStyle = 'Red';

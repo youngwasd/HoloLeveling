@@ -94,6 +94,9 @@ class UpgradeScreen {
         });
     }
 
+    getVisible() {
+        return this.visible;
+    }
 
     hide() {
         this.visible = false;
