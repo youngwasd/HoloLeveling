@@ -72,6 +72,15 @@ class SceneManager {
                 this.enemiesAlive++;
             }
         }
+        if (this.currWave % 10 === 0 && this.currWave !== 0) {
+            const x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
+            const y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
+            const speed = this.theProtagonist.speed / 2;
+            const health = 200 * (this.currWave * 0.6);
+
+            this.game.addEntity(new Chimera(this.game, x, y, this.theProtagonist, speed, health));
+            this.enemiesAlive++;
+        }
         this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
     };
 
@@ -87,7 +96,7 @@ class SceneManager {
         this.updateAudio();
 
         if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin ||
-            entity instanceof Bats || entity instanceof Zombie || entity instanceof Golem).length === 0) {
+            entity instanceof Bats || entity instanceof Zombie || entity instanceof Golem || entity instanceof Chimera).length === 0) {
             if (this.currWave % 2 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
             }
@@ -101,7 +110,8 @@ class SceneManager {
         }
         this.enemiesAlive = this.game.entities.filter(entity => entity instanceof Issac ||
             entity instanceof Goblin || entity instanceof Bats ||
-            entity instanceof Zombie || entity instanceof Golem).length;
+            entity instanceof Zombie || entity instanceof Golem ||
+            entity instanceof Chimera).length;
     };
     
     draw(ctx) {};
@@ -137,7 +147,6 @@ class SceneManager {
         }
         return occupiedCells;
     }
-
 
     spawnLavaClusters() {
         const clusters = 5;
