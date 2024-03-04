@@ -81,6 +81,7 @@ class Map {
             {x: x, y: y + 1}
         ].filter(pos => pos.x >= 0 && pos.x < this.width / this.blockSize && pos.y >= 0 && pos.y < this.height / this.blockSize);
     }
+    
     generateTrees(numberOfTrees) {
         let placedTrees = 0;
         while (placedTrees < numberOfTrees) {
@@ -113,13 +114,13 @@ class Map {
                     sWidth = 1184; // The width of the lava image
                     sHeight = 1184; // The height of the lava image
                     ctx.drawImage(asset, sx, sy, sWidth, sHeight, x * this.blockSize, y * this.blockSize, 75, 75);
+
                     if (params.DEBUG) {
                         ctx.strokeStyle = 'Red';
                         ctx.strokeRect(x * this.blockSize, y * this.blockSize, 75, 75);
                     }
 
                     let lava = new Lava(this.game, x * this.blockSize, y * this.blockSize);
-                    
                     // Check if the position is already occupied
                     if (!this.game.camera.positionOccupiedByLava(lava.x, lava.y) && !this.game.camera.positionOccupiedByTree(lava.x, lava.y)) {
                         this.game.camera.addLava(lava);

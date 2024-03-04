@@ -93,7 +93,7 @@ class SceneManager {
         }
         let map = new Map(this.game, 5000, 5000);
         map.generateLavaClusters();
-        map.generateTrees(500)
+        map.generateTrees(250)
         
         this.game.addEntity(map);
     };

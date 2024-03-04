@@ -28,7 +28,7 @@ class EndScreen {
     draw(ctx) {
         if (this.isDead) {
             ctx.fillStyle = "black";
-            ctx.fillRect(0, 0, 2500, 2500);
+            ctx.fillRect(0, 0, 5000, 5000);
             ctx.font = "100px Arial";
             ctx.fillStyle = "white";
             ctx.fillText("Game Over", 400, 300);

@@ -590,8 +590,8 @@ class Zombie {
 };
 
 class Golem {
-    constructor(game, x, y, player, speed, hitpoints, map) {
-        Object.assign(this, {game, x, y, player, speed, hitpoints,map});
+    constructor(game, x, y, player, speed, hitpoints) {
+        Object.assign(this, {game, x, y, player, speed, hitpoints});
 
         this.goRight = ASSET_MANAGER.getAsset("./sprites/golem_right.png");
         this.goLeft = ASSET_MANAGER.getAsset("./sprites/golem_left.png");
@@ -686,7 +686,7 @@ class Golem {
                     }
                 } else if(entity instanceof Tree) {
                     entity.dead = true;
-                    entity.convertToGrass()
+                    entity.convertToGrass();
                 }
             }
         });
