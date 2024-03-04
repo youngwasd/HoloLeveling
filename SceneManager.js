@@ -86,7 +86,7 @@ class SceneManager {
             const x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
             const y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
             const speed = this.theProtagonist.speed / 2;
-            const health = 200 * (this.currWave * 0.6);
+            const health = 300 * (this.currWave * 1.6);
 
             this.game.addEntity(new Chimera(this.game, x, y, this.theProtagonist, speed, health));
             this.enemiesAlive++;
