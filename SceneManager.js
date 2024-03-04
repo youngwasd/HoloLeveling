@@ -44,10 +44,8 @@ class SceneManager {
     };
 
     cleanupPreviousWave() {
-        // Filter out trees and lava from game entities
         this.game.entities = this.game.entities.filter(entity => !(entity instanceof Tree || entity instanceof Lava));
 
-        // Optionally, clear the global arrays if you want to track objects wave by wave
         this.globalTrees = [];
         this.globalLavaClusters = [];
     }
@@ -93,7 +91,7 @@ class SceneManager {
             this.game.addEntity(new Chimera(this.game, x, y, this.theProtagonist, speed, health));
             this.enemiesAlive++;
         }
-        let map =new Map(this.game,5000, 5000,this);
+        let map = new Map(this.game, 5000, 5000);
         map.generateLavaClusters();
         map.generateTrees(500)
         
@@ -151,10 +149,7 @@ class SceneManager {
     }
 
     removeTree(tree) {
-        // Remove the tree from globalTrees
         this.globalTrees = this.globalTrees.filter(t => t !== tree);
-
-        // Remove the tree from game entities
         this.game.entities = this.game.entities.filter(entity => entity !== tree);
     }
 };
