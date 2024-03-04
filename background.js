@@ -10,7 +10,7 @@ const TREE = 'tree';
 
 
 class Map {
-    constructor(game, width, height, sceneManager) {
+    constructor(game, width, height) {
         this.game = game;
         this.width = width;
         this.height = height;
@@ -19,9 +19,7 @@ class Map {
         this.initializeMap();
         this.grass = ASSET_MANAGER.getAsset("./sprites/grass.jpg");
         this.lava = ASSET_MANAGER.getAsset("./sprites/lava.png");
-        this.tree = ASSET_MANAGER.getAsset("./sprites/trees.png");
-
-        this.sceneManager = sceneManager;
+        this.tree = ASSET_MANAGER.getAsset("./sprites/trees.png");       
     }
 
     initializeMap() {
@@ -127,22 +125,14 @@ class Map {
                     ctx.drawImage(asset, sx, sy, sWidth, sHeight, x * this.blockSize, y * this.blockSize, 75, 75);
                      let lava = new Lava(this.game, x * this.blockSize, y * this.blockSize);
                      // Check if the position is already occupied
-/*                     if (!this.sceneManager.positionOccupiedByLava(lava.x, lava.y) && !this.sceneManager.positionOccupiedByTree(lava.x, lava.y)) {
-                         this.sceneManager.addLava(lava);
-                     }*/
                      if (!this.game.camera.positionOccupiedByLava(lava.x, lava.y) && !this.game.camera.positionOccupiedByTree(lava.x, lava.y)) {
                          this.game.camera.addLava(lava);
                      }
-                     
                     break;
                  case TREE:
                     asset = this.tree;
                      ctx.drawImage(asset, 116, 5, 40, 60, x * this.blockSize, y * this.blockSize, 75, 75);
                      let tree = new Tree(this.game, x * this.blockSize,  y * this.blockSize, this); // Use appropriate x and y values
-                     // if (!this.sceneManager.positionOccupiedByTree(tree.x, tree.y) && !this.sceneManager.positionOccupiedByLava(tree.x, tree.y)) {
-                     //     this.sceneManager.addTree(tree);
-                     // }
-
                      if (!this.game.camera.positionOccupiedByTree(tree.x, tree.y) && !this.game.camera.positionOccupiedByLava(tree.x, tree.y)) {
                              this.game.camera.addTree(tree);
                          }

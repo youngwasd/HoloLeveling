@@ -22,7 +22,7 @@ class SceneManager {
 
     loadLevelOne() {
         this.end = new EndScreen(this.game);
-        this.background = new Map(this.game, 5000, 5000, this);
+        this.background = new Map(this.game, 5000, 5000);
         this.background.generateLavaClusters()
         this.background.generateTrees(500)
         

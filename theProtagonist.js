@@ -132,7 +132,7 @@ class TheProtagonist {
                 } else if (entity instanceof Lava) {
                     if (that.BB.collide(entity.BB)) {
                         if (that.hitCooldown <= 0) {
-                            that.hitpoints -= 0.1;
+                            that.hitpoints -= 5;
                             that.hitCooldown = that.hitCooldownInterval;
                         } else {
                             that.hitCooldown -= that.game.clockTick;
