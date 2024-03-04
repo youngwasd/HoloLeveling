@@ -82,6 +82,7 @@ class SceneManager {
                 this.enemiesAlive++;
             }
         }
+        
         if (this.currWave % 10 === 0 && this.currWave !== 0) {
             const x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
             const y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
@@ -91,6 +92,7 @@ class SceneManager {
             this.game.addEntity(new Chimera(this.game, x, y, this.theProtagonist, speed, health));
             this.enemiesAlive++;
         }
+
         let map = new Map(this.game, 5000, 5000);
         map.generateLavaClusters();
         map.generateTrees(250)
