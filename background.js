@@ -1,4 +1,5 @@
 let globalLavaClusters = [];
+let globalTrees = [];
 let isLast = false;
 
 // Constants
@@ -9,7 +10,7 @@ const TREE = 'tree';
 
 
 class Map {
-    constructor(game, width, height) {
+    constructor(game, width, height, sceneManager) {
         this.game = game;
         this.width = width;
         this.height = height;
@@ -19,12 +20,21 @@ class Map {
         this.grass = ASSET_MANAGER.getAsset("./sprites/grass.jpg");
         this.lava = ASSET_MANAGER.getAsset("./sprites/lava.png");
         this.tree = ASSET_MANAGER.getAsset("./sprites/trees.png");
+
+        this.sceneManager = sceneManager;
     }
 
     initializeMap() {
         const rows = Math.ceil(this.height / this.blockSize);
         const cols = Math.ceil(this.width / this.blockSize);
         this.map = Array.from({length: rows}, () => Array.from({length: cols}, () => GRASS));
+    }
+
+    setToGrass(x, y) {
+        // Ensure the coordinates are within the map bounds
+        if (x >= 0 && x < this.width / this.blockSize && y >= 0 && y < this.height / this.blockSize) {
+            this.map[y][x] = GRASS; // Assuming GRASS is a constant representing the grass tile
+        }
     }
 
     generateLavaClusters() {
@@ -97,7 +107,6 @@ class Map {
         }
     }
     
-    
     draw(ctx) {
         const rows = Math.ceil(this.height / this.blockSize);
         const cols = Math.ceil(this.width / this.blockSize);
@@ -116,10 +125,27 @@ class Map {
                     sWidth = 1184; // The width of the lava image
                     sHeight = 1184; // The height of the lava image
                     ctx.drawImage(asset, sx, sy, sWidth, sHeight, x * this.blockSize, y * this.blockSize, 75, 75);
+                     let lava = new Lava(this.game, x * this.blockSize, y * this.blockSize);
+                     // Check if the position is already occupied
+/*                     if (!this.sceneManager.positionOccupiedByLava(lava.x, lava.y) && !this.sceneManager.positionOccupiedByTree(lava.x, lava.y)) {
+                         this.sceneManager.addLava(lava);
+                     }*/
+                     if (!this.game.camera.positionOccupiedByLava(lava.x, lava.y) && !this.game.camera.positionOccupiedByTree(lava.x, lava.y)) {
+                         this.game.camera.addLava(lava);
+                     }
+                     
                     break;
                  case TREE:
                     asset = this.tree;
                      ctx.drawImage(asset, 116, 5, 40, 60, x * this.blockSize, y * this.blockSize, 75, 75);
+                     let tree = new Tree(this.game, x * this.blockSize,  y * this.blockSize, this); // Use appropriate x and y values
+                     // if (!this.sceneManager.positionOccupiedByTree(tree.x, tree.y) && !this.sceneManager.positionOccupiedByLava(tree.x, tree.y)) {
+                     //     this.sceneManager.addTree(tree);
+                     // }
+
+                     if (!this.game.camera.positionOccupiedByTree(tree.x, tree.y) && !this.game.camera.positionOccupiedByLava(tree.x, tree.y)) {
+                             this.game.camera.addTree(tree);
+                         }
                     break
                  case GRASS:
                     default:
@@ -131,16 +157,11 @@ class Map {
                     ctx.drawImage(asset, sx, sy, sWidth, sHeight, x * this.blockSize, y * this.blockSize, 300, 300);
                     break;
                 }
-
                 // Draw the asset on the canvas scaled to blockSize
-                
             }
         }
     }
-
-
-
-
+    
     update() {
 
     }
@@ -153,13 +174,12 @@ class Map {
     }
 }
 
-
 class Tree {
-    constructor(game, x, y) {
-        Object.assign(this, {game, x, y});
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/trees.png");
-        this.width = 100;
-        this.height = 120;
+    constructor(game, x, y, map) {
+        Object.assign(this, {game, x, y, map});
+        //this.spritesheet = ASSET_MANAGER.getAsset("./sprites/trees.png");
+        this.width = 75;
+        this.height = 75;
         this.startX = 116;
         this.startY = 5;
 
@@ -176,34 +196,49 @@ class Tree {
     };
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, this.startX, this.startY, 40, 60, this.x, this.y, this.width, this.height);
+        //ctx.drawImage(this.spritesheet, this.startX, this.startY, 40, 60, this.x, this.y, this.width, this.height);
 
         if (params.DEBUG) {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         }
     };
+
+    convertToGrass() {
+        // Assuming x and y properties represent the Tree's position on the map
+        // and are aligned with the blockSize of the map.
+        let mapX = Math.floor(this.x / this.map.blockSize);
+        let mapY = Math.floor(this.y / this.map.blockSize);
+
+        // Update the map tile to Grass
+        this.map.setToGrass(mapX, mapY);
+
+        // Remove this Tree from the game entities, assuming the game has a method for this
+        //this.game.remove(this);
+    }
 };
 
-class Lava{
-    constructor(game, x, y){
+class Lava {
+    constructor(game, x, y) {
         Object.assign(this, {game, x, y});
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/lava.png");
+        //this.spritesheet = ASSET_MANAGER.getAsset("./sprites/lava.png");
         this.width = 75;
         this.height = 75;
         this.startX = 0;
         this.startY = 0;
-    }
-    update(){
         this.updateBB();
     }
-    updateBB(){
-        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
-        
+    update() {
+        this.updateBB();
     }
-    draw(ctx){
-        ctx.drawImage(this.spritesheet, this.startX, this.startY, 1184, 1184, this.x, this.y, this.width, this.height);
+    updateBB() {
+        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+    }
+    draw(ctx) {
+        if (params.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
+        //ctx.drawImage(this.spritesheet, this.startX, this.startY, 1184, 1184, this.x, this.y, this.width, this.height);
     }
 }
-
-

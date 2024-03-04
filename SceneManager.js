@@ -9,10 +9,11 @@ class SceneManager {
         this.enemiesAlive = 0;
         this.minX = 0;
         this.minY = 0;
-        this.maxX = 2500;
-        this.maxY = 2500;
-        
-        this.lava =[];
+        this.maxX = 5000;
+        this.maxY = 5000;
+
+        this.globalTrees = [];
+        this.globalLavaClusters = [];
         this.enemis = [];
         
 
@@ -21,9 +22,10 @@ class SceneManager {
 
     loadLevelOne() {
         this.end = new EndScreen(this.game);
-        this.background = new Map(this.game, 5000, 5000);
+        this.background = new Map(this.game, 5000, 5000, this);
         this.background.generateLavaClusters()
         this.background.generateTrees(500)
+        
         this.background.draw(this.game.ctx);
         this.theProtagonist = new TheProtagonist(this.game, this.background, this.end);
         this.upgradeScreen = new UpgradeScreen(this.game);
@@ -42,11 +44,19 @@ class SceneManager {
     };
 
     startWave() {
+        this.cleanupPreviousWave();
         this.numEnemies = Math.floor(this.currWave * 1.5);
         this.spawnEnemies();
     };
-    
-    
+
+    cleanupPreviousWave() {
+        // Filter out trees and lava from game entities
+        this.game.entities = this.game.entities.filter(entity => !(entity instanceof Tree || entity instanceof Lava));
+
+        // Optionally, clear the global arrays if you want to track objects wave by wave
+        this.globalTrees = [];
+        this.globalLavaClusters = [];
+    }
 
     spawnEnemies() {
         for (let i = 0; i < this.numEnemies; i++) {
@@ -80,12 +90,11 @@ class SceneManager {
                 this.enemiesAlive++;
             }
         }
-        let map =new Map(this.game,5000, 5000);
+        let map =new Map(this.game,5000, 5000,this);
         map.generateLavaClusters();
         map.generateTrees(500)
+        
         this.game.addEntity(map);
-        
-        
     };
 
     updateAudio() {
@@ -103,9 +112,7 @@ class SceneManager {
             entity instanceof Bats || entity instanceof Zombie || entity instanceof Golem).length === 0) {
             if (this.currWave % 2 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
-            }
-
-            
+            }            
 
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
                 this.game.entities.filter(map => map instanceof Map).forEach(map => {
@@ -122,41 +129,29 @@ class SceneManager {
     
     draw(ctx) {};
 
-    spawnTrees() {
-        const spacing = 150;
-        const treeWidth = 100;
-        const treeHeight = 100;
-        const gridSize = spacing + Math.max(treeWidth, treeHeight);
-        const numCols = Math.floor(5000 / gridSize);
-        const numRows = Math.floor(5000 / gridSize);
-        const totalCells = numCols * numRows;
-        const treesToSpawn = Math.floor(totalCells * 0.6);
-
-        let occupiedCells = new Set();
-
-        while (occupiedCells.size < treesToSpawn) {
-            let col = Math.floor(Math.random() * numCols);
-            let row = Math.floor(Math.random() * numRows);
-            let cellIndex = row * numCols + col;
-
-            if (!occupiedCells.has(cellIndex)) {
-                occupiedCells.add(cellIndex);
-
-                let xOffset = Math.random() * (gridSize - treeWidth);
-                let yOffset = Math.random() * (gridSize - treeHeight);
-
-                let x = col * gridSize + xOffset;
-                let y = row * gridSize + yOffset;
-
-                this.game.addEntity(new Tree(this.game, x, y));
-            }
-        }
-
-        return occupiedCells; // Return the set of occupied cells.
+    addTree(tree) {
+        this.globalTrees.push(tree);
+        this.game.addEntity(tree);
     }
-    
 
+    addLava(lava) {
+        this.globalLavaClusters.push(lava);
+        this.game.addEntity(lava);
+    }
 
+    positionOccupiedByTree(x, y) {
+        return this.globalTrees.some(tree => tree.x === x && tree.y === y);
+    }
 
+    positionOccupiedByLava(x, y) {
+        return this.globalLavaClusters.some(lava => lava.x === x && lava.y === y);
+    }
 
+    removeTree(tree) {
+        // Remove the tree from globalTrees
+        this.globalTrees = this.globalTrees.filter(t => t !== tree);
+
+        // Remove the tree from game entities
+        this.game.entities = this.game.entities.filter(entity => entity !== tree);
+    }
 };
