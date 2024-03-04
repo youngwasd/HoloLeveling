@@ -9,36 +9,48 @@ class SceneManager {
         this.enemiesAlive = 0;
         this.minX = 0;
         this.minY = 0;
-        this.maxX = 2500;
-        this.maxY = 2500;
-        
-        this.lava =[];
+        this.maxX = 5000;
+        this.maxY = 5000;
+
+        this.globalTrees = [];
+        this.globalLavaClusters = [];
         this.enemis = [];
         this.end = new EndScreen(this.game);
-        this.background = new Map(this.game, 0, 0, 2500, 2500);
+        this.background = new Map(this.game, 5000, 5000);
+        this.background.generateLavaClusters()
+        this.background.generateTrees(500)
+        
+        this.background.draw(this.game.ctx);
         this.theProtagonist = new TheProtagonist(this.game, this.background, this.end);
         this.upgradeScreen = new UpgradeScreen(this.game);
 
-        this.loadLevelOne();
-    };
-
-    loadLevelOne() {
         this.game.addEntity(this.theProtagonist);
+        
         this.game.addEntity(new Dagger(this.game, this.theProtagonist));
         this.game.addEntity(new Fireball(this.game, this.theProtagonist));
         this.game.addEntity(this.end);
         this.game.addEntity(this.upgradeScreen);
         this.startWave();
-        this.spawnTrees()
+        //this.spawnTrees()
 
         ASSET_MANAGER.pauseBackgroundMusic();
         ASSET_MANAGER.playAsset("./music/minecraft.mp3");
     };
 
     startWave() {
+        this.cleanupPreviousWave();
         this.numEnemies = Math.floor(this.currWave * 1.5);
         this.spawnEnemies();
     };
+
+    cleanupPreviousWave() {
+        // Filter out trees and lava from game entities
+        this.game.entities = this.game.entities.filter(entity => !(entity instanceof Tree || entity instanceof Lava));
+
+        // Optionally, clear the global arrays if you want to track objects wave by wave
+        this.globalTrees = [];
+        this.globalLavaClusters = [];
+    }
 
     spawnEnemies() {
         for (let i = 0; i < this.numEnemies; i++) {
@@ -81,7 +93,11 @@ class SceneManager {
             this.game.addEntity(new Chimera(this.game, x, y, this.theProtagonist, speed, health));
             this.enemiesAlive++;
         }
-        this.game.addEntity(new Map(this.game, 0, 0, 2500, 2500));
+        let map =new Map(this.game,5000, 5000,this);
+        map.generateLavaClusters();
+        map.generateTrees(500)
+        
+        this.game.addEntity(map);
     };
 
     updateAudio() {
@@ -116,110 +132,29 @@ class SceneManager {
     
     draw(ctx) {};
 
-    spawnTrees() {
-        const spacing = 150;
-        const treeWidth = 100;
-        const treeHeight = 100;
-        const gridSize = spacing + Math.max(treeWidth, treeHeight);
-        const numCols = Math.floor(2500 / gridSize);
-        const numRows = Math.floor(2500 / gridSize);
-        const totalCells = numCols * numRows;
-        const treesToSpawn = Math.floor(totalCells * 0.6);
-
-        let occupiedCells = new Set();
-
-        while (occupiedCells.size < treesToSpawn) {
-            let col = Math.floor(Math.random() * numCols);
-            let row = Math.floor(Math.random() * numRows);
-            let cellIndex = row * numCols + col;
-
-            if (!occupiedCells.has(cellIndex)) {
-                occupiedCells.add(cellIndex);
-
-                let xOffset = Math.random() * (gridSize - treeWidth);
-                let yOffset = Math.random() * (gridSize - treeHeight);
-
-                let x = col * gridSize + xOffset;
-                let y = row * gridSize + yOffset;
-
-                this.game.addEntity(new Tree(this.game, x, y));
-            }
-        }
-        return occupiedCells;
+    addTree(tree) {
+        this.globalTrees.push(tree);
+        this.game.addEntity(tree);
     }
 
-    spawnLavaClusters() {
-        const clusters = 5;
-        const minBlocks = 5;
-        const maxBlocks = 25;
-        const lavaSize = 75;
-        const bufferZone = 200;
-        const maxAttempts = 5000;
-
-        for (let i = 0; i < clusters; i++) {
-            const numBlocks = Math.floor(Math.random() * (maxBlocks - minBlocks + 1)) + minBlocks;
-            let cluster = [];
-            let attempts = 0;
-
-            let center = {
-                x: Math.random() * (this.maxX - bufferZone * 2) + bufferZone,
-                y: Math.random() * (this.maxY - bufferZone * 2) + bufferZone
-            };
-
-            while (this.isNearTree(center.x, center.y, bufferZone) && attempts < maxAttempts) {
-                center.x = Math.random() * (this.maxX - bufferZone * 2) + bufferZone;
-                center.y = Math.random() * (this.maxY - bufferZone * 2) + bufferZone;
-                attempts++;
-            }
-
-            if (attempts < maxAttempts) {
-                cluster.push(center);
-                this.lava.push(new Lava(this.game, center.x, center.y));
-            }
-
-            for (let j = 1; j < numBlocks; j++) {
-                if (attempts >= maxAttempts) break;
-
-                let lastBlock = cluster[cluster.length - 1];
-                let newBlock = this.getAdjacentPosition(lastBlock.x, lastBlock.y, lavaSize);
-
-                attempts = 0;
-                while ((this.isNearTree(newBlock.x, newBlock.y, bufferZone) || this.isOccupied(newBlock.x, newBlock.y, cluster)) && attempts < maxAttempts) {
-                    newBlock = this.getAdjacentPosition(lastBlock.x, lastBlock.y, lavaSize);
-                    attempts++;
-                }
-                if (attempts < maxAttempts) {
-                    cluster.push(newBlock);
-                    this.game.addEntity(new Lava(this.game, newBlock.x, newBlock.y));
-                }
-            }
-        }
+    addLava(lava) {
+        this.globalLavaClusters.push(lava);
+        this.game.addEntity(lava);
     }
 
-    isNearTree(x, y, bufferZone) {
-        for (let i = 0; i < this.game.entities.length; i++) {
-            let entity = this.game.entities[i];
-            if (entity instanceof Tree) {
-                let dx = x - entity.x;
-                let dy = y - entity.y;
-                let distance = Math.sqrt(dx * dx + dy * dy);
-
-                if (distance < bufferZone) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    positionOccupiedByTree(x, y) {
+        return this.globalTrees.some(tree => tree.x === x && tree.y === y);
     }
 
-    getAdjacentPosition(x, y, size) {
-        const directions = [[-size, 0], [size, 0], [0, -size], [0, size]];
-        const randomDirection = directions[Math.floor(Math.random() * directions.length)];
-
-        return { x: x + randomDirection[0], y: y + randomDirection[1] };
+    positionOccupiedByLava(x, y) {
+        return this.globalLavaClusters.some(lava => lava.x === x && lava.y === y);
     }
 
-    isOccupied(x, y, cluster) {
-        return cluster.some(block => block.x === x && block.y === y);
+    removeTree(tree) {
+        // Remove the tree from globalTrees
+        this.globalTrees = this.globalTrees.filter(t => t !== tree);
+
+        // Remove the tree from game entities
+        this.game.entities = this.game.entities.filter(entity => entity !== tree);
     }
 };
