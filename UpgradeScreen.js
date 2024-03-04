@@ -37,7 +37,7 @@ class UpgradeScreen {
         if (!this.visible) return;
 
         ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-        ctx.fillRect(0, 0, 2500, 2500);
+        ctx.fillRect(0, 0, 5000, 5000);
 
         ctx.save();
         ctx.setTransform(1, 0, 0, 1, 0, 0);
