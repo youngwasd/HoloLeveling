@@ -6,7 +6,6 @@ class Map {
         this.dead = false;
         this.width = 320;
         this.height = 320;
-        
     };
 
     update() {};
@@ -21,10 +20,8 @@ class Map {
                 let y = this.y + row * this.height;
 
                 ctx.drawImage(this.background, x, y, this.width, this.height);
-                
             }
         }
-        
     };
 
     getWidth() {
@@ -67,8 +64,8 @@ class Tree {
     };
 };
 
-class Lava{
-    constructor(game, x, y){
+class Lava {
+    constructor(game, x, y) {
         Object.assign(this, {game, x, y});
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/lava.png");
         this.width = 75;
@@ -76,15 +73,22 @@ class Lava{
         this.startX = 0;
         this.startY = 0;
     }
-    update(){
+
+    update() {
         this.updateBB();
     }
-    updateBB(){
+
+    updateBB() {
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
-        
     }
-    draw(ctx){
+
+    draw(ctx) {
         ctx.drawImage(this.spritesheet, this.startX, this.startY, 1184, 1184, this.x, this.y, this.width, this.height);
+
+        if (params.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
     }
 }
 
