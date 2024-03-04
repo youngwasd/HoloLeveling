@@ -18,7 +18,7 @@ class SceneManager {
         this.end = new EndScreen(this.game);
         this.background = new Map(this.game, 5000, 5000);
         this.background.generateLavaClusters()
-        this.background.generateTrees(500)
+        this.background.generateTrees(250)
         
         this.background.draw(this.game.ctx);
         this.theProtagonist = new TheProtagonist(this.game, this.background, this.end);

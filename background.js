@@ -137,7 +137,7 @@ class Map {
 
                     let tree = new Tree(this.game, x * this.blockSize,  y * this.blockSize, this); // Use appropriate x and y values
                     if (!this.game.camera.positionOccupiedByTree(tree.x, tree.y) && !this.game.camera.positionOccupiedByLava(tree.x, tree.y)) {
-                            this.game.camera.addTree(tree);
+                        this.game.camera.addTree(tree);
                     }
                     break
                 case GRASS:
