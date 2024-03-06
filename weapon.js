@@ -107,9 +107,9 @@ class Fireball {
         this.balls = [];
         this.damage = 100;
 
-        setInterval(() => { // fireball every 2.5 seconds
+        setInterval(() => { // fireball every 2.2 seconds
             this.fire();
-        }, 2500);
+        }, 2200);
 
         this.updateBB();
     };
@@ -149,7 +149,7 @@ class Fireball {
                     if (entity.BB && ball.BB && ball.BB.collide(entity.BB)) {
                         if (entity instanceof Goblin || entity instanceof Issac ||
                             entity instanceof Zombie || entity instanceof Golem ||
-                            entity instanceof Bats) {
+                            entity instanceof Bats || entity instanceof Chimera) {
                                 ball.hit = true;
                                 entity.hitpoints -= that.damage;
                         } else if (entity instanceof Tree) {
@@ -170,7 +170,7 @@ class Fireball {
                 this.animator[ball.direction].drawFrame(this.game.clockTick, ctx, ball.x, ball.y);
 
                 if (params.DEBUG) {
-                    if (this.game.camera.currWave % 2 === 0 && this.game.camera.currWave !== 0) {
+                    if (this.game.camera.upgradeScreen.getVisible()) {
                         return;
                     } else {
                         ctx.strokeStyle = 'Red';

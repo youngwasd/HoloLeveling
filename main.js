@@ -22,6 +22,8 @@ ASSET_MANAGER.queueDownload("./sprites/golem_left.png");
 ASSET_MANAGER.queueDownload("./sprites/golem_right.png");
 ASSET_MANAGER.queueDownload("./sprites/fireball_left.png");
 ASSET_MANAGER.queueDownload("./sprites/fireball_right.png");
+ASSET_MANAGER.queueDownload("./sprites/chimera_left.png");
+ASSET_MANAGER.queueDownload("./sprites/chimera_right.png");
 
 // music
 ASSET_MANAGER.queueDownload("./music/minecraft.mp3");

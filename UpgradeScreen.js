@@ -81,26 +81,22 @@ class UpgradeScreen {
     show() {
         this.visible = true;
         this.game.paused = true;
-
-        // Conditionally filter the upgrades array to exclude Fire Ball if it has been shown
         let availableUpgrades = this.fireballShown ? this.upgrades.filter(upgrade => !upgrade.fireball) : this.upgrades;
-
-        // Shuffle the available upgrades array
         this.shuffleArray(availableUpgrades);
-
-        // Select the first 3 upgrades after shuffling
         this.currentUpgrades = availableUpgrades.slice(0, 3);
 
-        // Assign positions dynamically based on selection order
         const positions = [225, 525, 825]; // x positions for the 3 upgrades
         this.currentUpgrades.forEach((upgrade, index) => {
             upgrade.x = positions[index];
-            upgrade.y = 500; // Keeping y constant for simplicity
+            upgrade.y = 500;
             upgrade.width = 250;
             upgrade.height = 50;
         });
     }
 
+    getVisible() {
+        return this.visible;
+    }
 
     hide() {
         this.visible = false;

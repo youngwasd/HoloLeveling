@@ -15,12 +15,6 @@ class SceneManager {
         this.globalTrees = [];
         this.globalLavaClusters = [];
         this.enemis = [];
-        
-
-        this.loadLevelOne();
-    };
-
-    loadLevelOne() {
         this.end = new EndScreen(this.game);
         this.background = new Map(this.game, 5000, 5000);
         this.background.generateLavaClusters()
@@ -29,7 +23,7 @@ class SceneManager {
         this.background.draw(this.game.ctx);
         this.theProtagonist = new TheProtagonist(this.game, this.background, this.end);
         this.upgradeScreen = new UpgradeScreen(this.game);
-        
+
         this.game.addEntity(this.theProtagonist);
         
         this.game.addEntity(new Dagger(this.game, this.theProtagonist));
@@ -50,10 +44,8 @@ class SceneManager {
     };
 
     cleanupPreviousWave() {
-        // Filter out trees and lava from game entities
         this.game.entities = this.game.entities.filter(entity => !(entity instanceof Tree || entity instanceof Lava));
 
-        // Optionally, clear the global arrays if you want to track objects wave by wave
         this.globalTrees = [];
         this.globalLavaClusters = [];
     }
@@ -90,9 +82,18 @@ class SceneManager {
                 this.enemiesAlive++;
             }
         }
-        let map =new Map(this.game,5000, 5000,this);
+        if (this.currWave % 10 === 0 && this.currWave !== 0) {
+            const x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
+            const y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
+            const speed = this.theProtagonist.speed / 2;
+            const health = 300 * (this.currWave * 1.6);
+
+            this.game.addEntity(new Chimera(this.game, x, y, this.theProtagonist, speed, health));
+            this.enemiesAlive++;
+        }
+        let map = new Map(this.game, 5000, 5000);
         map.generateLavaClusters();
-        map.generateTrees(500)
+        map.generateTrees(250)
         
         this.game.addEntity(map);
     };
@@ -109,11 +110,10 @@ class SceneManager {
         this.updateAudio();
 
         if (this.game.entities.filter(entity => entity instanceof Issac || entity instanceof Goblin ||
-            entity instanceof Bats || entity instanceof Zombie || entity instanceof Golem).length === 0) {
+            entity instanceof Bats || entity instanceof Zombie || entity instanceof Golem || entity instanceof Chimera).length === 0) {
             if (this.currWave % 2 === 0 && this.currWave !== 0) {
                 this.upgradeScreen.show();
-            }            
-
+            }
             if (this.game.entities.filter(map => map instanceof Map).length !== 0) {
                 this.game.entities.filter(map => map instanceof Map).forEach(map => {
                     map.dead = true;
@@ -124,7 +124,8 @@ class SceneManager {
         }
         this.enemiesAlive = this.game.entities.filter(entity => entity instanceof Issac ||
             entity instanceof Goblin || entity instanceof Bats ||
-            entity instanceof Zombie || entity instanceof Golem).length;
+            entity instanceof Zombie || entity instanceof Golem ||
+            entity instanceof Chimera).length;
     };
     
     draw(ctx) {};
@@ -148,10 +149,7 @@ class SceneManager {
     }
 
     removeTree(tree) {
-        // Remove the tree from globalTrees
         this.globalTrees = this.globalTrees.filter(t => t !== tree);
-
-        // Remove the tree from game entities
         this.game.entities = this.game.entities.filter(entity => entity !== tree);
     }
 };

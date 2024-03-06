@@ -138,6 +138,15 @@ class TheProtagonist {
                             that.hitCooldown -= that.game.clockTick;
                         }
                     }
+                } else if (entity instanceof Chimera) {
+                    if (that.BB.collide(entity.BB)) {
+                        if (that.hitCooldown <= 0) {
+                            that.hitpoints -= 25;
+                            that.hitCooldown = that.hitCooldownInterval;
+                        } else {
+                            that.hitCooldown -= that.game.clockTick;
+                        }
+                    }
                 }
             }
         });
