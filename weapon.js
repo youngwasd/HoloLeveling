@@ -63,6 +63,8 @@ class Dagger {
         this.updateBB();
     };
 
+    drawMinimap(ctx, mmX, mmY) {};
+
     draw(ctx) {
         if (this.isVisible) {
             this.animator[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
@@ -161,6 +163,8 @@ class Fireball {
         });
         this.updateBB();
     };
+
+    drawMinimap(ctx, mmX, mmY) {};
 
     draw(ctx) {
         this.balls.forEach(function (ball) {

@@ -10,7 +10,7 @@ class UpgradeScreen {
             { name: 'Increase Max HP', action: this.upgrade1 },
             { name: 'Increase Weapons Damage', action: this.upgrade2 },
             { name: 'Heal', action: this.upgrade3 },
-            { name: 'Fire Ball', action: this.upgrade4}
+            { name: 'Fire Ball', action: this.upgrade4 }
         ];
         this.visible = false;
     }
@@ -32,6 +32,8 @@ class UpgradeScreen {
             }
         });
     }
+
+    drawMinimap(ctx, mmX, mmY) {};
 
     draw(ctx) {
         if (!this.visible) return;
@@ -139,6 +141,7 @@ class UpgradeScreen {
         const player = this.game.entities.find(entity => entity instanceof TheProtagonist);
         if (player) {
             player.weapons.fireball = true;
+            this.fireballShown = true;
             console.log("Fireball unlocked");
         }
     }

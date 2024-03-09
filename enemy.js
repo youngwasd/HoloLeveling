@@ -114,6 +114,19 @@ class Issac {
         }
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        const x = mmX + Math.min((this.x / 5000) * 200, 195);
+        const y = mmY + Math.min((this.y / 5000) * 200, 195);
+
+        ctx.fillStyle = "Red";
+        ctx.fillRect(x, y, 5, 5);
+
+        ctx.restore();
+    };
+
     draw(ctx) {
         
         this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
@@ -266,6 +279,19 @@ class Goblin {
         
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        const x = mmX + Math.min((this.x / 5000) * 200, 195);
+        const y = mmY + Math.min((this.y / 5000) * 200, 195);
+
+        ctx.fillStyle = "Red";
+        ctx.fillRect(x, y, 5, 5);
+
+        ctx.restore();
+    };
+
     draw(ctx) {
         this.animator[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
@@ -412,6 +438,19 @@ class Bats {
             this.dead = true;
         }
     }
+
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        const x = mmX + Math.min((this.x / 5000) * 200, 195);
+        const y = mmY + Math.min((this.y / 5000) * 200, 195);
+
+        ctx.fillStyle = "Red";
+        ctx.fillRect(x, y, 5, 5);
+
+        ctx.restore();
+    };
 
     draw(ctx) {
         
@@ -574,6 +613,19 @@ class Zombie {
         }
     };
 
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        const x = mmX + Math.min((this.x / 5000) * 200, 195);
+        const y = mmY + Math.min((this.y / 5000) * 200, 195);
+
+        ctx.fillStyle = "Red";
+        ctx.fillRect(x, y, 5, 5);
+
+        ctx.restore();
+    };
+    
     draw(ctx) {
         
         this.animator[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
@@ -700,6 +752,20 @@ class Golem {
         }
     };
 
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        const x = mmX + Math.min((this.x / 5000) * 200, 195);
+        const y = mmY + Math.min((this.y / 5000) * 200, 195);
+
+        ctx.fillStyle = "Red";
+        ctx.fillRect(x, y, 5, 5);
+
+        ctx.restore();
+    };
+
+
     draw(ctx) {
         this.animator[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
@@ -806,6 +872,19 @@ class Chimera {
         if (this.hitpoints <= 0) {
             this.dead = true;
         }
+    };
+
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        const x = mmX + Math.min((this.x / 5000) * 200, 190);
+        const y = mmY + Math.min((this.y / 5000) * 200, 190);
+
+        ctx.fillStyle = "Red";
+        ctx.fillRect(x, y, 10, 10);
+
+        ctx.restore();
     };
 
     draw(ctx) {

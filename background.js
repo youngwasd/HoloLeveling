@@ -76,7 +76,7 @@ class Map {
             y: Math.floor(Math.random() * (this.height / this.blockSize))
         };
     }
-
+    
     generateTrees(numberOfTrees) {
         let placedTrees = 0;
         let attemptCount = 0;
@@ -111,10 +111,7 @@ class Map {
         }
     }
 
-
-
-
-
+    drawMinimap(ctx, mmX, mmY) {};
 
     draw(ctx) {
         const rows = Math.ceil(this.height / this.blockSize);
@@ -157,7 +154,7 @@ class Map {
 
                         let tree = new Tree(this.game, x * this.blockSize,  y * this.blockSize, this); // Use appropriate x and y values
                         if (!this.game.camera.positionOccupiedByTree(tree.x, tree.y) && !this.game.camera.positionOccupiedByLava(tree.x, tree.y)) {
-                            //this.game.camera.addTree(tree);
+                            this.game.camera.addTree(tree);
                         }
                         break
                     case GRASS:
@@ -197,8 +194,6 @@ class Tree {
 
         this.width = 75;
         this.height = 75;
-        this.startX = 116;
-        this.startY = 5;
 
         this.updateBB();
     };
@@ -210,6 +205,19 @@ class Tree {
 
     update() {
         this.updateBB();
+    };
+
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        const x = mmX + Math.min((this.x / 5000) * 200, 198);
+        const y = mmY + Math.min((this.y / 5000) * 200, 198);
+
+        ctx.fillStyle = "rgb(164, 130, 189)";
+        ctx.fillRect(x, y, 2, 2);
+
+        ctx.restore();
     };
 
     draw(ctx) {
@@ -233,8 +241,6 @@ class Lava {
 
         this.width = 75;
         this.height = 75;
-        this.startX = 0;
-        this.startY = 0;
         this.updateBB();
     }
     
@@ -245,6 +251,19 @@ class Lava {
     updateBB() {
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
     }
+
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        const x = mmX + Math.min((this.x / 5000) * 200, 198);
+        const y = mmY + Math.min((this.y / 5000) * 200, 198);
+
+        ctx.fillStyle = "rgb(181, 138, 165)";
+        ctx.fillRect(x, y, 2, 2);
+
+        ctx.restore();
+    };
 
     draw(ctx) {
 
