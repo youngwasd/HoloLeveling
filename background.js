@@ -3,6 +3,10 @@ const LAVA = 'lava';
 const GRASS = 'grass';
 const TREE = 'tree';
 
+let globalLavaClusters = [];
+let globalTrees = [];
+let isLast = false;
+
 class Map {
     constructor(game, width, height) {
         this.game = game;
@@ -29,14 +33,38 @@ class Map {
     }
 
     generateLavaClusters() {
-        const numberOfSpots = 10; // Change to 10 spots
-        for (let i = 0; i < numberOfSpots; i++) {
-            // Each spot is just a single block, so we don't need to calculate a cluster size
-            let spotPosition = {
+        const numberOfClusters = 15;
+        for (let i = 0; i < numberOfClusters; i++) {
+            const clusterSize = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+            let placedBlocks = 0;
+            let startingPoint = {
                 x: Math.floor(Math.random() * (this.width / this.blockSize)),
                 y: Math.floor(Math.random() * (this.height / this.blockSize))
             };
-            this.map[spotPosition.y][spotPosition.x] = LAVA; // Place lava at the generated spot
+            this.map[startingPoint.y][startingPoint.x] = LAVA;
+            placedBlocks++;
+
+            let potentialPositions = [startingPoint];
+
+            while (placedBlocks < clusterSize) {
+                let randomIndex = Math.floor(Math.random() * potentialPositions.length);
+                let currentBlock = potentialPositions[randomIndex];
+
+                let maxDistance = Math.sqrt(clusterSize);
+                if (this.map[currentBlock.y][currentBlock.x] === GRASS && this.distanceFromCenter(startingPoint, currentBlock) <= maxDistance) {
+                    this.map[currentBlock.y][currentBlock.x] = LAVA;
+                    placedBlocks++;
+                }
+
+                potentialPositions.splice(randomIndex, 1);
+                let newAdjacents = this.getAdjacentPositions(currentBlock.x, currentBlock.y)
+                    .filter(pos => this.map[pos.y][pos.x] === GRASS);
+                potentialPositions = potentialPositions.concat(newAdjacents);
+
+                if (potentialPositions.length === 0 && placedBlocks < clusterSize) {
+                    potentialPositions = [startingPoint];
+                }
+            }
         }
     }
 
