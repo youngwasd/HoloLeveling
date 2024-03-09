@@ -50,7 +50,7 @@ class SceneManager {
         this.globalLavaClusters = [];
     }
 
-    spawnEnemies() {
+    async spawnEnemies() {
         for (let i = 0; i < this.numEnemies; i++) {
             let x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
             let y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
@@ -92,9 +92,9 @@ class SceneManager {
             this.enemiesAlive++;
         }
         let map = new Map(this.game, 5000, 5000);
-        map.generateLavaClusters();
-        map.generateTrees(250)
-        
+        await map.generateLavaClusters();
+        await map.generateTrees(400)
+
         this.game.addEntity(map);
     };
 

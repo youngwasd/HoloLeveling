@@ -3,10 +3,6 @@ const LAVA = 'lava';
 const GRASS = 'grass';
 const TREE = 'tree';
 
-let globalLavaClusters = [];
-let globalTrees = [];
-let isLast = false;
-
 class Map {
     constructor(game, width, height) {
         this.game = game;
@@ -29,7 +25,7 @@ class Map {
     }
 
     generateLavaClusters() {
-        const numberOfClusters = 15;
+        const numberOfClusters = 25;
         for (let i = 0; i < numberOfClusters; i++) {
             const clusterSize = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
             let placedBlocks = 0;
@@ -45,9 +41,9 @@ class Map {
             let potentialPositions = this.getAdjacentPositions(startingPoint.x, startingPoint.y);
 
             while (placedBlocks < clusterSize && potentialPositions.length > 0) {
-                let bestPosition = potentialPositions.shift(); // Take the first potential position
+                let bestPosition = potentialPositions.shift();
 
-                // Check if placing a block here would keep the cluster within the desired dimensions
+
                 let withinHorizontalLimits = (Math.max(maxX, bestPosition.x) - Math.min(minX, bestPosition.x)) < 5;
                 let withinVerticalLimits = (Math.max(maxY, bestPosition.y) - Math.min(minY, bestPosition.y)) < 5;
 
@@ -83,14 +79,41 @@ class Map {
 
     generateTrees(numberOfTrees) {
         let placedTrees = 0;
-        while (placedTrees < numberOfTrees) {
-            let point = this.getRandomPoint();
-            if (this.map[point.y][point.x] === 'grass') {
-                this.map[point.y][point.x] = 'tree';
+        let attemptCount = 0;
+        const maxAttempts = numberOfTrees * 10; // Setting a limit to prevent infinite loops
+
+        // Refresh grass positions after lava generation
+        let potentialPositions = this.map.reduce((acc, row, y) => {
+            row.forEach((cell, x) => {
+                if (cell === GRASS || cell !== LAVA) acc.push({ x, y });
+            });
+            return acc;
+        }, []);
+
+        while (placedTrees < numberOfTrees && potentialPositions.length > 0 && attemptCount < maxAttempts) {
+            let randomIndex = Math.floor(Math.random() * potentialPositions.length);
+            let { x, y } = potentialPositions[randomIndex];
+
+            // Directly set the tile to grass before placing a tree, ensuring the spot is suitable.
+            if (this.map[y][x] !== LAVA) { // Ensure we never convert lava to grass.
+                this.map[y][x] = GRASS; // Ensuring the floor is grass.
+                this.map[y][x] = TREE; // Now safely place a tree.
                 placedTrees++;
             }
+
+            // Remove the selected position to avoid rechecking it.
+            potentialPositions.splice(randomIndex, 1);
+            attemptCount++;
+        }
+
+        if (attemptCount >= maxAttempts) {
+            console.warn("Reached max tree placement attempts. Map may be too full for more trees.");
         }
     }
+
+
+
+
 
 
     draw(ctx) {
@@ -100,7 +123,7 @@ class Map {
             for (let x = 0; x < cols; x++) {
                 if (this.map[y][x] === undefined) {
                     console.error(`Map data at ${x}, ${y} is undefined.`);
-                    continue; // Skip drawing undefined cells
+                    continue;
                 }
                 let asset, sx, sy, sWidth, sHeight;
                 switch(this.map[y][x]) {
@@ -108,8 +131,8 @@ class Map {
                         asset = this.assets.lava;
                         sx = 0;
                         sy = 0;
-                        sWidth = 1184; // The width of the lava image
-                        sHeight = 1184; // The height of the lava image
+                        sWidth = 1184;
+                        sHeight = 1184;
                         ctx.drawImage(asset, sx, sy, sWidth, sHeight, x * this.blockSize, y * this.blockSize, 75, 75);
 
                         if (params.DEBUG) {
@@ -118,7 +141,7 @@ class Map {
                         }
 
                         let lava = new Lava(this.game, x * this.blockSize, y * this.blockSize);
-                        // Check if the position is already occupied
+
                         if (!this.game.camera.positionOccupiedByLava(lava.x, lava.y) && !this.game.camera.positionOccupiedByTree(lava.x, lava.y)) {
                             this.game.camera.addLava(lava);
                         }
@@ -134,7 +157,7 @@ class Map {
 
                         let tree = new Tree(this.game, x * this.blockSize,  y * this.blockSize, this); // Use appropriate x and y values
                         if (!this.game.camera.positionOccupiedByTree(tree.x, tree.y) && !this.game.camera.positionOccupiedByLava(tree.x, tree.y)) {
-                            this.game.camera.addTree(tree);
+                            //this.game.camera.addTree(tree);
                         }
                         break
                     case GRASS:
@@ -147,7 +170,6 @@ class Map {
                         ctx.drawImage(asset, sx, sy, sWidth, sHeight, x * this.blockSize, y * this.blockSize, 300, 300);
                         break;
                 }
-                // Draw the asset on the canvas scaled to blockSize
             }
         }
     }
@@ -172,7 +194,7 @@ class Map {
 class Tree {
     constructor(game, x, y, map) {
         Object.assign(this, {game, x, y, map});
-        //this.spritesheet = ASSET_MANAGER.getAsset("./sprites/trees.png");
+
         this.width = 75;
         this.height = 75;
         this.startX = 116;
@@ -191,7 +213,6 @@ class Tree {
     };
 
     draw(ctx) {
-        //ctx.drawImage(this.spritesheet, this.startX, this.startY, 40, 60, this.x, this.y, this.width, this.height);
 
         if (params.DEBUG) {
             ctx.strokeStyle = 'Red';
@@ -209,7 +230,7 @@ class Tree {
 class Lava {
     constructor(game, x, y) {
         Object.assign(this, {game, x, y});
-        //this.spritesheet = ASSET_MANAGER.getAsset("./sprites/lava.png");
+
         this.width = 75;
         this.height = 75;
         this.startX = 0;
@@ -226,7 +247,7 @@ class Lava {
     }
 
     draw(ctx) {
-        //ctx.drawImage(this.spritesheet, this.startX, this.startY, 1184, 1184, this.x, this.y, this.width, this.height);
+
 
         if (params.DEBUG) {
             ctx.strokeStyle = 'Red';
