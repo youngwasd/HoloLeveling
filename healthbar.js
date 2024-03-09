@@ -27,11 +27,14 @@ class HealthBar {
 
             ctx.font = "20px Arial"
             ctx.fillStyle = "Black"
-            ctx.fillText(`FPS: ${this.agent.game.timer.ticks.length}`, 1190, 20);
+            ctx.fillText(`FPS: ${this.agent.game.timer.ticks.length}`, 1190, 715);
             ctx.fillText('Enemies Remaining: ' + this.agent.game.camera.enemiesAlive, 5, 715);
 
             ctx.font = "30px Arial"
+            ctx.fillStyle = "White";
             ctx.fillText('Wave: ' + this.agent.game.camera.currWave, 590, 30);
+
+            this.agent.game.camera.minimap.draw(ctx);
 
             ctx.restore();
         } else if ((this.agent.hitpoints < this.agent.maxhitpoints) && !this.player) {

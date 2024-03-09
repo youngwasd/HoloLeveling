@@ -160,8 +160,20 @@ class TheProtagonist {
         }
     };    
     
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        const x = mmX + Math.min((this.x / 5000) * 200, 192);
+        const y = mmY + Math.min((this.y / 5000) * 200, 192);
+
+        ctx.fillStyle = "Cyan";
+        ctx.fillRect(x, y, 8, 8);
+
+        ctx.restore();
+    };
+
     draw(ctx) {
-        
         if (this.facing == 0) {
             this.animator[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
         } else if (this.facing == 1) {
@@ -180,6 +192,5 @@ class TheProtagonist {
 
         ctx.setTransform(1, 0, 0, 1, -centerX + ctx.canvas.width / 2, -centerY + ctx.canvas.height / 2);
         this.healthbar.draw(ctx);
-        
     };
 };

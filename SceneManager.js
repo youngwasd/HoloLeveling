@@ -24,6 +24,8 @@ class SceneManager {
         this.theProtagonist = new TheProtagonist(this.game, this.background, this.end);
         this.upgradeScreen = new UpgradeScreen(this.game);
 
+        this.minimap = new Minimap(this.game, 1075, 5);
+
         this.game.addEntity(this.theProtagonist);
         
         this.game.addEntity(new Dagger(this.game, this.theProtagonist));
@@ -154,4 +156,26 @@ class SceneManager {
         this.globalTrees = this.globalTrees.filter(t => t !== tree);
         this.game.entities = this.game.entities.filter(entity => entity !== tree);
     }
+};
+
+class Minimap {
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y });
+    };
+
+    update() {
+
+    };
+
+    draw(ctx) {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+        ctx.fillRect(this.x, this.y, 200, 200);
+
+        ctx.strokeStyle = "Black";
+        ctx.strokeRect(this.x, this.y, 200, 200);
+
+        for (let i = 0; i < this.game.entities.length; i++) {
+            this.game.entities[i].drawMinimap(ctx, this.x, this.y);
+        }
+    };
 };

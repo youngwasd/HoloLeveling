@@ -33,6 +33,8 @@ class UpgradeScreen {
         });
     }
 
+    drawMinimap(ctx, mmX, mmY) {};
+
     draw(ctx) {
         if (!this.visible) return;
 

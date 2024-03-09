@@ -96,6 +96,8 @@ class Map {
         }
     }
     
+    drawMinimap(ctx, mmX, mmY) {};
+
     draw(ctx) {
         const rows = Math.ceil(this.height / this.blockSize);
         const cols = Math.ceil(this.width / this.blockSize);
@@ -121,7 +123,6 @@ class Map {
                     }
 
                     let lava = new Lava(this.game, x * this.blockSize, y * this.blockSize);
-                    // Check if the position is already occupied
                     if (!this.game.camera.positionOccupiedByLava(lava.x, lava.y) && !this.game.camera.positionOccupiedByTree(lava.x, lava.y)) {
                         this.game.camera.addLava(lava);
                     }
@@ -150,7 +151,6 @@ class Map {
                     ctx.drawImage(asset, sx, sy, sWidth, sHeight, x * this.blockSize, y * this.blockSize, 300, 300);
                     break;
                 }
-                // Draw the asset on the canvas scaled to blockSize
             }
         }
     }
@@ -171,11 +171,8 @@ class Map {
 class Tree {
     constructor(game, x, y, map) {
         Object.assign(this, {game, x, y, map});
-        //this.spritesheet = ASSET_MANAGER.getAsset("./sprites/trees.png");
         this.width = 75;
         this.height = 75;
-        this.startX = 116;
-        this.startY = 5;
 
         this.updateBB();
     };
@@ -189,9 +186,20 @@ class Tree {
         this.updateBB();
     };
 
-    draw(ctx) {
-        //ctx.drawImage(this.spritesheet, this.startX, this.startY, 40, 60, this.x, this.y, this.width, this.height);
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
 
+        const x = mmX + Math.min((this.x / 5000) * 200, 198);
+        const y = mmY + Math.min((this.y / 5000) * 200, 198);
+
+        ctx.fillStyle = "rgb(164, 130, 189)";
+        ctx.fillRect(x, y, 2, 2);
+
+        ctx.restore();
+    };
+
+    draw(ctx) {
         if (params.DEBUG) {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
@@ -208,11 +216,8 @@ class Tree {
 class Lava {
     constructor(game, x, y) {
         Object.assign(this, {game, x, y});
-        //this.spritesheet = ASSET_MANAGER.getAsset("./sprites/lava.png");
         this.width = 75;
         this.height = 75;
-        this.startX = 0;
-        this.startY = 0;
         this.updateBB();
     }
     
@@ -224,9 +229,20 @@ class Lava {
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
     }
 
-    draw(ctx) {
-        //ctx.drawImage(this.spritesheet, this.startX, this.startY, 1184, 1184, this.x, this.y, this.width, this.height);
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
 
+        const x = mmX + Math.min((this.x / 5000) * 200, 198);
+        const y = mmY + Math.min((this.y / 5000) * 200, 198);
+
+        ctx.fillStyle = "rgb(181, 138, 165)";
+        ctx.fillRect(x, y, 2, 2);
+
+        ctx.restore();
+    };
+
+    draw(ctx) {
         if (params.DEBUG) {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);

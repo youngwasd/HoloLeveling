@@ -25,6 +25,8 @@ class EndScreen {
         
     }
 
+    drawMinimap(ctx, mmX, mmY) {};
+
     draw(ctx) {
         if (this.isDead) {
             ctx.fillStyle = "black";
