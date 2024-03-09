@@ -80,9 +80,8 @@ class Map {
     generateTrees(numberOfTrees) {
         let placedTrees = 0;
         let attemptCount = 0;
-        const maxAttempts = numberOfTrees * 10; // Setting a limit to prevent infinite loops
+        const maxAttempts = numberOfTrees * 10;
 
-        // Refresh grass positions after lava generation
         let potentialPositions = this.map.reduce((acc, row, y) => {
             row.forEach((cell, x) => {
                 if (cell === GRASS || cell !== LAVA) acc.push({ x, y });
@@ -94,15 +93,12 @@ class Map {
             let randomIndex = Math.floor(Math.random() * potentialPositions.length);
             let { x, y } = potentialPositions[randomIndex];
 
-            // Directly set the tile to grass before placing a tree, ensuring the spot is suitable.
-            if (this.map[y][x] !== LAVA) { // Ensure we never convert lava to grass.
-                this.map[y][x] = GRASS; // Ensuring the floor is grass.
-                this.map[y][x] = TREE; // Now safely place a tree.
+            if (this.map[y][x] !== LAVA) {
+                this.map[y][x] = GRASS;
+                this.map[y][x] = TREE;
                 placedTrees++;
             }
 
-
-            // Remove the selected position to avoid rechecking it.
             potentialPositions.splice(randomIndex, 1);
             attemptCount++;
         }
@@ -171,11 +167,13 @@ class Map {
             }
         }
     }
+
     setToGrass(x, y) {
         if (x >= 0 && x < this.width / this.blockSize && y >= 0 && y < this.height / this.blockSize) {
             this.map[y][x] = GRASS;
         }
     }
+
     update() {
 
     }
@@ -192,7 +190,6 @@ class Map {
 class Tree {
     constructor(game, x, y, map) {
         Object.assign(this, {game, x, y, map});
-
         this.width = 75;
         this.height = 75;
 
@@ -267,8 +264,6 @@ class Lava {
     };
 
     draw(ctx) {
-
-
         if (params.DEBUG) {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);

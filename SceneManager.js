@@ -33,7 +33,6 @@ class SceneManager {
         this.game.addEntity(this.end);
         this.game.addEntity(this.upgradeScreen);
         this.startWave();
-        //this.spawnTrees()
 
         ASSET_MANAGER.pauseBackgroundMusic();
         ASSET_MANAGER.playAsset("./music/minecraft.mp3");
@@ -163,9 +162,7 @@ class Minimap {
         Object.assign(this, { game, x, y });
     };
 
-    update() {
-
-    };
+    update() {};
 
     draw(ctx) {
         ctx.fillStyle = "rgba(0, 0, 0, 0.3)";

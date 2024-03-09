@@ -98,8 +98,6 @@ class UpgradeScreen {
         });
     }
 
-
-
     getVisible() {
         return this.visible;
     }
