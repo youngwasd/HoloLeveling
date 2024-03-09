@@ -84,7 +84,7 @@ class SceneManager {
             }
         }
         
-        if (this.currWave % 10 === 0 && this.currWave !== 0) {
+        if (this.currWave % 5 === 0 && this.currWave !== 0) {
             const x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
             const y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
             const speed = this.theProtagonist.speed / 2;
