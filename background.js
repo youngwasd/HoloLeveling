@@ -101,6 +101,7 @@ class Map {
                 placedTrees++;
             }
 
+
             // Remove the selected position to avoid rechecking it.
             potentialPositions.splice(randomIndex, 1);
             attemptCount++;

@@ -96,8 +96,8 @@ class SceneManager {
         }
 
         let map = new Map(this.game, 5000, 5000);
-        await map.generateLavaClusters();
-        await map.generateTrees(400)
+        map.generateLavaClusters();
+        map.generateTrees(400)
 
         this.game.addEntity(map);
     };

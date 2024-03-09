@@ -10,8 +10,9 @@ class UpgradeScreen {
             { name: 'Increase Max HP', action: this.upgrade1 },
             { name: 'Increase Weapons Damage', action: this.upgrade2 },
             { name: 'Heal', action: this.upgrade3 },
-            { name: 'Fire Ball', action: this.upgrade4 }
+            { name: 'Fire Ball', action: this.upgrade4, onceOnly: true } // Add onceOnly property here
         ];
+
         this.visible = false;
     }
 
@@ -83,7 +84,8 @@ class UpgradeScreen {
     show() {
         this.visible = true;
         this.game.paused = true;
-        let availableUpgrades = this.fireballShown ? this.upgrades.filter(upgrade => !upgrade.fireball) : this.upgrades;
+        // Filter upgrades based on whether they are once-only and if they have been shown
+        let availableUpgrades = this.upgrades.filter(upgrade => !upgrade.onceOnly || (upgrade.onceOnly && !this.fireballShown));
         this.shuffleArray(availableUpgrades);
         this.currentUpgrades = availableUpgrades.slice(0, 3);
 
@@ -95,6 +97,8 @@ class UpgradeScreen {
             upgrade.height = 50;
         });
     }
+
+
 
     getVisible() {
         return this.visible;
@@ -118,7 +122,7 @@ class UpgradeScreen {
         const fireball = this.game.entities.find(entity => entity instanceof Fireball);
         const player = this.game.entities.find(entity => entity instanceof TheProtagonist);
 
-        if (fireball && player.weapons.fireball) {
+        if (fireball && player.weapons.fireball===true) {
             fireball.damage += 35;
             console.log("Increased fireball damage: " + fireball.damage);
         }
